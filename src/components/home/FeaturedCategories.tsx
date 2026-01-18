@@ -12,8 +12,8 @@ export const FeaturedCategories: React.FC = () => {
     return (
         <section className="py-16 md:py-24 px-4 max-w-7xl mx-auto">
             <div className="mb-12 text-center">
-                <span className="text-indigo-600 font-bold tracking-widest uppercase text-xs mb-2 block">Shop By Department</span>
-                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Explore Categories</h2>
+                <span className="text-primary font-bold tracking-widest uppercase text-xs mb-2 block">Shop By Department</span>
+                <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Explore Categories</h2>
             </div>
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
@@ -33,8 +33,8 @@ export const FeaturedCategories: React.FC = () => {
                                 alt={cat.name}
                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
-                            <div className="absolute bottom-6 left-6 text-white">
+                            <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent"></div>
+                            <div className="absolute bottom-6 left-6 text-primary-foreground">
                                 <h3 className="text-xl font-bold">{cat.name}</h3>
                                 <p className="text-sm opacity-80">View Collection →</p>
                             </div>

@@ -36,49 +36,49 @@ const BlogDetailPage = () => {
     if (!blog) {
         return (
             <div className="h-[60vh] flex flex-col items-center justify-center text-center px-4">
-                <h2 className="text-3xl font-bold text-slate-900 mb-4">Article Not Found</h2>
-                <p className="text-slate-500 mb-8">The story you are looking for might have been moved or removed.</p>
-                <Button onClick={() => router.push('/news')} className="bg-indigo-600">Back to News</Button>
+                <h2 className="text-3xl font-bold text-foreground mb-4">Article Not Found</h2>
+                <p className="text-muted-foreground mb-8">The story you are looking for might have been moved or removed.</p>
+                <Button onClick={() => router.push('/news')} className="bg-primary hover:bg-primary/90">Back to News</Button>
             </div>
         );
     }
 
     return (
-        <article className="bg-white min-h-screen pb-24">
+        <article className="bg-background min-h-screen pb-24">
             {/* Header */}
             <div className="max-w-4xl mx-auto px-4 pt-16 pb-12">
                 <button
                     onClick={() => router.back()}
-                    className="flex items-center gap-2 text-slate-400 hover:text-indigo-600 font-bold text-xs uppercase tracking-widest mb-10 transition-colors"
+                    className="flex items-center gap-2 text-muted-foreground hover:text-primary font-bold text-xs uppercase tracking-widest mb-10 transition-colors"
                 >
                     <ArrowLeft size={16} /> Back to Journal
                 </button>
 
                 <div className="flex gap-2 mb-6">
                     {blog.tags?.map(tag => (
-                        <Badge key={tag.id} variant="secondary" className="bg-indigo-50 text-indigo-600 border-none px-4 py-1 rounded-full font-bold">
+                        <Badge key={tag.id} variant="secondary" className="bg-secondary text-primary border-none px-4 py-1 rounded-full font-bold">
                             {tag.name}
                         </Badge>
                     ))}
                 </div>
 
-                <h1 className="text-4xl md:text-6xl font-black text-slate-900 mb-8 leading-[1.1] md:tracking-tight">
+                <h1 className="text-4xl md:text-6xl font-black text-foreground mb-8 leading-[1.1] md:tracking-tight">
                     {blog.title}
                 </h1>
 
-                <div className="flex flex-wrap items-center justify-between gap-6 border-b border-slate-100 pb-10">
+                <div className="flex flex-wrap items-center justify-between gap-6 border-b border-border pb-10">
                     <div className="flex items-center gap-6">
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-indigo-600">
+                            <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-primary">
                                 <User size={20} />
                             </div>
                             <div>
-                                <p className="text-sm font-bold text-slate-900">{blog.author?.username || 'Lumina Editor'}</p>
-                                <p className="text-[10px] text-slate-400 uppercase font-black tracking-widest">Chief Correspondent</p>
+                                <p className="text-sm font-bold text-foreground">{blog.author?.username || 'Lumina Editor'}</p>
+                                <p className="text-[10px] text-muted-foreground uppercase font-black tracking-widest">Chief Correspondent</p>
                             </div>
                         </div>
-                        <div className="h-8 w-[1px] bg-slate-100 hidden sm:block"></div>
-                        <div className="flex items-center gap-2 text-slate-500">
+                        <div className="h-8 w-[1px] bg-border hidden sm:block"></div>
+                        <div className="flex items-center gap-2 text-muted-foreground">
                             <Calendar size={16} />
                             <span className="text-sm font-medium">
                                 {new Date(blog.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
@@ -87,14 +87,14 @@ const BlogDetailPage = () => {
                     </div>
 
                     <div className="flex items-center gap-3">
-                        <span className="text-xs font-black text-slate-400 uppercase tracking-widest mr-2">Share</span>
-                        <button className="w-10 h-10 rounded-full bg-slate-50 text-slate-400 hover:bg-indigo-600 hover:text-white transition-all flex items-center justify-center">
+                        <span className="text-xs font-black text-muted-foreground uppercase tracking-widest mr-2">Share</span>
+                        <button className="w-10 h-10 rounded-full bg-secondary text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all flex items-center justify-center">
                             <Facebook size={18} />
                         </button>
-                        <button className="w-10 h-10 rounded-full bg-slate-50 text-slate-400 hover:bg-indigo-600 hover:text-white transition-all flex items-center justify-center">
+                        <button className="w-10 h-10 rounded-full bg-secondary text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all flex items-center justify-center">
                             <Twitter size={18} />
                         </button>
-                        <button className="w-10 h-10 rounded-full bg-slate-50 text-slate-400 hover:bg-indigo-600 hover:text-white transition-all flex items-center justify-center">
+                        <button className="w-10 h-10 rounded-full bg-secondary text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all flex items-center justify-center">
                             <Linkedin size={18} />
                         </button>
                     </div>
@@ -103,7 +103,7 @@ const BlogDetailPage = () => {
 
             {/* Featured Image */}
             <div className="max-w-6xl mx-auto px-4 mb-16">
-                <div className="aspect-[21/9] rounded-[3rem] overflow-hidden shadow-2xl shadow-indigo-100 relative">
+                <div className="aspect-[21/9] rounded-[3rem] overflow-hidden shadow-2xl shadow-primary/5 relative">
                     <Image
                         src={blog.thumbnail_image || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200&q=80'}
                         alt={blog.title}
@@ -116,18 +116,18 @@ const BlogDetailPage = () => {
             {/* Content */}
             <div className="max-w-3xl mx-auto px-4">
                 <div
-                    className="prose prose-lg prose-slate max-w-none prose-headings:font-black prose-headings:text-slate-900 prose-p:text-slate-600 prose-p:leading-relaxed prose-a:text-indigo-600 prose-img:rounded-3xl"
+                    className="prose prose-lg prose-slate max-w-none prose-headings:font-black prose-headings:text-foreground prose-p:text-muted-foreground prose-p:leading-relaxed prose-a:text-primary prose-img:rounded-3xl"
                     dangerouslySetInnerHTML={{ __html: blog.content }}
                 />
 
                 {/* Meta / Tags Footer */}
-                <div className="mt-20 pt-10 border-t border-slate-100">
+                <div className="mt-20 pt-10 border-t border-border">
                     <div className="flex items-center gap-6">
-                        <span className="flex items-center gap-2 text-sm font-bold text-slate-900">
-                            <Share2 size={18} className="text-indigo-600" /> Spread the word
+                        <span className="flex items-center gap-2 text-sm font-bold text-foreground">
+                            <Share2 size={18} className="text-primary" /> Spread the word
                         </span>
                         <div className="flex gap-2">
-                            <button className="px-6 py-3 bg-slate-50 rounded-2xl text-slate-600 font-bold text-sm hover:bg-indigo-50 hover:text-indigo-600 transition-colors">
+                            <button className="px-6 py-3 bg-secondary rounded-2xl text-muted-foreground font-bold text-sm hover:bg-primary hover:text-primary-foreground transition-colors">
                                 Newsletter Sub
                             </button>
                         </div>

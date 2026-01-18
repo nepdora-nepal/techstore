@@ -78,10 +78,10 @@ function ProductListingContent() {
 
                     <main className="flex-1">
                         <div className="flex items-center justify-between mb-8 lg:hidden">
-                            <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">Collections</h2>
+                            <h2 className="text-2xl font-black text-foreground uppercase tracking-tighter">Collections</h2>
                             <button
                                 onClick={() => setIsFilterOpen(true)}
-                                className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-2xl font-bold text-sm shadow-xl shadow-slate-200 active:scale-95 transition-all"
+                                className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-2xl font-bold text-sm shadow-xl shadow-primary/10 active:scale-95 transition-all"
                             >
                                 <Filter className="w-4 h-4" />
                                 Refine
@@ -90,7 +90,7 @@ function ProductListingContent() {
 
                         <div className="hidden lg:block mb-12">
                             <span className="text-primary font-black tracking-[0.4em] uppercase text-[10px] mb-3 block">Curated Selection</span>
-                            <h1 className="text-5xl font-black text-slate-900 tracking-tighter uppercase">The Collections</h1>
+                            <h1 className="text-5xl font-black text-foreground tracking-tighter uppercase">The Collections</h1>
                         </div>
 
                         <ProductsList
@@ -144,10 +144,10 @@ function ProductListingContent() {
 export default function ProductListingPage() {
     return (
         <Suspense fallback={
-            <div className="min-h-screen flex items-center justify-center bg-white">
+            <div className="min-h-screen flex items-center justify-center bg-background">
                 <div className="flex flex-col items-center gap-4">
-                    <div className="w-12 h-12 border-4 border-slate-100 border-t-slate-900 rounded-full animate-spin" />
-                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">Arriving Soon</span>
+                    <div className="w-12 h-12 border-4 border-secondary border-t-primary rounded-full animate-spin" />
+                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">Arriving Soon</span>
                 </div>
             </div>
         }>

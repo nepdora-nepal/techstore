@@ -12,13 +12,13 @@ export const FAQSection = () => {
     const [openIndex, setOpenIndex] = useState<number | null>(0);
 
     return (
-        <section className="py-20 md:py-32 px-4 max-w-4xl mx-auto bg-white">
+        <section className="py-20 md:py-32 px-4 max-w-4xl mx-auto bg-background">
             <div className="text-center mb-16">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold uppercase tracking-widest mb-6">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-6">
                     <HelpCircle size={14} /> Common Questions
                 </div>
-                <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6">Frequently Asked <span className="text-indigo-600">Questions</span></h2>
-                <p className="text-slate-500 text-lg max-w-2xl mx-auto">
+                <h2 className="text-4xl md:text-5xl font-black text-foreground mb-6">Frequently Asked <span className="text-primary">Questions</span></h2>
+                <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
                     Everything you need to know about our premium products and services.
                 </p>
             </div>
@@ -35,8 +35,8 @@ export const FAQSection = () => {
                             className={cn(
                                 "group rounded-3xl border transition-all duration-300",
                                 openIndex === index
-                                    ? "bg-indigo-50/50 border-indigo-200 shadow-lg shadow-indigo-100/50"
-                                    : "bg-white border-slate-100 hover:border-indigo-100 hover:bg-slate-50/30"
+                                    ? "bg-primary/5 border-primary/20 shadow-lg shadow-primary/5"
+                                    : "bg-card border-border hover:border-primary/20 hover:bg-secondary/30"
                             )}
                         >
                             <button
@@ -45,13 +45,13 @@ export const FAQSection = () => {
                             >
                                 <span className={cn(
                                     "text-lg font-bold transition-colors",
-                                    openIndex === index ? "text-indigo-700" : "text-slate-900 group-hover:text-indigo-600"
+                                    openIndex === index ? "text-primary" : "text-foreground group-hover:text-primary"
                                 )}>
                                     {faq.question}
                                 </span>
                                 <div className={cn(
                                     "w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300",
-                                    openIndex === index ? "bg-indigo-600 text-white rotate-180" : "bg-slate-100 text-slate-400 group-hover:bg-indigo-100 group-hover:text-indigo-600"
+                                    openIndex === index ? "bg-primary text-primary-foreground rotate-180" : "bg-secondary text-muted-foreground/50 group-hover:bg-primary/10 group-hover:text-primary"
                                 )}>
                                     <ChevronDown size={20} />
                                 </div>
@@ -62,7 +62,7 @@ export const FAQSection = () => {
                                     openIndex === index ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
                                 )}
                             >
-                                <div className="px-8 pb-8 text-slate-600 leading-relaxed">
+                                <div className="px-8 pb-8 text-muted-foreground leading-relaxed">
                                     {faq.answer}
                                 </div>
                             </div>
@@ -72,8 +72,8 @@ export const FAQSection = () => {
             </div>
 
             <div className="mt-16 text-center">
-                <p className="text-slate-500">
-                    Still have questions? <a href="/contact" className="text-indigo-600 font-bold hover:underline">Contact our support team</a>
+                <p className="text-muted-foreground">
+                    Still have questions? <a href="/contact" className="text-primary font-bold hover:underline">Contact our support team</a>
                 </p>
             </div>
         </section>

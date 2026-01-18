@@ -31,22 +31,22 @@ export default function Pagination({
             <button
                 onClick={() => onPageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="p-3 rounded-2xl bg-white border border-gray-100 shadow-sm text-gray-400 hover:text-slate-900 hover:border-slate-200 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                className="p-3 rounded-2xl bg-card border border-border/50 shadow-sm text-muted-foreground hover:text-primary hover:border-primary/20 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
             >
                 <ChevronLeft size={20} />
             </button>
 
-            <div className="flex items-center gap-1.5 bg-gray-50/50 p-1.5 rounded-[2rem] border border-gray-100/50">
+            <div className="flex items-center gap-1.5 bg-secondary/50 p-1.5 rounded-[2rem] border border-border/20">
                 {getVisiblePages().map((page, index) => (
                     <button
                         key={index}
                         onClick={() => typeof page === 'number' ? onPageChange(page) : null}
                         disabled={page === '...'}
                         className={`min-w-[44px] h-[44px] flex items-center justify-center rounded-full text-xs font-black transition-all ${page === currentPage
-                                ? "bg-slate-900 text-white shadow-xl shadow-slate-200"
-                                : page === '...'
-                                    ? "text-gray-300 cursor-default"
-                                    : "text-gray-500 hover:bg-white hover:text-slate-900 hover:shadow-sm"
+                            ? "bg-primary text-primary-foreground shadow-xl shadow-primary/20"
+                            : page === '...'
+                                ? "text-muted-foreground/30 cursor-default"
+                                : "text-muted-foreground hover:bg-card hover:text-primary hover:shadow-sm"
                             }`}
                     >
                         {page}
@@ -57,7 +57,7 @@ export default function Pagination({
             <button
                 onClick={() => onPageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="p-3 rounded-2xl bg-white border border-gray-100 shadow-sm text-gray-400 hover:text-slate-900 hover:border-slate-200 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                className="p-3 rounded-2xl bg-card border border-border/50 shadow-sm text-muted-foreground hover:text-primary hover:border-primary/20 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
             >
                 <ChevronRight size={20} />
             </button>

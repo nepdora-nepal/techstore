@@ -81,17 +81,17 @@ export default function ProductsFilterSidebar({
 
     return (
         <div
-            className="sticky p-6  bg-white rounded-3xl border border-gray-100 shadow-sm top-24"
+            className="sticky p-6 bg-card rounded-3xl border border-border/50 shadow-sm top-24"
             onMouseLeave={handleMouseLeave}
         >
             <div className="mb-10">
-                <h2 className="mb-6 text-sm font-bold text-gray-900 uppercase tracking-widest">Categories</h2>
+                <h2 className="mb-6 text-sm font-bold text-foreground uppercase tracking-widest">Categories</h2>
                 <div className="space-y-1">
                     <button
                         onClick={() => handleSelectCategory("all")}
                         className={`w-full text-left px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${selectedCategory === "all"
-                            ? "bg-slate-900 text-white shadow-xl shadow-slate-200"
-                            : "text-gray-600 hover:bg-gray-50"
+                            ? "bg-primary text-primary-foreground shadow-xl shadow-primary/20"
+                            : "text-muted-foreground hover:bg-secondary"
                             }`}
                     >
                         All Categories
@@ -105,8 +105,8 @@ export default function ProductsFilterSidebar({
                             <button
                                 onClick={() => handleSelectCategory(category.slug)}
                                 className={`w-full text-left px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between ${selectedCategory === category.slug
-                                    ? "bg-slate-900 text-white shadow-xl shadow-slate-200"
-                                    : "text-gray-600 hover:bg-gray-50"
+                                    ? "bg-primary text-primary-foreground shadow-xl shadow-primary/20"
+                                    : "text-muted-foreground hover:bg-secondary"
                                     }`}
                             >
                                 <span>{category.name}</span>
@@ -114,7 +114,7 @@ export default function ProductsFilterSidebar({
                             </button>
                             {hoveredCategory === category.slug && (
                                 <div
-                                    className="absolute left-[calc(100%+0.5rem)] top-0 w-64 z-[50] bg-white rounded-2xl shadow-2xl border border-gray-100 p-2"
+                                    className="absolute left-[calc(100%+0.5rem)] top-0 w-64 z-[50] bg-card rounded-2xl shadow-2xl border border-border/50 p-2"
                                     onMouseEnter={() => handleMouseEnter(category.slug)}
                                 >
                                     {isLoadingSubcategories ? (
@@ -128,9 +128,9 @@ export default function ProductsFilterSidebar({
                                                         onClick={() =>
                                                             handleSelectSubcategory(subcategory.slug)
                                                         }
-                                                        className={`w-full text-left px-4 py-2.5 rounded-xl text-xs font-semibold transition-all hover:bg-gray-50 ${selectedSubcategory === subcategory.slug
+                                                        className={`w-full text-left px-4 py-2.5 rounded-xl text-xs font-semibold transition-all hover:bg-secondary ${selectedSubcategory === subcategory.slug
                                                             ? "text-primary bg-primary/5"
-                                                            : "text-gray-600"
+                                                            : "text-muted-foreground"
                                                             }`}
                                                     >
                                                         {subcategory.name}
@@ -140,7 +140,7 @@ export default function ProductsFilterSidebar({
                                         </div>
                                     ) : (
                                         <div className="p-4 text-center">
-                                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">No Subcategories</p>
+                                            <p className="text-[10px] font-bold text-muted-foreground/50 uppercase tracking-wider">No Subcategories</p>
                                         </div>
                                     )}
                                 </div>
@@ -151,20 +151,19 @@ export default function ProductsFilterSidebar({
             </div>
 
             <div className="mb-10">
-                <h3 className="mb-6 text-sm font-bold text-gray-900 uppercase tracking-widest">Price Filter</h3>
+                <h3 className="mb-6 text-sm font-bold text-foreground uppercase tracking-widest">Price Filter</h3>
                 <PriceRangeSlider
                     value={priceRange}
                     onChange={setPriceRange}
                     min={MIN_PRICE}
                     max={MAX_PRICE}
-                    primaryColor="#0f172a"
                 />
             </div>
 
-            <div className="pt-6 border-t border-gray-100">
+            <div className="pt-6 border-t border-border/50">
                 <button
                     onClick={handleClearAll}
-                    className="flex items-center justify-center w-full gap-2 px-4 py-3 text-xs font-bold text-gray-700 transition-all bg-gray-50 rounded-xl hover:bg-gray-100 active:scale-[0.98]"
+                    className="flex items-center justify-center w-full gap-2 px-4 py-3 text-xs font-bold text-muted-foreground transition-all bg-secondary/50 rounded-xl hover:bg-secondary active:scale-[0.98]"
                 >
                     <RotateCcw className="w-3.5 h-3.5" /> Reset All
                 </button>

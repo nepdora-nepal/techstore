@@ -93,7 +93,7 @@ const AppliedFilters: React.FC<AppliedFiltersProps> = ({
     return (
         <div className="px-4">
             <div className="flex justify-between items-center mb-2">
-                <h3 className="font-semibold text-gray-800 text-sm">Applied Filters</h3>
+                <h3 className="font-semibold text-foreground text-sm">Applied Filters</h3>
                 {appliedFilters.length > 1 && (
                     <button
                         onClick={handleClearAll}
@@ -109,12 +109,12 @@ const AppliedFilters: React.FC<AppliedFiltersProps> = ({
                         filter && (
                             <div
                                 key={filter.key}
-                                className="flex items-center gap-1.5 pl-2 py-1 bg-white text-gray-500 border border-gray-500 rounded-full text-xs"
+                                className="flex items-center gap-1.5 pl-2 py-1 bg-card text-muted-foreground border border-border rounded-full text-xs"
                             >
                                 <span className="font-medium">{filter.value}</span>
                                 <button
                                     onClick={filter.onClear}
-                                    className="p-0.5 "
+                                    className="p-0.5 hover:text-destructive transition-colors"
                                     aria-label={`Remove ${filter.label} filter`}
                                 >
                                     <X className="w-4 h-4" />

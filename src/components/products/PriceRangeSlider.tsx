@@ -25,7 +25,7 @@ export default function PriceRangeSlider({
     min,
     max,
     step = 1000,
-    primaryColor = '#EA7D6A'
+    primaryColor = 'hsl(var(--primary))'
 }: PriceRangeSliderProps) {
 
     const handleSliderChange = (newValues: number | number[]) => {
@@ -51,13 +51,13 @@ export default function PriceRangeSlider({
     };
 
     const commonHandleStyle = {
-        backgroundColor: 'white',
+        backgroundColor: 'hsl(var(--card))',
         borderColor: primaryColor,
         borderWidth: 3,
         height: 20,
         width: 20,
         marginTop: -8,
-        boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
+        boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
         cursor: 'pointer',
         zIndex: 2
     };
@@ -76,11 +76,11 @@ export default function PriceRangeSlider({
                     className="custom-range-slider"
                     trackStyle={[{ backgroundColor: primaryColor, height: 4, borderRadius: 2 }]}
                     handleStyle={[commonHandleStyle, commonHandleStyle]}
-                    railStyle={{ backgroundColor: '#E5E7EB', height: 4, borderRadius: 2 }}
+                    railStyle={{ backgroundColor: 'hsl(var(--secondary))', height: 4, borderRadius: 2 }}
                     dotStyle={{ display: 'none' }}
                 />
 
-                <div className="flex justify-between mt-2 text-xs text-gray-500">
+                <div className="flex justify-between mt-2 text-xs text-muted-foreground font-bold">
                     <span>₹{value.min.toLocaleString()}</span>
                     <span>₹{value.max.toLocaleString()}</span>
                 </div>
@@ -89,11 +89,11 @@ export default function PriceRangeSlider({
             <div className="flex items-center justify-between gap-4">
                 {['min', 'max'].map((type, idx) => (
                     <React.Fragment key={type}>
-                        {idx === 1 && <span className="text-gray-500 text-sm whitespace-nowrap">to</span>}
+                        {idx === 1 && <span className="text-muted-foreground text-sm whitespace-nowrap font-medium">to</span>}
                         <select
                             value={type === 'min' ? value.min : value.max}
                             onChange={handleInputChange(type as 'min' | 'max')}
-                            className="price-select w-full p-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:border-primary bg-white cursor-pointer outline-none transition-colors"
+                            className="price-select w-full p-2.5 text-xs font-bold border border-border rounded-xl focus:ring-2 focus:ring-primary/20 bg-card text-foreground cursor-pointer outline-none transition-all"
                         >
                             {generateOptions(type === 'min').map(step => (
                                 <option key={`${type}-${step}`} value={step}>
@@ -121,7 +121,7 @@ export default function PriceRangeSlider({
         
         .custom-range-slider .rc-slider-handle:hover {
           border-color: ${primaryColor} !important;
-          box-shadow: 0 4px 12px ${primaryColor}4D !important;
+          box-shadow: 0 4px 12px hsl(var(--primary) / 0.3) !important;
         }
         
         .custom-range-slider .rc-slider-track,
@@ -130,13 +130,7 @@ export default function PriceRangeSlider({
         }
         
         .price-select:hover {
-          border-color: ${primaryColor} !important;
-          box-shadow: 0 0 0 1px ${primaryColor} !important;
-        }
-        
-        .price-select:focus {
-          ring-color: ${primaryColor} !important;
-          border-color: ${primaryColor} !important;
+          border-color: hsl(var(--primary) / 0.5) !important;
         }
       `}</style>
         </div>

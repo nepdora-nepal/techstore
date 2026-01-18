@@ -38,8 +38,8 @@ export default function WishlistButton({
         <button
             onClick={handleToggle}
             className={`${sizeClasses[size]} rounded-full transition-all duration-300 transform hover:scale-110 ${isWishlisted
-                ? "bg-red-50 text-red-500"
-                : "bg-white/80 backdrop-blur-sm text-gray-400 hover:text-red-500 shadow-sm"
+                ? "bg-destructive/10 text-destructive"
+                : "bg-card/80 backdrop-blur-sm text-muted-foreground hover:text-destructive shadow-sm"
                 }`}
         >
             <Heart

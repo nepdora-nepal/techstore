@@ -50,10 +50,10 @@ export const SignupForm = () => {
                             type="text"
                             placeholder="John"
                             {...register('first_name')}
-                            className={errors.first_name ? 'border-red-500 focus:ring-red-500' : ''}
+                            className={errors.first_name ? 'border-destructive focus-visible:ring-destructive/20' : ''}
                         />
                         {errors.first_name && (
-                            <p className="text-xs text-red-500 mt-1">{errors.first_name.message}</p>
+                            <p className="text-xs text-destructive mt-1">{errors.first_name.message}</p>
                         )}
                     </div>
                     <div className="space-y-2">
@@ -63,10 +63,10 @@ export const SignupForm = () => {
                             type="text"
                             placeholder="Doe"
                             {...register('last_name')}
-                            className={errors.last_name ? 'border-red-500 focus:ring-red-500' : ''}
+                            className={errors.last_name ? 'border-destructive focus-visible:ring-destructive/20' : ''}
                         />
                         {errors.last_name && (
-                            <p className="text-xs text-red-500 mt-1">{errors.last_name.message}</p>
+                            <p className="text-xs text-destructive mt-1">{errors.last_name.message}</p>
                         )}
                     </div>
                 </div>
@@ -78,10 +78,10 @@ export const SignupForm = () => {
                         type="email"
                         placeholder="name@example.com"
                         {...register('email')}
-                        className={errors.email ? 'border-red-500 focus:ring-red-500' : ''}
+                        className={errors.email ? 'border-destructive focus-visible:ring-destructive/20' : ''}
                     />
                     {errors.email && (
-                        <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>
+                        <p className="text-xs text-destructive mt-1">{errors.email.message}</p>
                     )}
                 </div>
 
@@ -92,10 +92,10 @@ export const SignupForm = () => {
                         type="tel"
                         placeholder="+1 (555) 000-0000"
                         {...register('phone')}
-                        className={errors.phone ? 'border-red-500 focus:ring-red-500' : ''}
+                        className={errors.phone ? 'border-destructive focus-visible:ring-destructive/20' : ''}
                     />
                     {errors.phone && (
-                        <p className="text-xs text-red-500 mt-1">{errors.phone.message}</p>
+                        <p className="text-xs text-destructive mt-1">{errors.phone.message}</p>
                     )}
                 </div>
 
@@ -106,10 +106,10 @@ export const SignupForm = () => {
                         type="password"
                         placeholder="••••••••"
                         {...register('password')}
-                        className={errors.password ? 'border-red-500 focus:ring-red-500' : ''}
+                        className={errors.password ? 'border-destructive focus-visible:ring-destructive/20' : ''}
                     />
                     {errors.password && (
-                        <p className="text-xs text-red-500 mt-1">{errors.password.message}</p>
+                        <p className="text-xs text-destructive mt-1">{errors.password.message}</p>
                     )}
                 </div>
 
@@ -120,10 +120,10 @@ export const SignupForm = () => {
                         type="password"
                         placeholder="••••••••"
                         {...register('confirmPassword')}
-                        className={errors.confirmPassword ? 'border-red-500 focus:ring-red-500' : ''}
+                        className={errors.confirmPassword ? 'border-destructive focus-visible:ring-destructive/20' : ''}
                     />
                     {errors.confirmPassword && (
-                        <p className="text-xs text-red-500 mt-1">{errors.confirmPassword.message}</p>
+                        <p className="text-xs text-destructive mt-1">{errors.confirmPassword.message}</p>
                     )}
                 </div>
             </div>
@@ -131,15 +131,15 @@ export const SignupForm = () => {
             <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-6 rounded-xl font-bold text-lg shadow-lg shadow-indigo-100 transition-all active:scale-[0.98] disabled:opacity-50"
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-6 rounded-xl font-bold text-lg shadow-lg shadow-primary/10 transition-all active:scale-[0.98] disabled:opacity-50"
             >
                 {isLoading ? 'Creating account...' : 'Create Account'}
             </Button>
 
             <div className="text-center">
-                <p className="text-sm text-slate-500">
+                <p className="text-sm text-muted-foreground">
                     Already have an account?{' '}
-                    <Link href="/login" className="font-bold text-indigo-600 hover:text-indigo-500">
+                    <Link href="/login" className="font-bold text-primary hover:text-primary/80">
                         Sign in instead
                     </Link>
                 </p>
