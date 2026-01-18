@@ -8,6 +8,7 @@ import { Testimonials } from "@/components/home/Testimonials";
 import { LatestBlogs } from "@/components/home/LatestBlogs";
 import { FAQSection } from "@/components/home/FAQSection";
 import { Newsletter } from "@/components/home/Newsletter";
+import ContactUs from "@/components/marketing/ContactUs";
 
 const HomePage: React.FC = () => {
   return (
@@ -19,6 +20,7 @@ const HomePage: React.FC = () => {
       <Testimonials />
       <LatestBlogs />
       <FAQSection />
+      <ContactUs />
       <Newsletter />
     </div>
   );
