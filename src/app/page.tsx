@@ -1,21 +1,24 @@
+"use client";
+
+import { Hero } from "@/components/home/Hero";
+import { FeaturedCategories } from "@/components/home/FeaturedCategories";
+import { FeaturedProducts } from "@/components/home/FeaturedProducts";
+import { Features } from "@/components/home/Features";
+import { Testimonials } from "@/components/home/Testimonials";
+import { LatestBlogs } from "@/components/home/LatestBlogs";
+import { Newsletter } from "@/components/home/Newsletter";
 
 const HomePage: React.FC = () => {
   return (
-    <section className="min-h-screen bg-white">
-      <div className="container mx-auto px-4 py-20 text-center">
-        <h1 className="text-5xl font-bold mb-6">Welcome to Our Website</h1>
-        <p className="text-lg text-gray-700 mb-8">
-          Discover amazing content and connect with a vibrant community.
-        </p>
-        <a
-          href="#get-started"
-          className="inline-block bg-blue-600 text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-blue-700 transition"
-        >
-          Get Started
-        </a>
-      </div>
-      
-    </section>
+    <div className="bg-white">
+      <Hero />
+      <FeaturedCategories />
+      <FeaturedProducts />
+      <Features />
+      <Testimonials />
+      <LatestBlogs />
+      <Newsletter />
+    </div>
   );
 };
 

@@ -3,9 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { QueryProvider } from "@/components/providers/query-provider";
-import { Toaster } from "@/components/ui/sonner";
 import { CartProvider } from "@/contexts/CartContext";
-
+import { MainLayout } from "@/components/layout/MainLayout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,10 +23,9 @@ export default function RootLayout({
       <body className={cn("min-h-screen bg-background antialiased", inter.className)}>
         <QueryProvider>
           <CartProvider>
-            <main className="flex-grow">
+            <MainLayout>
               {children}
-            </main>
-            <Toaster />
+            </MainLayout>
           </CartProvider>
         </QueryProvider>
       </body>
