@@ -17,7 +17,7 @@ const ProductDetailsPage = () => {
     const { data: product, isLoading, error } = useProduct(slug as string);
 
     const [quantity, setQuantity] = useState(1);
-    const [activeTab, setActiveTab] = useState('description');
+
 
     if (isLoading) {
         return (
@@ -108,9 +108,7 @@ const ProductDetailsPage = () => {
                         </div>
                     </div>
 
-                    <p className="text-muted-foreground leading-relaxed text-lg">
-                        {product.description || "Designed with precision and crafted using only high-grade materials, this product stands at the intersection of style and function. Every detail has been scrutinized to ensure an unparalleled user experience."}
-                    </p>
+                    <p className="text-muted-foreground leading-relaxed text-lg" dangerouslySetInnerHTML={{ __html: product.description }} />
 
                     <div className="pt-6 border-t border-border space-y-6">
                         <div className="flex items-center gap-6">
@@ -149,74 +147,7 @@ const ProductDetailsPage = () => {
                 </div>
             </div>
 
-            {/* Product Information Tabs */}
-            <div className="mt-20 border-t border-border">
-                <div className="flex border-b border-border mb-10 overflow-x-auto no-scrollbar">
-                    {['description', 'specifications', 'reviews'].map((tab) => (
-                        <button
-                            key={tab}
-                            onClick={() => setActiveTab(tab)}
-                            className={`px-8 py-4 font-bold text-sm uppercase tracking-widest transition-all whitespace-nowrap border-b-2 ${activeTab === tab ? 'border-primary text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground'}`}
-                        >
-                            {tab}
-                        </button>
-                    ))}
-                </div>
 
-                <div className="max-w-3xl animate-in fade-in slide-in-from-bottom-2 duration-300">
-                    {activeTab === 'description' && (
-                        <div className="space-y-6 text-muted-foreground leading-relaxed text-lg">
-                            <p>Designed with precision and crafted using only high-grade materials, our {product.name} stands at the intersection of style and function. Every detail has been scrutinized to ensure an unparalleled user experience.</p>
-                            <ul className="list-disc pl-6 space-y-2">
-                                <li>Hand-selected premium materials for longevity and luxury feel.</li>
-                                <li>Sustainably sourced and ethically manufactured components.</li>
-                                <li>Optimized ergonomics for comfortable, intuitive daily use.</li>
-                                <li>Industry-leading performance metrics in its category.</li>
-                            </ul>
-                        </div>
-                    )}
-                    {activeTab === 'specifications' && (
-                        <div className="grid grid-cols-1 gap-4">
-                            <div className="flex border-b border-border/50 py-4 items-center">
-                                <span className="w-1/3 font-bold text-foreground">Category</span>
-                                <span className="text-muted-foreground">{product.category?.name || 'General'}</span>
-                            </div>
-                            <div className="flex border-b border-border/50 py-4 items-center">
-                                <span className="w-1/3 font-bold text-foreground">Stock Status</span>
-                                <span className="text-muted-foreground">{product.stock > 0 ? 'In Stock' : 'Out of Stock'}</span>
-                            </div>
-                            <div className="flex border-b border-border/50 py-4 items-center">
-                                <span className="w-1/3 font-bold text-foreground">SKU</span>
-                                <span className="text-muted-foreground">LMN-{product.id}-PRM</span>
-                            </div>
-                        </div>
-                    )}
-                    {activeTab === 'reviews' && (
-                        <div className="space-y-8">
-                            {[1, 2].map(i => (
-                                <div key={i} className="p-6 bg-secondary rounded-2xl border border-border/50">
-                                    <div className="flex items-center justify-between mb-4">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-12 h-12 rounded-full overflow-hidden bg-background">
-                                                <img src={`https://picsum.photos/seed/user${i}/100/100`} alt="User" />
-                                            </div>
-                                            <div>
-                                                <p className="font-bold text-foreground">Customer {i}</p>
-                                                <div className="flex text-yellow-400">
-                                                    {[...Array(5)].map((_, j) => <Star key={j} size={12} fill="currentColor" />)}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <span className="text-xs text-muted-foreground">3 weeks ago</span>
-                                    </div>
-                                    <p className="text-muted-foreground text-sm italic">&quot;Absolutely love this! The quality surpassed my expectations. It arrived perfectly packaged and works like a charm. Will definitely be buying more from SastoBazaar.&quot;</p>
-                                </div>
-                            ))}
-                            <Button variant="outline" className="border-2 border-border font-bold">Write A Review</Button>
-                        </div>
-                    )}
-                </div>
-            </div>
         </div>
     );
 };
