@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Send } from "lucide-react";
 import { useSubmitContactForm } from "@/hooks/use-contact";
 import { ContactFormData } from "@/types/contact";
@@ -78,55 +79,44 @@ export default function ContactUs() {
                     className="space-y-4 sm:space-y-6"
                 >
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium">First Name *</label>
-                            <Input
-                                type="text"
-                                name="firstName"
-                                required
-                                className="bg-white/50 backdrop-blur-sm"
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium">Last Name *</label>
-                            <Input
-                                type="text"
-                                name="lastName"
-                                required
-                                className="bg-white/50 backdrop-blur-sm"
-                            />
-                        </div>
-                    </div>
-
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium">Email Address *</label>
                         <Input
-                            type="email"
-                            name="email"
+                            type="text"
+                            name="firstName"
                             required
+                            label="First Name *"
+                            className="bg-white/50 backdrop-blur-sm"
+                        />
+                        <Input
+                            type="text"
+                            name="lastName"
+                            required
+                            label="Last Name *"
                             className="bg-white/50 backdrop-blur-sm"
                         />
                     </div>
 
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium">Phone Number *</label>
-                        <Input
-                            type="tel"
-                            name="phone"
-                            required
-                            className="bg-white/50 backdrop-blur-sm"
-                        />
-                    </div>
+                    <Input
+                        type="email"
+                        name="email"
+                        required
+                        label="Email Address *"
+                        className="bg-white/50 backdrop-blur-sm"
+                    />
 
-                    <div className="relative">
-                        <textarea
-                            name="message"
-                            rows={4}
-                            placeholder="Tell us about your project or questions..."
-                            className="peer focus:border-primary focus:ring-primary w-full resize-none rounded-xl border border-slate-200 bg-white/50 px-4 py-3 text-sm backdrop-blur-sm transition-all duration-200 outline-none placeholder:text-slate-400 focus:ring-1 sm:text-base"
-                            required
-                        />
-                    </div>
+                    <Input
+                        type="tel"
+                        name="phone"
+                        required
+                        label="Phone Number *"
+                        className="bg-white/50 backdrop-blur-sm"
+                    />
+
+                    <Textarea
+                        name="message"
+                        required
+                        label="Tell us about your project or questions... *"
+                        className="bg-white/50 backdrop-blur-sm"
+                    />
 
                     <Button
                         type="submit"

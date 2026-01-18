@@ -10,7 +10,7 @@ export const LatestBlogs: React.FC = () => {
     const { data: blogs = [], isLoading } = useRecentBlogs();
 
     return (
-        <section className="py-16 md:py-24 px-4 max-w-7xl mx-auto bg-background">
+        <section className="py-16 md:py-24 px-4 max-w-7xl mx-auto ">
             <div className="mb-12">
                 <span className="text-primary font-bold tracking-widest uppercase text-xs mb-2 block">Insights & News</span>
                 <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">From The Blog</h2>

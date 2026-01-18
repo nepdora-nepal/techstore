@@ -10,7 +10,7 @@ export const FeaturedProducts: React.FC = () => {
     const products = data?.results || [];
 
     return (
-        <section className="py-16 md:py-24 px-4 max-w-7xl mx-auto bg-background">
+        <section className="py-16 md:py-24 px-4 max-w-7xl mx-auto ">
             <div className="mb-12 text-center">
                 <span className="text-primary font-bold tracking-widest uppercase text-xs mb-2 block">Top Picks For You</span>
                 <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Featured Products</h2>

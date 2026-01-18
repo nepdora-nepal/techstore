@@ -8,7 +8,7 @@ import { Testimonials } from "@/components/home/Testimonials";
 import { LatestBlogs } from "@/components/home/LatestBlogs";
 import { FAQSection } from "@/components/home/FAQSection";
 import { Newsletter } from "@/components/home/Newsletter";
-import ContactUs from "@/components/marketing/ContactUs";
+import ContactUs from "@/components/about/ContactUs";
 
 const HomePage: React.FC = () => {
   return (
