@@ -20,7 +20,6 @@ export const Newsletter: React.FC = () => {
             { email },
             {
                 onSuccess: () => {
-                    toast.success("Subscribed successfully!");
                     setEmail("");
                 },
                 onError: (error: any) => {
