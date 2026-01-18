@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ShoppingCart, Heart, User, Search, Menu, X, ChevronDown, LogOut } from 'lucide-react';
 import { useCart } from '@/hooks/use-cart';
-import { useAuth } from '@/hooks/use-auth'; // Assuming use-auth exists or I will create it
+import { useAuth } from '../../hooks/use-auth';
 import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
 

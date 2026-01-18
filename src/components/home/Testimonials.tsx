@@ -27,7 +27,7 @@ export const Testimonials: React.FC = () => {
                                 {[...Array(5)].map((_, j) => <Star key={j} size={16} fill="currentColor" />)}
                             </div>
                             <p className="text-slate-600 mb-8 italic leading-relaxed line-clamp-4">
-                                "{item.message}"
+                                "{item.comment}"
                             </p>
                             <div className="flex items-center gap-4">
                                 <div className="w-12 h-12 rounded-full overflow-hidden bg-slate-100">

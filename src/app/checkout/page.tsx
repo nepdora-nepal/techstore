@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ShieldCheck, CreditCard, Truck, ChevronLeft } from 'lucide-react';
+import Image from 'next/image';
 import { useCart } from '@/hooks/use-cart';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -158,9 +159,11 @@ const CheckoutPage = () => {
                                 {cartItems.map(item => (
                                     <div key={item.product.id} className="flex gap-4">
                                         <div className="w-20 h-20 rounded-xl overflow-hidden bg-slate-100 flex-shrink-0 shadow-sm">
-                                            <img
+                                            <Image
                                                 src={item.product.thumbnail_image || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&q=80'}
                                                 alt={item.product.name}
+                                                width={80}
+                                                height={80}
                                                 className="w-full h-full object-cover"
                                             />
                                         </div>
@@ -200,12 +203,12 @@ const CheckoutPage = () => {
                                 {loading ? 'Processing...' : `Pay $${total}`}
                             </Button>
                             <p className="text-[10px] text-slate-400 text-center mt-6 font-medium">
-                                By clicking "Pay", you agree to our <span className="underline cursor-pointer">Terms and Conditions</span>.
+                                By clicking &quot;Pay&quot;, you agree to our <span className="underline cursor-pointer">Terms and Conditions</span>.
                             </p>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </section>
     );
 };

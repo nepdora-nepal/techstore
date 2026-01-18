@@ -26,14 +26,14 @@ export const LatestBlogs: React.FC = () => {
                         <article key={blog.id} className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all border border-slate-100">
                             <div className="aspect-video overflow-hidden">
                                 <img
-                                    src={blog.image || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600&q=80'}
+                                    src={blog.thumbnail_image || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600&q=80'}
                                     alt={blog.title}
                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 />
                             </div>
                             <div className="p-6 flex flex-col h-full">
                                 <div className="flex items-center gap-4 mb-3">
-                                    <span className="text-xs font-bold text-indigo-600 uppercase">{blog.category?.name || 'News'}</span>
+                                    <span className="text-xs font-bold text-indigo-600 uppercase">{blog.tags?.[0]?.name || 'News'}</span>
                                     <span className="text-xs text-slate-400">{new Date(blog.created_at).toLocaleDateString()}</span>
                                 </div>
                                 <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-indigo-600 transition-colors line-clamp-2">

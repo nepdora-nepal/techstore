@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useMemo, Suspense } from 'react';
+import React, { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { Grid, List, Search, Star, Heart, ArrowUpDown, SlidersHorizontal } from 'lucide-react';
+import { Grid, List, Search, Star, Heart, ArrowUpDown } from 'lucide-react';
 import { useProducts, useUpdateFilters } from '@/hooks/use-product';
 import { useCategories } from '@/hooks/use-category';
 import { useCart } from '@/hooks/use-cart';
@@ -26,7 +26,7 @@ const CollectionsContent = () => {
 
     const selectedCategory = searchParams.get('category') || 'All';
     const searchQuery = searchParams.get('search') || '';
-    const sortBy = searchParams.get('sort_by') || 'featured';
+    const sortBy = searchParams.get('sortBy') || 'featured';
 
     return (
         <section className="py-16 md:py-24 px-4 max-w-7xl mx-auto">
@@ -63,18 +63,17 @@ const CollectionsContent = () => {
                         <div className="flex justify-between items-center mb-6">
                             <h4 className="text-sm font-bold text-slate-900 uppercase tracking-widest">Price Range</h4>
                         </div>
-                        {/* Range slider would go here, simplified for now */}
                         <div className="flex gap-2">
                             <Input
                                 type="number"
                                 placeholder="Min"
-                                onChange={(e) => updateFilters({ min_price: e.target.value })}
+                                onChange={(e) => updateFilters({ min_price: parseInt(e.target.value) || 0 })}
                                 className="text-xs"
                             />
                             <Input
                                 type="number"
                                 placeholder="Max"
-                                onChange={(e) => updateFilters({ max_price: e.target.value })}
+                                onChange={(e) => updateFilters({ max_price: parseInt(e.target.value) || 10000 })}
                                 className="text-xs"
                             />
                         </div>
@@ -126,7 +125,7 @@ const CollectionsContent = () => {
                             <div className="relative group">
                                 <select
                                     value={sortBy}
-                                    onChange={(e) => updateFilters({ sort_by: e.target.value })}
+                                    onChange={(e) => updateFilters({ sortBy: e.target.value })}
                                     className="appearance-none bg-slate-100 border-none rounded-lg pl-4 pr-10 py-2 text-sm font-medium focus:ring-2 focus:ring-indigo-500 outline-none cursor-pointer"
                                 >
                                     <option value="featured">Featured</option>
