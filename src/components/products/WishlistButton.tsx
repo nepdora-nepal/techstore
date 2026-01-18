@@ -1,25 +1,22 @@
 "use client";
 
 import { Heart } from "lucide-react";
-import { useState } from "react";
 
 interface WishlistButtonProps {
     size?: "sm" | "md" | "lg";
+    isActive?: boolean;
     onToggle?: (active: boolean) => void;
 }
 
 export default function WishlistButton({
     size = "md",
+    isActive = false,
     onToggle,
 }: WishlistButtonProps) {
-    const [isWishlisted, setIsWishlisted] = useState(false);
-
     const handleToggle = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        const newState = !isWishlisted;
-        setIsWishlisted(newState);
-        if (onToggle) onToggle(newState);
+        if (onToggle) onToggle(!isActive);
     };
 
     const sizeClasses = {
@@ -37,14 +34,14 @@ export default function WishlistButton({
     return (
         <button
             onClick={handleToggle}
-            className={`${sizeClasses[size]} rounded-full transition-all duration-300 transform hover:scale-110 ${isWishlisted
+            className={`${sizeClasses[size]} rounded-full transition-all duration-300 transform hover:scale-110 ${isActive
                 ? "bg-destructive/10 text-destructive"
                 : "bg-card/80 backdrop-blur-sm text-muted-foreground hover:text-destructive shadow-sm"
                 }`}
         >
             <Heart
                 size={iconSizes[size]}
-                className={isWishlisted ? "fill-current" : ""}
+                className={isActive ? "fill-current" : ""}
             />
         </button>
     );

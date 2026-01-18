@@ -10,6 +10,9 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import WishlistButton from "./WishlistButton";
 import StarRating from "./StarRating";
 import { useState, useRef } from "react";
+import { useAddToWishlist, useRemoveFromWishlist, useWishlist } from "@/hooks/use-wishlist";
+import { useAuth } from "@/hooks/use-auth";
+import { toast } from "sonner";
 
 interface ProductCardProps {
     product: Product;
@@ -35,9 +38,27 @@ export default function ProductCard({
     const cartQuantity = cartItem?.quantity || 0;
     const productSlug = product.slug;
 
+    const { isAuthenticated } = useAuth();
+    const { data: wishlistItems } = useWishlist();
+    const addToWishlistMutation = useAddToWishlist();
+    const removeFromWishlistMutation = useRemoveFromWishlist();
+
+    const isWishlisted = (product as any).is_wishlist || wishlistItems?.some(item => item.product.id === product.id);
+
     const handleWishlistToggle = (active: boolean) => {
-        // Wishlist functionality can be added later if needed
-        console.log(`Wishlist toggle for ${product.id}: ${active}`);
+        if (!isAuthenticated) {
+            toast.error("Please login to add items to wishlist");
+            return;
+        }
+
+        if (active) {
+            addToWishlistMutation.mutate(product.id);
+        } else {
+            const wishlistItem = wishlistItems?.find(item => item.product.id === product.id);
+            if (wishlistItem) {
+                removeFromWishlistMutation.mutate(wishlistItem.id);
+            }
+        }
     };
 
     const handleAddToCartClick = (e: React.MouseEvent) => {
@@ -75,6 +96,7 @@ export default function ProductCard({
             <div className="absolute z-10 top-3 right-3">
                 <WishlistButton
                     size="sm"
+                    isActive={isWishlisted}
                     onToggle={handleWishlistToggle}
                 />
             </div>
