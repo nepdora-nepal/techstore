@@ -30,10 +30,15 @@ const OrderItems: React.FC<OrderItemsProps> = ({ items, orderStatus }) => {
   const formatCurrency = (amount: number | string): string => {
     const numericAmount =
       typeof amount === "string" ? parseFloat(amount) : amount;
-    return new Intl.NumberFormat("en-IN", {
-      style: "currency",
-      currency: "INR",
-    }).format(numericAmount);
+
+    if (isNaN(numericAmount)) {
+      return "RS.0.00";
+    }
+
+    return `RS.${numericAmount.toLocaleString("en-IN", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
   };
 
   const handleReviewChange = (

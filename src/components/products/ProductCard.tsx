@@ -139,7 +139,7 @@ export default function ProductCard({
                                         parseFloat(product.market_price) >
                                         parseFloat(product.price) && (
                                             <span className="text-[10px] text-muted-foreground line-through font-bold">
-                                                ₹
+                                                RS.
                                                 {parseFloat(product.market_price).toLocaleString(
                                                     "en-IN",
                                                     { minimumFractionDigits: 2, maximumFractionDigits: 2 }
@@ -147,7 +147,7 @@ export default function ProductCard({
                                             </span>
                                         )}
                                     <span className="text-lg font-black text-foreground">
-                                        ₹
+                                        RS.
                                         {parseFloat(product.price).toLocaleString("en-IN", {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2,

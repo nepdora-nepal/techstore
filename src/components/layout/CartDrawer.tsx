@@ -72,7 +72,7 @@ export const CartDrawer: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                                                         <Plus size={14} />
                                                     </button>
                                                 </div>
-                                                <span className="font-bold text-foreground">${(item.selectedVariant ? parseFloat(item.selectedVariant.price) : parseFloat(item.product.price)) * item.quantity}</span>
+                                                <span className="font-bold text-foreground">RS.{(item.selectedVariant ? parseFloat(item.selectedVariant.price) : parseFloat(item.product.price)) * item.quantity}</span>
                                             </div>
                                         </div>
                                         <button
@@ -92,7 +92,7 @@ export const CartDrawer: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                         <div className="px-6 py-8 border-t border-border/50 space-y-4">
                             <div className="flex items-center justify-between text-base font-bold text-foreground">
                                 <span>Subtotal</span>
-                                <span>${totalPrice}</span>
+                                <span>RS.{totalPrice}</span>
                             </div>
                             <p className="text-sm text-muted-foreground">Shipping and taxes calculated at checkout.</p>
                             <div className="grid grid-cols-1 gap-3">

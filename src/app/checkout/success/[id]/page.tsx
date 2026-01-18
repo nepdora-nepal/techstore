@@ -3,18 +3,27 @@
 import React from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useOrder } from "@/hooks/use-orders";
+import { useCart } from "@/hooks/use-cart";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle2, Package, Truck, CreditCard, ShoppingBag } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useEffect } from "react";
 
 const OrderSuccessPage = () => {
     const params = useParams();
     const router = useRouter();
     const orderId = Number(params.id);
     const { data: order, isLoading, error } = useOrder(orderId);
+    const { clearCart } = useCart();
+
+    useEffect(() => {
+        if (order) {
+            clearCart();
+        }
+    }, [order, clearCart]);
 
     if (isLoading) {
         return (
@@ -111,7 +120,7 @@ const OrderSuccessPage = () => {
                                                 </p>
                                             </div>
                                             <p className="font-black text-primary">
-                                                Rs.{parseFloat(item.price).toLocaleString("en-IN")}
+                                                RS.{parseFloat(item.price).toLocaleString("en-IN")}
                                             </p>
                                         </div>
                                     </div>
@@ -169,17 +178,17 @@ const OrderSuccessPage = () => {
                             <div className="space-y-3">
                                 <div className="flex justify-between text-sm">
                                     <span className="text-muted-foreground font-medium">Subtotal</span>
-                                    <span className="font-bold">Rs.{(parseFloat(order.total_amount) - parseFloat(order.delivery_charge || "0")).toLocaleString("en-IN")}</span>
+                                    <span className="font-bold">RS.{(parseFloat(order.total_amount) - parseFloat(order.delivery_charge || "0")).toLocaleString("en-IN")}</span>
                                 </div>
                                 <div className="flex justify-between text-sm">
                                     <span className="text-muted-foreground font-medium">Delivery Fee</span>
-                                    <span className="font-bold">Rs.{parseFloat(order.delivery_charge || "0").toLocaleString("en-IN")}</span>
+                                    <span className="font-bold">RS.{parseFloat(order.delivery_charge || "0").toLocaleString("en-IN")}</span>
                                 </div>
                                 <Separator className="my-2" />
                                 <div className="flex justify-between items-end">
                                     <div className="flex flex-col">
                                         <span className="text-xs font-black italic text-muted-foreground uppercase">Total Amount</span>
-                                        <span className="text-2xl font-black text-primary">Rs.{parseFloat(order.total_amount).toLocaleString("en-IN")}</span>
+                                        <span className="text-2xl font-black text-primary">RS.{parseFloat(order.total_amount).toLocaleString("en-IN")}</span>
                                     </div>
                                 </div>
                             </div>

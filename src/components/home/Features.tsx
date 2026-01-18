@@ -8,7 +8,7 @@ export const Features: React.FC = () => {
         {
             icon: <Truck size={24} />,
             title: 'Fast Delivery',
-            desc: 'Free shipping over $100',
+            desc: 'Free shipping over RS.100',
         },
         {
             icon: <ShieldCheck size={24} />,

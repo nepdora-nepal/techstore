@@ -227,7 +227,7 @@ const CheckoutPage = () => {
 
                                 <div className="mt-1 flex items-end justify-between">
                                     <div className="text-xs font-bold text-foreground">
-                                        Rs.{(Number(displayPrice) * item.quantity).toLocaleString("en-IN")}
+                                        RS.{(Number(displayPrice) * item.quantity).toLocaleString("en-IN")}
                                     </div>
                                 </div>
                             </div>
@@ -249,7 +249,7 @@ const CheckoutPage = () => {
                 <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground font-medium">Subtotal</span>
                     <span className="font-bold">
-                        Rs.{Number(subtotalAmount).toLocaleString("en-IN")}
+                        RS.{Number(subtotalAmount).toLocaleString("en-IN")}
                     </span>
                 </div>
 
@@ -259,7 +259,7 @@ const CheckoutPage = () => {
                             Discount ({appliedPromoCode.discount_percentage}%)
                         </span>
                         <span className="font-bold text-green-600">
-                            -Rs.{Number(discountAmount).toLocaleString("en-IN")}
+                            -RS.{Number(discountAmount).toLocaleString("en-IN")}
                         </span>
                     </div>
                 )}
@@ -267,7 +267,7 @@ const CheckoutPage = () => {
                 <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground font-medium">Delivery</span>
                     <span className="font-bold">
-                        Rs.{Number(deliveryCharge).toLocaleString("en-IN")}
+                        RS.{Number(deliveryCharge).toLocaleString("en-IN")}
                     </span>
                 </div>
             </div>
@@ -278,7 +278,7 @@ const CheckoutPage = () => {
                 <span className="text-lg font-black italic">TOTAL</span>
                 <div className="text-right">
                     <span className="text-2xl font-black text-primary">
-                        Rs.{Number(totalAmount).toLocaleString("en-IN")}
+                        RS.{Number(totalAmount).toLocaleString("en-IN")}
                     </span>
                 </div>
             </div>
