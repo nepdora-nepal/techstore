@@ -67,6 +67,7 @@ export default function ProductCard({
         e.preventDefault();
         e.stopPropagation();
         addToCart(product, 1);
+        toast.success("Added to cart");
         setIsAddedToCart(true);
         setTimeout(() => setIsAddedToCart(false), 2000);
     };

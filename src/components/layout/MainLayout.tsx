@@ -5,7 +5,6 @@ import { Header } from './Header';
 import { Footer } from './Footer';
 import { CartDrawer } from './CartDrawer';
 import { AuthProvider } from '@/contexts/AuthContext';
-import { Toaster } from "@/components/ui/sonner";
 
 export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [isCartOpen, setIsCartOpen] = useState(false);
@@ -19,7 +18,6 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
                 </main>
                 <Footer />
                 <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
-                <Toaster />
             </div>
         </AuthProvider>
     );
