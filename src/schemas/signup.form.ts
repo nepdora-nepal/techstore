@@ -17,7 +17,7 @@ export const phoneNumberSchema = z
   .min(1, { message: "Phone number is required." })
   .regex(/^\d+$/, { message: "Phone number should contain only numbers." })
   .min(10, { message: "Phone number must be at least 10 digits." })
-  .max(15, { message: "Phone number cannot exceed 15 digits." });
+  .max(15, { message: "Ensure this field has no more than 15 characters." });
 
 export const baseSignupSchema = z
   .object({
@@ -46,7 +46,7 @@ export const baseSignupSchema = z
     website_type: websiteTypeEnum,
     store_name: storeNameSchema,
   })
-  .refine(data => data.password === data.confirmPassword, {
+  .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
     path: ["confirmPassword"],
   });

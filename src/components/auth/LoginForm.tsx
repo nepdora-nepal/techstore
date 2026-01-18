@@ -15,17 +15,27 @@ export const LoginForm = () => {
     const {
         register,
         handleSubmit,
+        setError,
         formState: { errors },
     } = useForm<LoginFormValues>({
         resolver: zodResolver(loginSchema),
+        mode: 'onChange',
     });
 
     const onSubmit = async (data: LoginFormValues) => {
         try {
             await login(data);
-        } catch (error) {
+        } catch (error: any) {
             console.error('Login error:', error);
-            // Error is handled in AuthContext/toast
+            if (error.status === 400 && error.data?.error?.params?.field_errors) {
+                const fieldErrors = error.data.error.params.field_errors;
+                Object.keys(fieldErrors).forEach((field) => {
+                    setError(field as keyof LoginFormValues, {
+                        type: 'server',
+                        message: fieldErrors[field][0],
+                    });
+                });
+            }
         }
     };
 

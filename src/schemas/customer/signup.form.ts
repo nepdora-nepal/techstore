@@ -18,6 +18,8 @@ export const signupSchema = z
     phone: z
       .string()
       .min(10, { message: "Phone number must be at least 10 digits." })
+      .max(15, { message: "Ensure this field has no more than 15 characters." })
+      .regex(/^\d+$/, { message: "Phone number should contain only numbers." })
       .optional()
       .or(z.literal("")),
     address: z.string().optional(),

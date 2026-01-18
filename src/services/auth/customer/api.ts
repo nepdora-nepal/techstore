@@ -29,7 +29,11 @@ export async function signupUser(data: SignupData): Promise<SignupResponse> {
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.message || "Signup failed");
+    // Throw a structured error object
+    const error = new Error(errorData.message || "Signup failed");
+    (error as any).status = response.status;
+    (error as any).data = errorData;
+    throw error;
   }
   return response.json();
 }
@@ -47,7 +51,13 @@ export async function loginUser(data: LoginData): Promise<LoginResponse> {
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.error || errorData.message || "Login failed");
+    // Throw a structured error object
+    const error = new Error(
+      errorData.error || errorData.message || "Login failed",
+    );
+    (error as any).status = response.status;
+    (error as any).data = errorData;
+    throw error;
   }
   return response.json();
 }

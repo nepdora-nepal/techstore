@@ -84,11 +84,20 @@ export const AuthProvider = ({
 
   //eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getErrorMessage = (error: any) => {
-    if (error.response) {
-      const status = error.response.status;
-      const data = error.response.data;
+    if (error.status === 400 && error.data?.error?.params?.field_errors) {
+      const fieldErrors = error.data.error.params.field_errors;
+      // Return the first error message from the first field that has an error
+      const firstField = Object.keys(fieldErrors)[0];
+      if (firstField && fieldErrors[firstField].length > 0) {
+        return fieldErrors[firstField][0];
+      }
+    }
 
-      // Handle errors array format: {status: 400, errors: [{message: "...", code: "..."}]}
+    if (error.response || error.data) {
+      const status = error.status || error.response?.status;
+      const data = error.data || error.response?.data;
+
+      // Handle errors array format
       if (
         data?.errors &&
         Array.isArray(data.errors) &&
@@ -96,7 +105,6 @@ export const AuthProvider = ({
       ) {
         const firstError = data.errors[0];
 
-        // Check for specific error codes
         if (firstError.code === "too_many_login_attempts") {
           return "Too many failed login attempts. Please wait a few minutes before trying again.";
         }
@@ -123,9 +131,10 @@ export const AuthProvider = ({
         case 400:
           return (
             data?.message ||
+            data?.error?.message ||
             data?.error ||
             data?.detail ||
-            "Invalid login credentials. Please check your email and password."
+            "Invalid request. Please check your information."
           );
         case 403:
           return "Your account has been suspended or disabled. Please contact support.";
@@ -138,9 +147,10 @@ export const AuthProvider = ({
         default:
           return (
             data?.message ||
+            data?.error?.message ||
             data?.error ||
             data?.detail ||
-            "Login failed. Please try again."
+            "An error occurred. Please try again."
           );
       }
     } else if (error.request) {
@@ -209,11 +219,14 @@ export const AuthProvider = ({
       //eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       const errorMessage = getErrorMessage(error);
-      toast.error(errorMessage);
+      // Only show toast if it's not a validation error (which will be handled by the form)
+      if (error.status !== 400) {
+        toast.error(errorMessage);
+      }
       console.error("Login error:", {
         message: error.message,
-        status: error.response?.status,
-        data: error.response?.data,
+        status: error.status || error.response?.status,
+        data: error.data || error.response?.data,
         error,
       });
       throw error;
@@ -229,27 +242,22 @@ export const AuthProvider = ({
     try {
       const signupData = {
         ...data,
-        password: data.password,
       };
 
       delete signupData.confirmPassword;
 
+      await signupUser(signupData);
 
-      // Don't auto-login after signup, just redirect to login page
       toast.success("Account created successfully! Please log in to continue.");
       router.push("/login");
-      //eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       const errorMessage = getErrorMessage(error);
-
-      toast.error(errorMessage);
-
-      console.error("Signup error:", {
-        message: error.message,
-        status: error.response?.status,
-        data: error.response?.data,
-        error,
-      });
+      // Only show toast if it's not a validation error
+      if (error.status !== 400) {
+        toast.error(errorMessage);
+      }
+      console.error("Signup error:", error);
+      throw error;
     } finally {
       setIsLoading(false);
     }
