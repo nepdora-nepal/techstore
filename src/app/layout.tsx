@@ -24,6 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 import { WhatsApp } from "@/components/common/whatsapp/WhatsApp";
+import Popup from "@/components/common/popup/Popup";
 
 export default function RootLayout({
   children,
@@ -41,6 +42,7 @@ export default function RootLayout({
             </MainLayout>
           </CartProvider>
           <WhatsApp />
+          <Popup />
         </QueryProvider>
         <Toaster position="bottom-right" richColors />
       </body>

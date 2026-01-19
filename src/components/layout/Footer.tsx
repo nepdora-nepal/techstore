@@ -53,7 +53,7 @@ export const Footer: React.FC = () => {
                                     alt={config.business_name || "Logo"}
                                     width={200}
                                     height={200}
-                                    className="object-contain  "
+                                    className="object-contain  invert "
                                 />
                             </div>
                         ) : (
