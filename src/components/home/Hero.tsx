@@ -174,14 +174,15 @@ export default function Hero() {
 
 
                             {/* Product Image */}
-                            <div className="relative h-80 mb-6 rounded-2xl overflow-hidden ">
-                                <Image
-                                    src={currentProduct.thumbnail_image || ""}
-                                    alt={currentProduct.name}
-                                    fill
-                                    className="object-contain"
-                                />
-                            </div>
+                            <Link href={`/collections/${currentProduct.slug}`}>
+                                <div className="relative h-80 mb-6 rounded-2xl overflow-hidden ">
+                                    <Image
+                                        src={currentProduct.thumbnail_image || ""}
+                                        alt={currentProduct.name}
+                                        fill
+                                        className="object-contain"
+                                    />
+                                </div></Link>
 
                             {/* Product Info */}
                             <div className="space-y-4">

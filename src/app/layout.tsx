@@ -9,7 +9,7 @@ import { Toaster } from "sonner";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Sales CRM - Modern Solutions for Your Business",
+  title: "SastoBazaar - Premium Shopping Experience",
   description: "Your ultimate solution for managing sales and customer relationships with cutting-edge technology.",
 };
 
