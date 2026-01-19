@@ -1,75 +1,102 @@
 "use client";
 
-import React, { useState } from 'react';
-import { ChevronDown, HelpCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { useFAQs } from '@/hooks/use-faq';
-import { Skeleton } from '@/components/ui/skeleton';
-import { FAQ } from '@/types/faq';
+import React from "react";
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion";
+import { useFAQs } from "@/hooks/use-faq";
+import { Skeleton } from "@/components/ui/skeleton";
+import { HelpCircle } from "lucide-react";
+import { motion } from "framer-motion";
 
-export const FAQSection = () => {
-    const { data: faqs = [], isLoading } = useFAQs();
-    const [openIndex, setOpenIndex] = useState<number | null>(0);
+export const FAQSection: React.FC = () => {
+    const { data: faqs, isLoading, error } = useFAQs();
+
+    if (isLoading) {
+        return (
+            <section className="bg-background py-20 px-4">
+                <div className="mx-auto max-w-4xl">
+                    <div className="mb-16 space-y-4 text-center">
+                        <Skeleton className="mx-auto h-12 w-3/4 max-w-md rounded-full" />
+                        <Skeleton className="mx-auto h-4 w-64 rounded-full" />
+                    </div>
+                    <div className="space-y-4">
+                        {[1, 2, 3, 4, 5].map((i) => (
+                            <Skeleton key={i} className="h-16 w-full rounded-2xl" />
+                        ))}
+                    </div>
+                </div>
+            </section>
+        );
+    }
+
+    if (error) {
+        return (
+            <section className="bg-background py-20 px-4">
+                <div className="mx-auto max-w-4xl text-center">
+                    <div className="inline-flex items-center justify-center p-3 rounded-full bg-red-50 text-red-500 mb-4">
+                        <HelpCircle size={24} />
+                    </div>
+                    <p className="text-red-500 font-medium">Failed to load FAQs. Please try again later.</p>
+                </div>
+            </section>
+        );
+    }
+
+    if (!faqs || faqs.length === 0) {
+        return null;
+    }
 
     return (
-        <section className="py-20 md:py-32 px-4 max-w-4xl mx-auto ">
-            <div className="text-center mb-16">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-6">
-                    <HelpCircle size={14} /> Common Questions
-                </div>
-                <h2 className="text-4xl md:text-5xl font-black text-foreground mb-6">Frequently Asked <span className="text-primary">Questions</span></h2>
-                <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                    Everything you need to know about our premium products and services.
-                </p>
-            </div>
+        <section className="bg-background py-20 md:py-32 px-4">
+            <div className="mx-auto max-w-4xl">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    className="mb-16 text-center"
+                >
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-6">
+                        <HelpCircle size={14} /> Common Questions
+                    </div>
+                    <h2 className="text-4xl md:text-5xl font-black text-foreground mb-6 tracking-tight">
+                        Frequently Asked <span className="text-primary">Questions</span>
+                    </h2>
+                    <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+                        Everything you need to know about Nepdora and our premium products.
+                    </p>
+                </motion.div>
 
-            <div className="space-y-4">
-                {isLoading ? (
-                    Array.from({ length: 5 }).map((_, i) => (
-                        <Skeleton key={i} className="h-16 rounded-2xl" />
-                    ))
-                ) : (
-                    faqs.map((faq: FAQ, index: number) => (
-                        <div
-                            key={faq.id}
-                            className={cn(
-                                "group rounded-3xl border transition-all duration-300",
-                            )}
-                        >
-                            <Button
-                                variant="ghost"
-                                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                                className="w-full px-8 py-10 flex items-center justify-between text-left h-auto hover:bg-transparent"
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                >
+                    <Accordion type="single" collapsible className="space-y-4">
+                        {faqs.map((faq, index) => (
+                            <AccordionItem
+                                key={faq.id}
+                                value={`item-${index}`}
+                                className="group overflow-hidden rounded-3xl border transition-all duration-300 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 data-[state=open]:border-primary"
                             >
-                                <span className={cn(
-                                    "text-lg font-bold transition-colors",
-                                    openIndex === index ? "text-primary" : "text-foreground group-hover:text-primary"
-                                )}>
+                                <AccordionTrigger className="px-8 py-6 text-left text-lg font-bold hover:no-underline hover:text-primary transition-all [&[data-state=open]]:text-primary">
                                     {faq.question}
-                                </span>
-                                <div className={cn(
-                                    "w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300",
-                                    openIndex === index ? "rotate-180" : ""
-                                )}>
-                                    <ChevronDown size={20} />
-                                </div>
-                            </Button>
-                            <div
-                                className={cn(
-                                    "overflow-hidden transition-all duration-300 ease-in-out",
-                                    openIndex === index ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-                                )}
-                            >
-                                <div className="px-8 pb-8 text-muted-foreground leading-relaxed">
+                                </AccordionTrigger>
+                                <AccordionContent className="px-8 pb-6 text-muted-foreground text-base leading-relaxed">
                                     {faq.answer}
-                                </div>
-                            </div>
-                        </div>
-                    ))
-                )}
+                                </AccordionContent>
+                            </AccordionItem>
+                        ))}
+                    </Accordion>
+                </motion.div>
             </div>
-
         </section>
     );
 };
+
+export default FAQSection;
