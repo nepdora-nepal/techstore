@@ -144,16 +144,13 @@ export default function ProductCard({
                                                 RS.
                                                 {parseFloat(product.market_price).toLocaleString(
                                                     "en-IN",
-                                                    { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+
                                                 )}
                                             </span>
                                         )}
-                                    <span className="text-lg font-black text-foreground">
+                                    <span className="text-lg font-semibold text-foreground">
                                         RS.
-                                        {parseFloat(product.price).toLocaleString("en-IN", {
-                                            minimumFractionDigits: 2,
-                                            maximumFractionDigits: 2,
-                                        })}
+                                        {parseFloat(product.price).toLocaleString("en-IN")}
                                     </span>
                                 </div>
                                 {!isMobile && (

@@ -88,59 +88,51 @@ export const Header: React.FC<{ onCartOpen: () => void }> = ({ onCartOpen }) => 
                             )}
                         </Button>
 
-                        <div className="relative">
-                            <Button
-                                variant="ghost"
-                                onClick={() => setIsProfileOpen(!isProfileOpen)}
-                                className="h-auto p-1 sm:p-2 flex items-center gap-1 text-muted-foreground hover:text-primary hover:bg-transparent"
-                            >
-                                <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center overflow-hidden border border-border">
-                                    {user ? (
+                        {!isAuthenticated ? (
+                            <Link href="/login">
+                                <Button variant="default" size="sm" className="gap-2">
+                                    <User size={16} />
+                                    <span>Login</span>
+                                </Button>
+                            </Link>
+                        ) : (
+                            <div className="relative">
+                                <Button
+                                    variant="ghost"
+                                    onClick={() => setIsProfileOpen(!isProfileOpen)}
+                                    className="h-auto p-1 sm:p-2 flex items-center gap-1 text-muted-foreground hover:text-primary hover:bg-transparent"
+                                >
+                                    <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center overflow-hidden border border-border">
                                         <span className="text-xs font-bold text-primary">
-                                            {user.first_name?.[0]}{user.last_name?.[0]}
+                                            {user?.first_name?.[0]}{user?.last_name?.[0]}
                                         </span>
-                                    ) : (
-                                        <User size={18} />
-                                    )}
-                                </div>
-                                <ChevronDown size={14} className={cn("transition-transform", isProfileOpen && "rotate-180")} />
-                            </Button>
+                                    </div>
+                                    <ChevronDown size={14} className={cn("transition-transform", isProfileOpen && "rotate-180")} />
+                                </Button>
 
-                            {isProfileOpen && (
-                                <div className="absolute right-0 mt-2 w-48 bg-card border border-border rounded-xl shadow-xl py-2 z-50">
-                                    {!isAuthenticated ? (
-                                        <>
-                                            <Link href="/login" className="flex items-center gap-3 px-4 py-2 text-sm text-foreground hover:bg-secondary">
-                                                <User size={16} /> Login
-                                            </Link>
-                                            <Link href="/signup" className="flex items-center gap-3 px-4 py-2 text-sm text-foreground hover:bg-secondary">
-                                                <User size={16} /> Sign Up
-                                            </Link>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <div className="px-4 py-2 text-xs font-bold text-muted-foreground uppercase tracking-wider border-b border-border/50 mb-1">
-                                                Hi, {user?.first_name || 'User'}
-                                            </div>
-                                            <Link href="/profile" className="flex items-center gap-3 px-4 py-2 text-sm text-foreground hover:bg-secondary">
-                                                <User size={16} /> Profile
-                                            </Link>
-                                            <Link href="/my-orders" className="flex items-center gap-3 px-4 py-2 text-sm text-foreground hover:bg-secondary">
-                                                <Search size={16} /> My Orders
-                                            </Link>
-                                            <hr className="my-1 border-border/50" />
-                                            <Button
-                                                variant="ghost"
-                                                onClick={() => { logout(); setIsProfileOpen(false); }}
-                                                className="w-full justify-start gap-3 px-4 py-2 text-sm text-destructive hover:bg-destructive/5 hover:text-destructive h-auto font-normal"
-                                            >
-                                                <LogOut size={16} /> Logout
-                                            </Button>
-                                        </>
-                                    )}
-                                </div>
-                            )}
-                        </div>
+                                {isProfileOpen && (
+                                    <div className="absolute right-0 mt-2 w-48 bg-card border border-border rounded-xl shadow-xl py-2 z-50">
+                                        <div className="px-4 py-2 text-xs font-bold text-muted-foreground uppercase tracking-wider border-b border-border/50 mb-1">
+                                            Hi, {user?.first_name || 'User'}
+                                        </div>
+                                        <Link href="/profile" className="flex items-center gap-3 px-4 py-2 text-sm text-foreground hover:bg-secondary">
+                                            <User size={16} /> Profile
+                                        </Link>
+                                        <Link href="/my-orders" className="flex items-center gap-3 px-4 py-2 text-sm text-foreground hover:bg-secondary">
+                                            <Search size={16} /> My Orders
+                                        </Link>
+                                        <hr className="my-1 border-border/50" />
+                                        <Button
+                                            variant="ghost"
+                                            onClick={() => { logout(); setIsProfileOpen(false); }}
+                                            className="w-full justify-start gap-3 px-4 py-2 text-sm text-destructive hover:bg-destructive/5 hover:text-destructive h-auto font-normal"
+                                        >
+                                            <LogOut size={16} /> Logout
+                                        </Button>
+                                    </div>
+                                )}
+                            </div>
+                        )}
 
                         <Button
                             variant="ghost"

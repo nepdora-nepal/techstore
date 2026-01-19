@@ -138,7 +138,7 @@ const WishlistPage = () => {
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
           {wishlistItems.map(item => {
             // Ensure the product has the is_wishlist flag set to true since it's in wishlist
             const productWithWishlistStatus = {
