@@ -220,7 +220,10 @@ export const AuthProvider = ({
     } catch (error: any) {
       const errorMessage = getErrorMessage(error);
       // Only show toast if it's not a validation error (which will be handled by the form)
-      if (error.status !== 400) {
+      if (
+        error.status !== 400 ||
+        !error.data?.error?.params?.field_errors
+      ) {
         toast.error(errorMessage);
       }
       console.error("Login error:", {
@@ -254,7 +257,10 @@ export const AuthProvider = ({
     } catch (error: any) {
       const errorMessage = getErrorMessage(error);
       // Only show toast if it's not a validation error
-      if (error.status !== 400) {
+      if (
+        error.status !== 400 ||
+        !error.data?.error?.params?.field_errors
+      ) {
         toast.error(errorMessage);
       }
       console.error("Signup error:", error);
