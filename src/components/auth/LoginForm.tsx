@@ -8,7 +8,7 @@ import { loginSchema, LoginFormValues } from '@/schemas/customer/login.form';
 import { useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+
 
 export const LoginForm = () => {
     const { login, isLoading } = useAuth();
@@ -54,13 +54,12 @@ export const LoginForm = () => {
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
                     <div className="space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor="email">Email address</Label>
                             <Input
                                 id="email"
                                 type="email"
-                                placeholder="name@example.com"
+                                label="Email address"
                                 {...register('email')}
-                                className={errors.email ? 'border-destructive focus:ring-destructive' : ''}
+                                className={`bg-white/50 backdrop-blur-sm ${errors.email ? 'border-destructive focus:ring-destructive' : ''}`}
                             />
                             {errors.email && (
                                 <p className="text-xs text-destructive mt-1">{errors.email.message}</p>
@@ -68,18 +67,13 @@ export const LoginForm = () => {
                         </div>
 
                         <div className="space-y-2">
-                            <div className="flex items-center justify-between">
-                                <Label htmlFor="password">Password</Label>
-                                <Link href="/forgot-password" title="sm" className="text-xs text-primary hover:underline font-medium">
-                                    Forgot password?
-                                </Link>
-                            </div>
+
                             <Input
                                 id="password"
                                 type="password"
-                                placeholder="••••••••"
+                                label="Password"
                                 {...register('password')}
-                                className={errors.password ? 'border-destructive focus:ring-destructive' : ''}
+                                className={`bg-white/50 backdrop-blur-sm ${errors.password ? 'border-destructive focus:ring-destructive' : ''}`}
                             />
                             {errors.password && (
                                 <p className="text-xs text-destructive mt-1">{errors.password.message}</p>

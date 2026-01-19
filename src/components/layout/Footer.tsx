@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { useCreateNewsletter } from '@/hooks/use-newsletter';
+import { useCategories } from '@/hooks/use-category';
 import { toast } from 'sonner';
 import { useSiteConfig } from '@/hooks/use-site-config';
 import {
@@ -22,6 +23,7 @@ export const Footer: React.FC = () => {
     const [email, setEmail] = useState("");
     const createNewsletter = useCreateNewsletter();
     const { data: config } = useSiteConfig();
+    const { data: categories, isLoading: isCategoriesLoading } = useCategories({ page_size: 5 });
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -43,7 +45,7 @@ export const Footer: React.FC = () => {
 
     return (
         <footer className="bg-primary text-primary-foreground/70 pt-16 pb-8">
-            <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+            <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
                 <div className="space-y-6">
                     <Link href="/" className="flex items-center gap-2">
                         {config?.logo ? (
@@ -131,13 +133,42 @@ export const Footer: React.FC = () => {
                 </div>
 
                 <div>
-                    <h4 className="text-primary-foreground font-bold mb-6">Categories</h4>
+                    <h4 className="text-primary-foreground font-bold mb-6">Quick Links</h4>
                     <ul className="space-y-4">
-                        <li><Link href="/collections?category=electronics" className="hover:text-primary-foreground transition-colors">Electronics</Link></li>
-                        <li><Link href="/collections?category=fashion" className="hover:text-primary-foreground transition-colors">Fashion & Apparel</Link></li>
-                        <li><Link href="/collections?category=home" className="hover:text-primary-foreground transition-colors">Home & Decor</Link></li>
-                        <li><Link href="/collections?category=accessories" className="hover:text-primary-foreground transition-colors">Accessories</Link></li>
+                        <li><Link href="/" className="hover:text-primary-foreground transition-colors">Home</Link></li>
+                        <li><Link href="/collections" className="hover:text-primary-foreground transition-colors">Shop</Link></li>
+                        <li><Link href="/about" className="hover:text-primary-foreground transition-colors">About Us</Link></li>
+                        <li><Link href="/contact" className="hover:text-primary-foreground transition-colors">Contact Us</Link></li>
+                        <li><Link href="/blogs" className="hover:text-primary-foreground transition-colors">Blogs</Link></li>
                     </ul>
+                </div>
+
+                <div>
+                    <h4 className="text-primary-foreground font-bold mb-6">Categories</h4>
+                    {isCategoriesLoading ? (
+                        <div className="animate-pulse space-y-4">
+                            {[1, 2, 3, 4].map((i) => (
+                                <div key={i} className="h-4 bg-primary-foreground/10 rounded w-24"></div>
+                            ))}
+                        </div>
+                    ) : (
+                        <ul className="space-y-4">
+                            {categories?.results && categories.results.length > 0 ? (
+                                categories.results.map((category) => (
+                                    <li key={category.id}>
+                                        <Link
+                                            href={`/collections?category=${category.slug}`}
+                                            className="hover:text-primary-foreground transition-colors"
+                                        >
+                                            {category.name}
+                                        </Link>
+                                    </li>
+                                ))
+                            ) : (
+                                <li><span className="text-primary-foreground/60">No categories found</span></li>
+                            )}
+                        </ul>
+                    )}
                 </div>
 
                 <div>

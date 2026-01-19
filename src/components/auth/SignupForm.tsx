@@ -9,7 +9,7 @@ import { signupSchema, SignupFormValues } from "@/schemas/customer/signup.form";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
 
 export const SignupForm = () => {
     const { signup, isLoading } = useAuth();
@@ -62,12 +62,11 @@ export const SignupForm = () => {
                     <div className="space-y-4">
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label htmlFor="first_name">First Name</Label>
                                 <Input
                                     id="first_name"
-                                    placeholder="John"
+                                    label="First Name"
                                     {...register("first_name")}
-                                    className={errors.first_name ? "border-destructive" : ""}
+                                    className={`bg-white/50 backdrop-blur-sm ${errors.first_name ? "border-destructive" : ""}`}
                                 />
                                 {errors.first_name && (
                                     <p className="text-xs text-destructive">
@@ -77,12 +76,11 @@ export const SignupForm = () => {
                             </div>
 
                             <div className="space-y-2">
-                                <Label htmlFor="last_name">Last Name</Label>
                                 <Input
                                     id="last_name"
-                                    placeholder="Doe"
+                                    label="Last Name"
                                     {...register("last_name")}
-                                    className={errors.last_name ? "border-destructive" : ""}
+                                    className={`bg-white/50 backdrop-blur-sm ${errors.last_name ? "border-destructive" : ""}`}
                                 />
                                 {errors.last_name && (
                                     <p className="text-xs text-destructive">
@@ -93,13 +91,12 @@ export const SignupForm = () => {
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="email">Email address</Label>
                             <Input
                                 id="email"
                                 type="email"
-                                placeholder="name@example.com"
+                                label="Email address"
                                 {...register("email")}
-                                className={errors.email ? "border-destructive" : ""}
+                                className={`bg-white/50 backdrop-blur-sm ${errors.email ? "border-destructive" : ""}`}
                             />
                             {errors.email && (
                                 <p className="text-xs text-destructive">
@@ -109,13 +106,12 @@ export const SignupForm = () => {
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="phone">Phone Number</Label>
                             <Input
                                 id="phone"
                                 type="tel"
-                                placeholder="+977 98XXXXXXXX"
+                                label="Phone Number"
                                 {...register("phone")}
-                                className={errors.phone ? "border-destructive" : ""}
+                                className={`bg-white/50 backdrop-blur-sm ${errors.phone ? "border-destructive" : ""}`}
                             />
                             {errors.phone && (
                                 <p className="text-xs text-destructive">
@@ -125,13 +121,12 @@ export const SignupForm = () => {
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="password">Password</Label>
                             <Input
                                 id="password"
                                 type="password"
-                                placeholder="••••••••"
+                                label="Password"
                                 {...register("password")}
-                                className={errors.password ? "border-destructive" : ""}
+                                className={`bg-white/50 backdrop-blur-sm ${errors.password ? "border-destructive" : ""}`}
                             />
                             {errors.password && (
                                 <p className="text-xs text-destructive">
@@ -141,15 +136,12 @@ export const SignupForm = () => {
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="confirmPassword">
-                                Confirm Password
-                            </Label>
                             <Input
                                 id="confirmPassword"
                                 type="password"
-                                placeholder="••••••••"
+                                label="Confirm Password"
                                 {...register("confirmPassword")}
-                                className={errors.confirmPassword ? "border-destructive" : ""}
+                                className={`bg-white/50 backdrop-blur-sm ${errors.confirmPassword ? "border-destructive" : ""}`}
                             />
                             {errors.confirmPassword && (
                                 <p className="text-xs text-destructive">
