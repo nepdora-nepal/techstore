@@ -3,15 +3,20 @@
 import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Info } from 'lucide-react';
-import { useProduct } from '@/hooks/use-product';
+import { useProduct, useProducts } from '@/hooks/use-product';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import ProductDetails from '@/components/products/ProductDetails';
+import HorizontalProductList from '@/components/techstore/HorizontalProductList';
 
 const ProductDetailsView = () => {
     const { slug } = useParams();
     const router = useRouter();
-    const { data: product, isLoading, error } = useProduct(slug as string);
+    const { data: product, isLoading: productLoading, error } = useProduct(slug as string);
+    const { data: recData, isLoading: recLoading } = useProducts({ page_size: 8 });
+
+    const products = recData?.results || [];
+    const isLoading = productLoading || recLoading;
 
     if (isLoading) {
         return (
@@ -42,7 +47,20 @@ const ProductDetailsView = () => {
         );
     }
 
-    return <ProductDetails product={product} />;
+    return (
+        <div className="min-h-screen bg-white py-10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <ProductDetails product={product} />
+
+                <div className="border-t border-gray-100 mt-20">
+                    <HorizontalProductList
+                        title="Recommended For You"
+                        products={products.filter(p => p.id !== product.id).slice(0, 8)}
+                    />
+                </div>
+            </div>
+        </div>
+    );
 };
 
 export default ProductDetailsView;
