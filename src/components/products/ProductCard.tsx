@@ -1,269 +1,174 @@
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
-import { ShoppingCart, Minus, Plus } from "lucide-react";
-import { Product } from "@/types/product";
-import { useCart } from "@/hooks/use-cart";
-import { getImageUrl } from "@/config/site";
-import { useIsMobile } from "@/hooks/use-mobile";
-import WishlistButton from "./WishlistButton";
-import StarRating from "./StarRating";
-import { useState, useRef } from "react";
-import { useAddToWishlist, useRemoveFromWishlist, useWishlist } from "@/hooks/use-wishlist";
-import { useAuth } from "@/hooks/use-auth";
-import { Button } from "../ui/button";
-import { toast } from "sonner";
+import React, { useState } from 'react';
+import { Product } from '@/types/product';
+import { useCart } from '@/hooks/use-cart';
+import { useCompare } from '@/hooks/use-compare';
+import { useAddToWishlist, useWishlist } from '@/hooks/use-wishlist';
+import { Star, Plus, Check, ArrowRightLeft, Heart } from 'lucide-react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { toast } from 'sonner';
 
 interface ProductCardProps {
     product: Product;
-    isSpecial?: boolean;
 }
 
-export default function ProductCard({
-    product,
-    isSpecial = false,
-}: ProductCardProps) {
-    const { cartItems, addToCart, updateQuantity } = useCart();
-    const isMobile = useIsMobile();
-    const [isAddedToCart, setIsAddedToCart] = useState(false);
+const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+    const { addToCart } = useCart();
+    const { addToCompare, isInCompare, removeFromCompare } = useCompare();
+    const { data: wishlist } = useWishlist();
+    const { mutate: addToWishlist } = useAddToWishlist();
 
-    // Refs from snippet
-    const addToCartButtonRef = useRef<HTMLButtonElement>(null);
-    const minusButtonRef = useRef<HTMLButtonElement>(null);
-    const plusButtonRef = useRef<HTMLButtonElement>(null);
-    const mobileAddToCartButtonRef = useRef<HTMLButtonElement>(null);
+    // Normalize fields
+    const id = product.id;
+    const title = product.name || "Unknown Product";
+    const price = typeof product.price === 'string' ? parseFloat(product.price) : (product.price || 0);
+    const image = product.thumbnail_image || '/placeholder.png';
+    const category = (product.category as { name?: string })?.name || "Tech";
+    const rating = product.average_rating || 0;
+    const ratingCount = product.reviews_count || 0;
+    const discountPercentage = product.market_price ? Math.round(((parseFloat(product.market_price) - price) / parseFloat(product.market_price)) * 100) : 0;
+    const originalPrice = product.market_price ? parseFloat(product.market_price) : null;
+    const slug = product.slug || product.id.toString();
 
-    const cartItem = cartItems.find((item) => item.product.id === product.id);
-    const isInCart = !!cartItem;
-    const cartQuantity = cartItem?.quantity || 0;
-    const productSlug = product.slug;
+    const [isAdded, setIsAdded] = useState(false);
+    const isComparing = isInCompare(id);
+    const isInWishlist = wishlist?.some(item => item.product.id === id);
 
-    const { isAuthenticated } = useAuth();
-    const { data: wishlistItems } = useWishlist();
-    const addToWishlistMutation = useAddToWishlist();
-    const removeFromWishlistMutation = useRemoveFromWishlist();
-
-    const isPending = addToWishlistMutation.isPending || removeFromWishlistMutation.isPending;
-    //eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const isWishlisted = (product as any).is_wishlist || wishlistItems?.some(item => item.product.id === product.id);
-
-    const handleWishlistToggle = (active: boolean) => {
-        if (!isAuthenticated) {
-            toast.error("Please login to add items to wishlist");
-            return;
-        }
-
-        if (active) {
-            addToWishlistMutation.mutate(product.id);
-        } else {
-            const wishlistItem = wishlistItems?.find(item => item.product.id === product.id);
-            if (wishlistItem) {
-                removeFromWishlistMutation.mutate(wishlistItem.id);
-            }
-        }
-    };
-
-    const handleAddToCartClick = (e: React.MouseEvent) => {
+    const handleAddToCart = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
         addToCart(product, 1);
+
+        // Feedback animation
+        setIsAdded(true);
         toast.success("Added to cart");
-        setIsAddedToCart(true);
-        setTimeout(() => setIsAddedToCart(false), 2000);
+        setTimeout(() => setIsAdded(false), 2000);
     };
 
-    const handleQuantityIncrease = (e: React.MouseEvent) => {
+    const handleCompare = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        updateQuantity(product.id, cartQuantity + 1);
-    };
-
-    const handleQuantityDecrease = (e: React.MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (cartQuantity > 1) {
-            updateQuantity(product.id, cartQuantity - 1);
+        if (isComparing) {
+            removeFromCompare(id);
+            toast.info("Removed from compare");
         } else {
-            // Remove from cart if quantity becomes 0
-            updateQuantity(product.id, 0);
+            addToCompare(product);
+            toast.success("Added to compare");
         }
     };
 
-    return (
-        <div
-            className={`relative ${isSpecial ? "aspect-square" : "h-full"
-                } rounded-3xl overflow-hidden transition-all duration-300 border border-border/50 hover:border-primary/20 hover:scale-[1.02] hover:shadow-2xl hover:shadow-primary/5 flex flex-col bg-card z-0 `}
-        >
-            <div className="absolute inset-0 border-2 border-border/10 rounded-3xl pointer-events-none group-hover:border-primary/10 transition-colors"></div>
+    const handleWishlist = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        addToWishlist(product.id);
+    };
 
-            <div className="absolute z-10 top-3 right-3">
-                <WishlistButton
-                    size="sm"
-                    isActive={isWishlisted}
-                    isLoading={isPending}
-                    onToggle={handleWishlistToggle}
-                />
+    return (
+        <div className="group bg-white border border-gray-100 rounded-2xl hover:shadow-xl hover:border-gray-200 transition-all duration-300 flex flex-col h-full overflow-hidden relative">
+
+            {/* Badges container */}
+            <div className="absolute top-3 left-3 z-10 flex flex-col gap-2">
+                {discountPercentage > 0 && (
+                    <span className="bg-green-600 text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">
+                        {discountPercentage}% OFF
+                    </span>
+                )}
+                {product.is_featured && (
+                    <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm uppercase">
+                        Featured
+                    </span>
+                )}
             </div>
 
-            {isInCart && (
-                <div className="absolute z-10 top-3 left-3">
-                    <div className="flex items-center gap-1 bg-primary text-primary-foreground px-3 py-1.5 rounded-full text-[10px] font-bold shadow-lg uppercase tracking-wider">
-                        <ShoppingCart size={10} />
-                        <span>In Cart ({cartQuantity})</span>
-                    </div>
+            {/* Quick Actions */}
+            <div className="absolute top-3 right-3 z-20 flex flex-col gap-2 translate-x-12 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300">
+                <button
+                    onClick={handleCompare}
+                    className={`p-2 rounded-full shadow-md transition-all duration-200 ${isComparing ? 'bg-brand-600 text-white' : 'bg-white text-gray-400 hover:text-brand-600'}`}
+                    title={isComparing ? "Remove from compare" : "Add to compare"}
+                >
+                    <ArrowRightLeft size={16} />
+                </button>
+                <button
+                    onClick={handleWishlist}
+                    className={`p-2 rounded-full shadow-md transition-all duration-200 ${isInWishlist ? 'bg-red-500 text-white' : 'bg-white text-gray-400 hover:text-red-500'}`}
+                    title={isInWishlist ? "In Wishlist" : "Add to Wishlist"}
+                >
+                    <Heart size={16} className={isInWishlist ? 'fill-current' : ''} />
+                </button>
+            </div>
+
+            {/* Image */}
+            <div className="relative p-6 h-56 bg-white flex items-center justify-center overflow-hidden">
+                <Link href={`/collections/${slug}`} className="block w-full h-full relative">
+                    <Image
+                        src={image}
+                        alt={title}
+                        fill
+                        className="object-contain transform group-hover:scale-105 transition-transform duration-500 ease-out mix-blend-multiply"
+                    />
+                </Link>
+            </div>
+
+            {/* Content */}
+            <div className="p-4 flex flex-col flex-grow bg-white border-t border-gray-50">
+                <div className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold mb-1 w-fit">
+                    {category}
                 </div>
-            )}
 
-            <Link
-                href={`/collections/${productSlug}`}
-                className="block flex-1"
-            >
-                <div className="relative flex flex-col h-full p-4">
-                    <div className="relative flex items-center justify-center flex-1 p-2 mb-3 min-h-[180px]">
-                        <Image
-                            src={getImageUrl(product.thumbnail_image || "") || "/placeholder.png"}
-                            alt={product.name}
-                            width={180}
-                            height={180}
-                            className="object-contain w-full h-full max-h-48 group-hover:scale-110 transition-transform duration-500"
-                        />
+                <Link href={`/collections/${slug}`} className="block mb-2">
+                    <h3 className="text-gray-900 font-medium text-sm leading-snug line-clamp-2 group-hover:text-brand-600 transition-colors h-10" title={title}>
+                        {title}
+                    </h3>
+                </Link>
+
+                {/* Rating */}
+                <div className="flex items-center gap-1 mb-3">
+                    <div className="flex items-center">
+                        {[...Array(5)].map((_, i) => (
+                            <Star
+                                key={i}
+                                className={`w-3 h-3 ${i < Math.round(rating) ? 'fill-yellow-400 text-yellow-400' : 'fill-gray-100 text-gray-100'}`}
+                            />
+                        ))}
+                    </div>
+                    <span className="text-[10px] text-gray-400">({ratingCount})</span>
+                </div>
+
+                <div className="mt-auto flex items-center justify-between gap-2">
+                    <div>
+                        <div className="text-lg font-bold text-gray-900">${price.toFixed(2)}</div>
+                        {originalPrice && originalPrice > price && (
+                            <div className="text-xs text-gray-400 line-through decoration-gray-300">${originalPrice.toFixed(2)}</div>
+                        )}
                     </div>
 
-                    <div className="px-2 h-[120px] flex flex-col">
-                        <h3 className="text-sm font-bold text-foreground line-clamp-2 mb-2 min-h-[40px] group-hover:text-primary transition-colors">
-                            {product.name}
-                        </h3>
-                        <div className="mt-auto">
-                            <div className="flex items-end justify-between">
-                                <div className="flex flex-col">
-                                    {product.market_price &&
-                                        parseFloat(product.market_price) >
-                                        parseFloat(product.price) && (
-                                            <span className="text-[10px] text-muted-foreground line-through font-bold">
-                                                RS.
-                                                {parseFloat(product.market_price).toLocaleString(
-                                                    "en-IN",
-
-                                                )}
-                                            </span>
-                                        )}
-                                    <span className="text-lg font-semibold text-foreground">
-                                        RS.
-                                        {parseFloat(product.price).toLocaleString("en-IN")}
-                                    </span>
-                                </div>
-                                {!isMobile && (
-                                    <>
-                                        {!isInCart ? (
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                ref={addToCartButtonRef}
-                                                onClick={handleAddToCartClick}
-                                                disabled={product.stock <= 0}
-                                                data-cart-action="add-to-cart"
-                                                className={`w-10 h-10 rounded-full border border-primary/20 hover:bg-primary hover:text-primary-foreground transform hover:scale-110 ${isAddedToCart ? "bg-green-500 text-white border-green-500 hover:bg-green-600 hover:text-white" : "bg-card text-primary"
-                                                    }`}
-                                            >
-                                                <ShoppingCart size={18} />
-                                            </Button>
-                                        ) : (
-                                            <div className="flex items-center gap-1 bg-secondary border border-border/50 rounded-full p-1 shadow-inner">
-                                                <Button
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    ref={minusButtonRef}
-                                                    onClick={handleQuantityDecrease}
-                                                    data-cart-action="decrease-quantity"
-                                                    className="w-8 h-8 rounded-full bg-card text-primary hover:bg-destructive/10 hover:text-destructive shadow-sm"
-                                                >
-                                                    <Minus size={12} />
-                                                </Button>
-                                                <span className="px-2 text-xs font-black text-foreground min-w-[20px] text-center">
-                                                    {cartQuantity}
-                                                </span>
-                                                <Button
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    ref={plusButtonRef}
-                                                    onClick={handleQuantityIncrease}
-                                                    disabled={product.stock <= cartQuantity}
-                                                    data-cart-action="increase-quantity"
-                                                    className="w-8 h-8 rounded-full bg-card text-primary hover:bg-primary hover:text-primary-foreground shadow-sm"
-                                                >
-                                                    <Plus size={12} />
-                                                </Button>
-                                            </div>
-                                        )}
-                                    </>
-                                )}
-                            </div>
-                            {product.reviews_count !== undefined && product.reviews_count > 0 && (
-                                <div className="mt-2">
-                                    <StarRating
-                                        rating={product.average_rating || 0}
-                                        reviewCount={product.reviews_count}
-                                    />
-                                </div>
-                            )}
-                        </div>
-                    </div>
+                    <button
+                        onClick={handleAddToCart}
+                        className={`
+              flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-300 border
+              ${isAdded
+                                ? 'bg-green-600 text-white border-green-600'
+                                : 'bg-white text-brand-600 border-brand-200 hover:bg-brand-50 hover:border-brand-300'
+                            }
+            `}
+                    >
+                        {isAdded ? (
+                            <>
+                                <Check size={14} /> ADDED
+                            </>
+                        ) : (
+                            <>
+                                <Plus size={14} /> ADD
+                            </>
+                        )}
+                    </button>
                 </div>
-            </Link>
-
-            {isMobile && (
-                <div className="px-4 pb-4">
-                    {!isInCart ? (
-                        <Button
-                            variant="default"
-                            ref={mobileAddToCartButtonRef}
-                            onClick={handleAddToCartClick}
-                            disabled={product.stock <= 0}
-                            data-cart-action="add-to-cart"
-                            className={`flex items-center justify-center w-full gap-2 px-4 py-8 text-xs font-black uppercase tracking-widest rounded-2xl transition-all duration-300 shadow-xl border-none ${isAddedToCart
-                                ? "bg-green-500 hover:bg-green-600 scale-105 text-white"
-                                : "bg-primary hover:bg-primary/90 text-primary-foreground shadow-primary/20"
-                                }`}
-                        >
-                            <ShoppingCart size={14} />
-                            {isAddedToCart
-                                ? "Added!"
-                                : product.stock > 0
-                                    ? "Add to Cart"
-                                    : "Out of Stock"}
-                        </Button>
-                    ) : (
-                        <div className="flex items-center justify-between gap-2 px-4 py-2 bg-secondary border border-border/50 rounded-2xl shadow-inner">
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={handleQuantityDecrease}
-                                data-cart-action="decrease-quantity"
-                                className="w-10 h-10 rounded-full bg-card text-primary shadow-sm hover:bg-destructive/10 hover:text-destructive"
-                            >
-                                <Minus size={16} />
-                            </Button>
-                            <div className="flex flex-col items-center">
-                                <span className="text-sm font-black text-foreground">
-                                    {cartQuantity}
-                                </span>
-                                <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-tighter">in cart</span>
-                            </div>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={handleQuantityIncrease}
-                                disabled={product.stock <= cartQuantity}
-                                data-cart-action="increase-quantity"
-                                className="w-10 h-10 rounded-full bg-card text-primary shadow-sm hover:bg-primary hover:text-primary-foreground"
-                            >
-                                <Plus size={16} />
-                            </Button>
-                        </div>
-                    )}
-                </div>
-            )}
+            </div>
         </div>
     );
-}
+};
+
+export default ProductCard;

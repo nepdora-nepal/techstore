@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { useProduct, useProducts } from '@/hooks/use-product';
 import { useTechStoreCart } from '@/contexts/TechStoreCartContext';
-import { Product } from '@/types/product';
 import { Star, Truck, Shield, RefreshCw, Minus, Plus, ShoppingCart, Check } from 'lucide-react';
 import Link from 'next/link';
 import HorizontalProductList from '@/components/techstore/HorizontalProductList';

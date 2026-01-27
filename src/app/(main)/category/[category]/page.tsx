@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { useProducts, useUpdateFilters, useProductFilters } from '@/hooks/use-product';
 import { useCategories, useCategory } from '@/hooks/use-category';
-import ProductCard from '@/components/techstore/ProductCard';
+import ProductCard from '@/components/products/ProductCard';
 import { SORT_OPTIONS } from '@/constants/techstore';
 import { SlidersHorizontal, ChevronDown, Star } from 'lucide-react';
 import Link from 'next/link';

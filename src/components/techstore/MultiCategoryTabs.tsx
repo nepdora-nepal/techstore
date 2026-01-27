@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { Product } from '@/types/product';
-import ProductCard from './ProductCard';
+import ProductCard from '../products/ProductCard';
 
 interface MultiCategoryTabsProps {
     products: Product[];
