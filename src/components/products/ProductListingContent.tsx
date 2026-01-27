@@ -45,7 +45,7 @@ export default function ProductListingContent() {
         <div className="min-h-screen bg-white">
             <div className="py-12 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col gap-12 lg:flex-row">
-                    <aside className="hidden lg:block lg:w-80 flex-shrink-0 lg:sticky lg:top-24 self-start z-20">
+                    <aside className="hidden lg:block lg:w-80 flex-shrink-0 lg:sticky lg:top-48 self-start z-20">
                         <div className="space-y-8">
                             <AppliedFilters
                                 selectedCategory={selectedCategory}
@@ -90,7 +90,7 @@ export default function ProductListingContent() {
                         </div>
 
                         <div className="hidden lg:block mb-12">
-                            <span className="text-primary font-black tracking-[0.4em] uppercase text-[10px] mb-3 block">Curated Selection</span>
+
                             <h1 className="text-5xl font-black text-foreground tracking-tighter uppercase">The Collections</h1>
                         </div>
 

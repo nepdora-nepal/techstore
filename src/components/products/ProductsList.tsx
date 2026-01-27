@@ -67,7 +67,7 @@ export default function ProductsList({
                     <div className="bg-card w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl text-muted-foreground/20">
                         <Loader2 size={40} className="animate-pulse" />
                     </div>
-                    <h3 className="text-2xl font-black text-foreground mb-3 uppercase tracking-tighter">Selection Exhausted</h3>
+                    <h3 className="text-2xl font-black text-foreground mb-3 uppercase tracking-tighter">Product not found</h3>
                     <p className="text-muted-foreground font-medium max-w-xs mx-auto text-sm leading-relaxed">We couldn&apos;t find items matching your current filters. Try broadening your horizons.</p>
                 </div>
             )}

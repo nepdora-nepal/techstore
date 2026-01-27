@@ -5,10 +5,11 @@ import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-
+import { useCategories } from '@/hooks/use-category';
 const Hero: React.FC = () => {
     const [heroIndex, setHeroIndex] = useState(0);
-
+    const { data: categoriesData } = useCategories();
+    const categories = categoriesData?.results || [];
     const heroSlides = [
         {
             id: 1,
@@ -79,7 +80,7 @@ const Hero: React.FC = () => {
                                     {heroSlides[heroIndex].description}
                                 </p>
                                 <Link
-                                    href="/category/electronics"
+                                    href={`/collections/?category=${categories[heroIndex].slug}`}
                                     className="inline-flex items-center px-8 py-4 bg-brand-600 text-white rounded-full font-bold hover:bg-brand-500 hover:scale-105 transition-all shadow-xl shadow-brand-500/20"
                                 >
                                     Shop Now <ArrowRight size={18} className="ml-2" />

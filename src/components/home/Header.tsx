@@ -3,10 +3,9 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { ShoppingCart, Search, Menu, X, ChevronDown, MapPin, HelpCircle, Phone, ArrowRightLeft, User, LogOut, Package, Heart } from 'lucide-react';
+import { ShoppingCart, Menu, X, ChevronDown, MapPin, HelpCircle, Phone, ArrowRightLeft, User, LogOut, Package, Heart } from 'lucide-react';
 import { useCart } from '@/hooks/use-cart';
 import { useTechStoreCompare } from '@/contexts/TechStoreCompareContext';
-import { STATIC_CATEGORIES } from '@/constants/techstore';
 import { useAuth } from '@/hooks/use-auth';
 import { useProfile } from '@/hooks/use-profile';
 import { useCategories } from '@/hooks/use-category';
@@ -18,7 +17,7 @@ const Header: React.FC = () => {
     const { user, logout, isAuthenticated } = useAuth();
     const { data: profile } = useProfile();
     const { data: categoriesData } = useCategories();
-    const categories = categoriesData?.results.map(c => c.name) || STATIC_CATEGORIES;
+    const categories = categoriesData?.results.map(c => c.name) || [];
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isAccountOpen, setIsAccountOpen] = useState(false);
@@ -182,8 +181,8 @@ const Header: React.FC = () => {
                                         {categories.map(cat => (
                                             <Link
                                                 key={cat}
-                                                href={`/category/${formatCategoryUrl(cat)}`}
-                                                className="block py-2 text-sm font-medium text-gray-900 border-b border-gray-50"
+                                                href={`collections?category=${cat}`}
+                                                className="block py-2 text-sm font-medium text-gray-900 border-b border-gray-50 "
                                                 onClick={() => setIsMenuOpen(false)}
                                             >
                                                 {cat}
@@ -202,7 +201,7 @@ const Header: React.FC = () => {
                                     return (
                                         <Link
                                             key={cat}
-                                            href={`/category/${categoryUrl}`}
+                                            href={`collections?category=${cat}`}
                                             className={`text-sm font-medium whitespace-nowrap transition-colors ${isActive
                                                 ? 'text-brand-600 font-semibold'
                                                 : 'text-gray-600 hover:text-brand-600'
@@ -214,10 +213,7 @@ const Header: React.FC = () => {
                                 })}
                             </nav>
 
-                            <div className="ml-auto flex items-center gap-4 text-xs font-bold text-brand-600">
-                                <Link href="/deals/flash">FLASH DEALS</Link>
-                                <Link href="/deals/special">SPECIAL OFFER</Link>
-                            </div>
+
                         </div>
                     </div>
                 </div>
