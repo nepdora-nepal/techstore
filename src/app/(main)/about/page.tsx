@@ -2,8 +2,13 @@
 
 import React from 'react';
 import { Users, Award, Globe, TrendingUp } from 'lucide-react';
+import { useSiteConfig } from '@/hooks/use-site-config';
+import { useTeamMembers } from '@/hooks/use-team-member';
 
 const AboutPage: React.FC = () => {
+    const { data: siteConfig } = useSiteConfig();
+    const { data: teamMembers } = useTeamMembers();
+
     return (
         <div className="bg-white min-h-screen">
             {/* Hero Section */}
@@ -13,9 +18,12 @@ const AboutPage: React.FC = () => {
                 </div>
                 <div className="max-w-7xl mx-auto px-4 relative z-10 text-center">
                     <span className="inline-block py-1 px-3 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-xs font-bold uppercase tracking-widest mb-6">Since 2024</span>
-                    <h1 className="text-4xl md:text-6xl font-black text-white mb-8">Redefining Tomorrow&apos;s <br /><span className="text-brand-500">Tech Lifestyle.</span></h1>
+                    <h1 className="text-4xl md:text-6xl font-black text-white mb-8">
+                        {siteConfig?.business_name || 'TechStore'} <br />
+                        <span className="text-brand-500">Redefining Tomorrow&apos;s Tech Lifestyle.</span>
+                    </h1>
                     <p className="text-xl text-slate-400 max-w-2xl mx-auto font-medium">
-                        TechStore is more than a marketplace. We are a curation of peak engineering and visionary design.
+                        {siteConfig?.business_description || 'TechStore is more than a marketplace. We are a curation of peak engineering and visionary design.'}
                     </p>
                 </div>
             </div>
@@ -58,7 +66,7 @@ const AboutPage: React.FC = () => {
                     <div className="relative">
                         <div className="bg-brand-100 rounded-[3rem] p-12 overflow-hidden">
                             <img
-                                src="https://pagedone.io/asset/uploads/1691054543.png"
+                                src={siteConfig?.logo || "https://pagedone.io/asset/uploads/1691054543.png"}
                                 className="w-full h-full object-contain filter drop-shadow-2xl hover:scale-105 transition-transform duration-700"
                                 alt="Innovation"
                             />
@@ -70,6 +78,34 @@ const AboutPage: React.FC = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Team Section */}
+            {teamMembers && teamMembers.length > 0 && (
+                <div className="bg-gray-50 py-24">
+                    <div className="max-w-7xl mx-auto px-4">
+                        <div className="text-center mb-16">
+                            <h2 className="text-3xl md:text-5xl font-black text-navy-950 mb-4">Our Visionaries</h2>
+                            <p className="text-gray-500 font-medium">The brilliant minds behind the world&apos;s most advanced tech curator.</p>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                            {teamMembers.map((member) => (
+                                <div key={member.id} className="group">
+                                    <div className="relative aspect-square rounded-[2rem] overflow-hidden mb-6">
+                                        <img
+                                            src={member.photo}
+                                            alt={member.name}
+                                            className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
+                                        />
+                                        <div className="absolute inset-0 bg-brand-600/0 group-hover:bg-brand-600/20 transition-all duration-700" />
+                                    </div>
+                                    <h3 className="text-xl font-black text-navy-950 mb-1">{member.name}</h3>
+                                    <p className="text-[10px] font-black text-brand-600 uppercase tracking-widest">{member.role}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

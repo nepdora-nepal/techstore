@@ -137,10 +137,10 @@ const CheckoutPage: React.FC = () => {
                                     {items.map(item => (
                                         <div key={item.id} className="flex gap-4 items-center">
                                             <div className="w-12 h-12 bg-white rounded-lg p-1 flex-shrink-0">
-                                                <img src={item.image} alt="" className="w-full h-full object-contain mix-blend-multiply" />
+                                                <img src={item.image || '/images/placeholder.svg'} alt={item.title || item.name} className="w-full h-full object-contain mix-blend-multiply" />
                                             </div>
                                             <div className="flex-1 min-w-0">
-                                                <p className="text-xs font-bold truncate">{item.title}</p>
+                                                <p className="text-xs font-bold truncate">{item.title || item.name}</p>
                                                 <p className="text-[10px] text-gray-400">Qty: {item.quantity}</p>
                                             </div>
                                             <span className="text-xs font-black">${(item.price * item.quantity).toFixed(2)}</span>

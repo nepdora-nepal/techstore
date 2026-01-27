@@ -9,10 +9,21 @@ interface TechStoreProductContextType {
     loading: boolean;
     error: string | null;
     getProductById: (id: number) => Product | undefined;
+    getProductBySlug: (slug: string) => Product | undefined;
     getProductsByCategory: (category: string) => Product[];
 }
 
 const TechStoreProductContext = createContext<TechStoreProductContextType | undefined>(undefined);
+
+const slugify = (text: string) => {
+    return text
+        .toString()
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, '-')     // Replace spaces with -
+        .replace(/[^\w-]+/g, '')  // Remove all non-word chars
+        .replace(/--+/g, '-');    // Replace multiple - with single -
+};
 
 export const TechStoreProductProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [products, setProducts] = useState<Product[]>([]);
@@ -25,7 +36,14 @@ export const TechStoreProductProvider: React.FC<{ children: React.ReactNode }> =
                 const response = await fetch(`${TECHSTORE_API_URL}/products`);
                 if (!response.ok) throw new Error('Failed to fetch products');
                 const data = await response.json();
-                setProducts(data);
+
+                // Add slugs to products as the fakestoreapi doesn't provide them
+                const productsWithSlugs = data.map((p: Product) => ({
+                    ...p,
+                    slug: p.slug || slugify(p.title)
+                }));
+
+                setProducts(productsWithSlugs);
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'An error occurred');
             } finally {
@@ -37,11 +55,12 @@ export const TechStoreProductProvider: React.FC<{ children: React.ReactNode }> =
     }, []);
 
     const getProductById = (id: number) => products.find(p => p.id === id);
+    const getProductBySlug = (slug: string) => products.find(p => p.slug === slug);
     const getProductsByCategory = (category: string) =>
         products.filter(p => p.category.toLowerCase() === category.toLowerCase());
 
     return (
-        <TechStoreProductContext.Provider value={{ products, loading, error, getProductById, getProductsByCategory }}>
+        <TechStoreProductContext.Provider value={{ products, loading, error, getProductById, getProductBySlug, getProductsByCategory }}>
             {children}
         </TechStoreProductContext.Provider>
     );

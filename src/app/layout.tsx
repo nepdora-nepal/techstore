@@ -8,7 +8,6 @@ import { Toaster } from "sonner";
 import NextTopLoader from 'nextjs-toploader';
 import { TechStoreCartProvider } from "@/contexts/TechStoreCartContext";
 import { TechStoreCompareProvider } from "@/contexts/TechStoreCompareContext";
-import { TechStoreProductProvider } from "@/contexts/TechStoreProductContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,20 +36,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <TechStoreProductProvider>
-          <TechStoreCartProvider>
-            <TechStoreCompareProvider>
-              <QueryProvider>
-                <CartProvider>
-                  <NextTopLoader color="#6f57cf" />
-                  {children}
-                </CartProvider>
-                <WhatsApp />
-                <Popup />
-              </QueryProvider>
-            </TechStoreCompareProvider>
-          </TechStoreCartProvider>
-        </TechStoreProductProvider>
+        <TechStoreCartProvider>
+          <TechStoreCompareProvider>
+            <QueryProvider>
+              <CartProvider>
+                <NextTopLoader color="#6f57cf" />
+                {children}
+              </CartProvider>
+              <WhatsApp />
+              <Popup />
+            </QueryProvider>
+          </TechStoreCompareProvider>
+        </TechStoreCartProvider>
         <Toaster position="bottom-right" richColors />
       </body>
     </html>

@@ -3,15 +3,14 @@
 import React from 'react';
 import Link from 'next/link';
 import {
-    ArrowRight, Gamepad, Calendar, Smartphone, Laptop,
-    Headphones, Watch, Camera, Tv
+    ArrowRight, Gamepad, Calendar
 } from 'lucide-react';
-import { useTechStoreProduct } from '@/contexts/TechStoreProductContext';
+import { useProducts } from '@/hooks/use-product';
+import { useCategories } from '@/hooks/use-category';
 import Hero from './Hero';
 import CategoryGrid from './CategoryGrid';
 import CategoryBanner from './CategoryBanner';
 import HorizontalProductList from './HorizontalProductList';
-import SaleBanner from './SaleBanner';
 import Brands from './Brands';
 import Newsletter from './Newsletter';
 import MultiCategoryTabs from './MultiCategoryTabs';
@@ -44,7 +43,11 @@ const BLOG_POSTS = [
 ];
 
 const TechStoreHome: React.FC = () => {
-    const { products, loading } = useTechStoreProduct();
+    const { data: productsData, isLoading: productsLoading } = useProducts({ page_size: 20 });
+    const { data: categoriesData, isLoading: categoriesLoading } = useCategories();
+
+    const products = productsData?.results || [];
+    const loading = productsLoading || categoriesLoading;
 
     if (loading) {
         return (

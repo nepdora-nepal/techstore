@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from 'react';
-import { Product } from '@/types/techstore';
+import { Product } from '@/types/product';
 import ProductCard from './ProductCard';
 
 interface MultiCategoryTabsProps {
@@ -10,11 +10,11 @@ interface MultiCategoryTabsProps {
 
 const MultiCategoryTabs: React.FC<MultiCategoryTabsProps> = ({ products }) => {
     const [activeTab, setActiveTab] = useState('ALL');
-    const categories = ['ALL', ...Array.from(new Set(products.map(p => p.category.toUpperCase())))];
+    const categories = ['ALL', ...Array.from(new Set(products.map(p => p.category?.name?.toUpperCase() || "TECH")))];
 
     const filteredProducts = useMemo(() => {
         if (activeTab === 'ALL') return products.slice(0, 8);
-        return products.filter(p => p.category.toUpperCase() === activeTab).slice(0, 8);
+        return products.filter(p => (p.category?.name?.toUpperCase() || "TECH") === activeTab).slice(0, 8);
     }, [products, activeTab]);
 
     return (

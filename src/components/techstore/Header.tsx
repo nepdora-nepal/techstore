@@ -3,15 +3,20 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { ShoppingCart, Search, Menu, X, ChevronDown, MapPin, HelpCircle, Phone, ArrowRightLeft } from 'lucide-react';
+import { ShoppingCart, Search, Menu, X, ChevronDown, MapPin, HelpCircle, Phone, ArrowRightLeft, User, LogOut, Package, Heart } from 'lucide-react';
 import { useTechStoreCart } from '@/contexts/TechStoreCartContext';
 import { useTechStoreCompare } from '@/contexts/TechStoreCompareContext';
 import { STATIC_CATEGORIES } from '@/constants/techstore';
+import { useAuth } from '@/hooks/use-auth';
+import { useProfile } from '@/hooks/use-profile';
 
 const Header: React.FC = () => {
     const { totalItems, setIsCartOpen } = useTechStoreCart();
     const { compareItems } = useTechStoreCompare();
+    const { user, logout, isAuthenticated } = useAuth();
+    const { data: profile } = useProfile();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isAccountOpen, setIsAccountOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const router = useRouter();
     const pathname = usePathname();
@@ -101,9 +106,43 @@ const Header: React.FC = () => {
                             <div className="flex items-center gap-2 sm:gap-6">
 
                                 {/* Account Link */}
-                                <div className="hidden md:flex flex-col items-end leading-tight cursor-pointer hover:opacity-80">
-                                    <span className="text-[10px] text-gray-500 font-medium">Hello, Sign In</span>
-                                    <span className="text-sm font-bold text-navy-900 flex items-center gap-1">My Account <ChevronDown size={12} /></span>
+                                <div className="relative group">
+                                    <div
+                                        className="hidden md:flex flex-col items-end leading-tight cursor-pointer hover:opacity-80"
+                                        onClick={() => isAuthenticated ? setIsAccountOpen(!isAccountOpen) : router.push('/login')}
+                                    >
+                                        <span className="text-[10px] text-gray-500 font-medium">
+                                            {isAuthenticated ? `Hello, ${profile?.first_name || user?.first_name || 'User'}` : 'Hello, Sign In'}
+                                        </span>
+                                        <span className="text-sm font-bold text-navy-900 flex items-center gap-1">
+                                            My Account <ChevronDown size={12} className={`transition-transform duration-200 ${isAccountOpen ? 'rotate-180' : ''}`} />
+                                        </span>
+                                    </div>
+
+                                    {/* Account Dropdown */}
+                                    {isAuthenticated && (
+                                        <div className={`absolute top-full right-0 w-56 bg-white border border-gray-100 shadow-xl rounded-2xl py-2 z-50 mt-2 transition-all duration-200 ${isAccountOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible translate-y-2'}`}>
+                                            <Link href="/profile" className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-600 transition-colors">
+                                                <User size={18} /> My Profile
+                                            </Link>
+                                            <Link href="/my-orders" className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-600 transition-colors">
+                                                <Package size={18} /> My Orders
+                                            </Link>
+                                            <Link href="/wishlist" className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-600 transition-colors">
+                                                <Heart size={18} /> Wishlist
+                                            </Link>
+                                            <div className="h-px bg-gray-100 my-2"></div>
+                                            <button
+                                                onClick={() => {
+                                                    logout();
+                                                    setIsAccountOpen(false);
+                                                }}
+                                                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors text-left"
+                                            >
+                                                <LogOut size={18} /> Sign Out
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="h-8 w-px bg-gray-200 hidden md:block"></div>

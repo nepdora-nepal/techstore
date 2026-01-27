@@ -1,35 +1,27 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import { useTechStoreProduct } from '@/contexts/TechStoreProductContext';
+import React, { useState } from 'react';
+import { useProduct, useProducts } from '@/hooks/use-product';
 import { useTechStoreCart } from '@/contexts/TechStoreCartContext';
-import { Product } from '@/types/techstore';
+import { Product } from '@/types/product';
 import { Star, Truck, Shield, RefreshCw, Minus, Plus, ShoppingCart, Check } from 'lucide-react';
 import Link from 'next/link';
 import HorizontalProductList from '@/components/techstore/HorizontalProductList';
 
 interface ProductPageProps {
-    params: { id: string };
+    params: { slug: string };
 }
 
 const ProductDetailPage: React.FC<ProductPageProps> = ({ params }) => {
-    const { getProductById, products, loading } = useTechStoreProduct();
+    const { data: product, isLoading: productLoading } = useProduct(params.slug);
+    const { data: recData, isLoading: recLoading } = useProducts({ page_size: 8 });
     const { addToCart } = useTechStoreCart();
-    const [product, setProduct] = useState<Product | null>(null);
-    const [id, setId] = useState<number | null>(null);
+
     const [quantity, setQuantity] = useState(1);
     const [adding, setAdding] = useState(false);
 
-    useEffect(() => {
-        setId(parseInt(params.id));
-    }, [params.id]);
-
-    useEffect(() => {
-        if (id !== null) {
-            const result = getProductById(id);
-            if (result) setProduct(result);
-        }
-    }, [id, getProductById, products]);
+    const products = recData?.results || [];
+    const loading = productLoading || recLoading;
 
     if (loading) return (
         <div className="min-h-screen flex items-center justify-center text-brand-600">Loading Product...</div>
@@ -40,10 +32,21 @@ const ProductDetailPage: React.FC<ProductPageProps> = ({ params }) => {
     );
 
     const handleAddToCart = () => {
+        if (!product) return;
         setAdding(true);
+
+        // Re-pack for cart context which might expect legacy shape for now
+        const legacyProduct = {
+            ...product,
+            title: product.name,
+            image: product.thumbnail_image,
+            price: typeof product.price === 'string' ? parseFloat(product.price) : product.price,
+            rating: { rate: product.average_rating || 0, count: product.reviews_count || 0 }
+        } as any;
+
         setTimeout(() => {
             for (let i = 0; i < quantity; i++) {
-                addToCart(product);
+                addToCart(legacyProduct);
             }
             setAdding(false);
         }, 300);
@@ -57,9 +60,9 @@ const ProductDetailPage: React.FC<ProductPageProps> = ({ params }) => {
                 <nav className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-gray-400 mb-10">
                     <Link href="/" className="hover:text-brand-600 transition-colors">Home</Link>
                     <span>/</span>
-                    <Link href={`/category/${product.category}`} className="hover:text-brand-600 transition-colors">{product.category}</Link>
+                    <Link href={`/category/${product.category?.name}`} className="hover:text-brand-600 transition-colors">{product.category?.name || "Tech"}</Link>
                     <span>/</span>
-                    <span className="text-navy-950 truncate max-w-[200px]">{product.title}</span>
+                    <span className="text-navy-950 truncate max-w-[200px]">{product.name}</span>
                 </nav>
 
                 <div className="flex flex-col lg:flex-row gap-12 mb-20">
@@ -67,9 +70,9 @@ const ProductDetailPage: React.FC<ProductPageProps> = ({ params }) => {
                     <div className="lg:w-1/2">
                         <div className="bg-gray-50 rounded-[2.5rem] p-12 border border-gray-100 flex items-center justify-center">
                             <img
-                                src={product.image}
+                                src={product.thumbnail_image || '/images/placeholder.svg'}
                                 className="max-h-[500px] w-auto object-contain mix-blend-multiply drop-shadow-2xl"
-                                alt={product.title}
+                                alt={product.name}
                             />
                         </div>
                     </div>
@@ -81,14 +84,14 @@ const ProductDetailPage: React.FC<ProductPageProps> = ({ params }) => {
                                 <span className="px-3 py-1 bg-brand-50 text-brand-600 text-xs font-black uppercase tracking-wider rounded-lg border border-brand-100">Official TechStore</span>
                                 <div className="flex items-center gap-1 text-yellow-500">
                                     <Star size={16} className="fill-current" />
-                                    <span className="text-sm font-bold text-navy-950">{product.rating.rate}</span>
-                                    <span className="text-xs text-gray-400">({product.rating.count} reviews)</span>
+                                    <span className="text-sm font-bold text-navy-950">{product.average_rating || 0}</span>
+                                    <span className="text-xs text-gray-400">({product.reviews_count || 0} reviews)</span>
                                 </div>
                             </div>
-                            <h1 className="text-3xl md:text-5xl font-black text-navy-950 leading-tight mb-4">{product.title}</h1>
+                            <h1 className="text-3xl md:text-5xl font-black text-navy-950 leading-tight mb-4">{product.name}</h1>
                             <div className="flex items-baseline gap-4">
-                                <span className="text-4xl font-black text-brand-600">${product.price.toFixed(2)}</span>
-                                <span className="text-xl text-gray-300 line-through">$ {(product.price * 1.2).toFixed(2)}</span>
+                                <span className="text-4xl font-black text-brand-600">${parseFloat(product.price).toFixed(2)}</span>
+                                <span className="text-xl text-gray-300 line-through">$ {(parseFloat(product.price) * 1.2).toFixed(2)}</span>
                             </div>
                         </div>
 
