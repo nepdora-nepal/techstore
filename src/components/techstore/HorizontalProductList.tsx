@@ -11,7 +11,7 @@ interface HorizontalProductListProps {
     subtitle?: string;
 }
 
-const HorizontalProductList: React.FC<HorizontalProductListProps> = ({ title, products, subtitle }) => {
+const HorizontalProductList: React.FC<HorizontalProductListProps> = ({ title, products }) => {
     const scrollRef = React.useRef<HTMLDivElement>(null);
 
     const scroll = (direction: 'left' | 'right') => {
@@ -27,16 +27,9 @@ const HorizontalProductList: React.FC<HorizontalProductListProps> = ({ title, pr
             <div className="max-w-7xl mx-auto px-4 mb-12">
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                     <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 bg-brand-50 rounded-lg flex items-center justify-center text-brand-600">
-                                <Sparkles size={16} />
-                            </div>
-                            <span className="text-[10px] font-black text-brand-600 uppercase tracking-[0.2em]">{subtitle || "Premium Picks"}</span>
-                        </div>
-                        <h2 className="text-4xl md:text-5xl font-black text-navy-950 tracking-tight leading-tight">
-                            {title.split(' ').map((word, i) => (
-                                <span key={i} className={i % 2 === 1 ? 'text-brand-600' : ''}>{word} </span>
-                            ))}
+
+                        <h2 className="text-4xl md:text-5xl  text-navy-950 tracking-tight leading-tight">
+                            {title}
                         </h2>
                     </div>
                     <div className="flex gap-3">

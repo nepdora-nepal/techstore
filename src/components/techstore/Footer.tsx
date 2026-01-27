@@ -2,12 +2,38 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin, Loader2 } from 'lucide-react';
 import { useCategories } from '@/hooks/use-category';
-
+import { useCreateNewsletter } from '@/hooks/use-newsletter';
+import { toast } from 'sonner';
+import { useState } from 'react';
+import { ApiError } from '@/utils/api-error';
 const Footer: React.FC = () => {
     const { data: categoriesData } = useCategories();
     const categories = categoriesData?.results || [];
+
+    const [email, setEmail] = useState('');
+    const { mutate: subscribe, isPending } = useCreateNewsletter();
+
+    const handleSubscribe = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (!email) {
+            toast.error("Please enter your email");
+            return;
+        }
+
+        subscribe({ email }, {
+            onSuccess: () => {
+                toast.success("Successfully subscribed to our newsletter!");
+                setEmail('');
+            },
+            onError: (error: ApiError) => {
+                const message = error?.message || "Failed to subscribe. Please try again.";
+                toast.error(message);
+            }
+        });
+    };
 
     return (
         <footer className="bg-navy-950 text-white pt-20 pb-10 overflow-hidden relative">
@@ -20,16 +46,23 @@ const Footer: React.FC = () => {
                         <p className="opacity-80 font-medium">Get early priority access to exclusive drops and tech news.</p>
                     </div>
                     <div className="w-full lg:w-auto">
-                        <div className="flex gap-2 p-2 bg-white/10 rounded-2xl border border-white/20 backdrop-blur-md">
+                        <form onSubmit={handleSubscribe} className="flex gap-2 p-2 bg-white/10 rounded-2xl border border-white/20 backdrop-blur-md">
                             <input
                                 type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 placeholder="Enter your email address"
-                                className="bg-transparent border-none focus:outline-none px-4 flex-1 text-sm placeholder:text-white/50"
+                                className="bg-transparent border-none focus:outline-none px-4 flex-1 text-sm placeholder:text-white/50 text-white disabled:opacity-50"
+                                disabled={isPending}
                             />
-                            <button className="bg-white text-brand-600 px-6 py-3 rounded-xl font-bold text-sm hover:bg-navy-900 hover:text-white transition-all shadow-lg">
-                                Subscribe
+                            <button
+                                type="submit"
+                                disabled={isPending}
+                                className="bg-white text-brand-600 px-6 py-3 rounded-xl font-bold text-sm hover:bg-navy-900 hover:text-white transition-all shadow-lg disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center min-w-[100px]"
+                            >
+                                {isPending ? <Loader2 size={16} className="animate-spin" /> : "Subscribe"}
                             </button>
-                        </div>
+                        </form>
                     </div>
                 </div>
 

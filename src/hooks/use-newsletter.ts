@@ -1,6 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { newsletterApi } from "@/services/api/newsletter";
-import { CreateNewsletterRequest } from "@/types/newsletter";
+import {
+  CreateNewsletterRequest,
+  CreateNewsletterResponse,
+} from "@/types/newsletter";
+import { ApiError } from "@/utils/api-error";
 
 // Query Keys
 export const newsletterKeys = {
@@ -22,11 +26,14 @@ export const useNewsletters = (page = 1, pageSize = 10, search = "") => {
 export const useCreateNewsletter = () => {
   const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: (data: CreateNewsletterRequest) =>
-      newsletterApi.createNewsletter(data),
+  return useMutation<
+    CreateNewsletterResponse,
+    ApiError,
+    CreateNewsletterRequest
+  >({
+    mutationFn: (data) => newsletterApi.createNewsletter(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: newsletterKeys.lists() });
+      queryClient.invalidateQueries({ queryKey: ["newsletter", "list"] });
     },
   });
 };
