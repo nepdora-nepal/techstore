@@ -1,11 +1,12 @@
-import HomeContent from "@/components/home/HomeContent";
+import TechStoreHome from "@/components/techstore/TechStoreHome";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "SastoBazaar - Premium Shopping Experience",
-  description: "Discover a curated selection of premium lifestyle and luxury products at SastoBazaar.",
+  title: "TechStore | Premium Electronics Store",
 };
 
 export default function HomePage() {
-  return <HomeContent />;
+  return (
+    <TechStoreHome />
+  );
 }

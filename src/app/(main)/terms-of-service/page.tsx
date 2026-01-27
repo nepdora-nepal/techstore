@@ -1,57 +1,53 @@
-import type { Metadata } from 'next';
+"use client";
 
-export const metadata: Metadata = {
-    title: 'Terms of Service | SastoBazaar',
-    description: 'Terms of Service for SastoBazaar',
-};
+import React from 'react';
 
-export default function TermsOfServicePage() {
+const TermsPage: React.FC = () => {
     return (
-        <div className="container mx-auto px-4 py-12 max-w-4xl">
-            <h1 className="text-4xl font-bold mb-8">Terms of Service</h1>
+        <div className="bg-white min-h-screen py-16">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h1 className="text-4xl font-bold text-navy-900 mb-8">Terms of Service</h1>
+                <p className="text-gray-500 mb-12">Last Updated: March 15, 2024</p>
 
-            <div className="prose prose-gray dark:prose-invert max-w-none space-y-8">
-                <section>
-                    <h2 className="text-2xl font-semibold mb-4">1. Acceptance of Terms</h2>
-                    <p className="text-muted-foreground leading-relaxed">
-                        By accessing or using our website, you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site.
-                    </p>
-                </section>
+                <div className="prose prose-slate max-w-none">
+                    <section className="mb-8">
+                        <h2 className="text-2xl font-bold text-navy-900 mb-4">1. Acceptance of Terms</h2>
+                        <p className="text-gray-600 leading-relaxed mb-4">
+                            By accessing and using this website, you accept and agree to be bound by the terms and provision of this agreement. In addition, when using these particular services, you shall be subject to any posted guidelines or rules applicable to such services.
+                        </p>
+                    </section>
 
-                <section>
-                    <h2 className="text-2xl font-semibold mb-4">2. Use License</h2>
-                    <p className="text-muted-foreground leading-relaxed">
-                        Permission is granted to temporarily download one copy of the materials (information or software) on SastoBazaar&apos;s website for personal, non-commercial transitory viewing only.
-                    </p>
-                </section>
+                    <section className="mb-8">
+                        <h2 className="text-2xl font-bold text-navy-900 mb-4">2. Use of Service</h2>
+                        <p className="text-gray-600 leading-relaxed mb-4">
+                            You agree to use this site only for lawful purposes. You are prohibited from posting on or transmitting through this site any unlawful, harmful, threatening, abusive, harassing, defamatory, vulgar, obscene, sexually explicit, profane, hateful, racially, ethnically, or otherwise objectionable material of any kind.
+                        </p>
+                    </section>
 
-                <section>
-                    <h2 className="text-2xl font-semibold mb-4">3. Disclaimer</h2>
-                    <p className="text-muted-foreground leading-relaxed">
-                        The materials on SastoBazaar&apos;s website are provided on an as is basis. SastoBazaar makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
-                    </p>
-                </section>
+                    <section className="mb-8">
+                        <h2 className="text-2xl font-bold text-navy-900 mb-4">3. Intellectual Property</h2>
+                        <p className="text-gray-600 leading-relaxed mb-4">
+                            The content, organization, graphics, design, compilation, magnetic translation, digital conversion and other matters related to the Site are protected under applicable copyrights, trademarks and other proprietary (including but not limited to intellectual property) rights.
+                        </p>
+                    </section>
 
-                <section>
-                    <h2 className="text-2xl font-semibold mb-4">4. Limitations</h2>
-                    <p className="text-muted-foreground leading-relaxed">
-                        In no event shall SastoBazaar or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on SastoBazaar&apos;s website.
-                    </p>
-                </section>
+                    <section className="mb-8">
+                        <h2 className="text-2xl font-bold text-navy-900 mb-4">4. Pricing and Products</h2>
+                        <p className="text-gray-600 leading-relaxed mb-4">
+                            We reserve the right to change pricing at any time without notice. We reserve the right to limit the quantity of items purchased per person, per household or per order. We attempt to be as accurate as possible; however, we do not warrant that product descriptions or other content of this site is accurate, complete, reliable, current, or error-free.
+                        </p>
+                    </section>
 
-                <section>
-                    <h2 className="text-2xl font-semibold mb-4">5. Governing Law</h2>
-                    <p className="text-muted-foreground leading-relaxed">
-                        These terms and conditions are governed by and construed in accordance with the laws of Nepal and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location.
-                    </p>
-                </section>
-
-                <div className="pt-8 border-t">
-                    <p className="text-sm text-muted-foreground">
-                        Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-                    </p>
+                    <section className="mb-8">
+                        <h2 className="text-2xl font-bold text-navy-900 mb-4">5. Limitation of Liability</h2>
+                        <p className="text-gray-600 leading-relaxed mb-4">
+                            In no event will we be liable for any damages including, without limitation, indirect or consequential damages, or any damages whatsoever arising from use or loss of use, data, or profits, whether in action of contract, negligence or other tortious action, arising out of or in connection with the use of the site.
+                        </p>
+                    </section>
                 </div>
             </div>
         </div>
     );
-}
+};
+
+export default TermsPage;

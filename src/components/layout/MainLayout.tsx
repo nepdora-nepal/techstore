@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Header } from './Header';
-import { Footer } from './Footer';
+import Header from '../techstore/Header';
+import Footer from '../techstore/Footer';
 import { CartDrawer } from './CartDrawer';
 import { AuthProvider } from '@/contexts/AuthContext';
 export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -11,7 +11,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
     return (
         <AuthProvider>
             <div className="flex flex-col min-h-screen">
-                <Header onCartOpen={() => setIsCartOpen(true)} />
+                <Header />
                 <main className="flex-grow">
                     {children}
                 </main>

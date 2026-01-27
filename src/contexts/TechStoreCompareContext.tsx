@@ -1,0 +1,64 @@
+"use client";
+
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { Product } from '@/types/techstore';
+
+interface TechStoreCompareContextType {
+    compareItems: Product[];
+    addToCompare: (product: Product) => void;
+    removeFromCompare: (productId: number) => void;
+    clearCompare: () => void;
+    isInCompare: (productId: number) => boolean;
+}
+
+const TechStoreCompareContext = createContext<TechStoreCompareContextType | undefined>(undefined);
+
+export const TechStoreCompareProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const [compareItems, setCompareItems] = useState<Product[]>([]);
+
+    useEffect(() => {
+        const saved = localStorage.getItem('techstore-compare');
+        if (saved) {
+            try {
+                setCompareItems(JSON.parse(saved));
+            } catch (e) {
+                console.error("Failed to parse compare list", e);
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem('techstore-compare', JSON.stringify(compareItems));
+    }, [compareItems]);
+
+    const addToCompare = (product: Product) => {
+        if (compareItems.length >= 4) {
+            alert("You can only compare up to 4 products at a time.");
+            return;
+        }
+        if (compareItems.find(item => item.id === product.id)) return;
+        setCompareItems(prev => [...prev, product]);
+    };
+
+    const removeFromCompare = (productId: number) => {
+        setCompareItems(prev => prev.filter(item => item.id !== productId));
+    };
+
+    const clearCompare = () => setCompareItems([]);
+
+    const isInCompare = (productId: number) => compareItems.some(item => item.id === productId);
+
+    return (
+        <TechStoreCompareContext.Provider value={{
+            compareItems, addToCompare, removeFromCompare, clearCompare, isInCompare
+        }}>
+            {children}
+        </TechStoreCompareContext.Provider>
+    );
+};
+
+export const useTechStoreCompare = () => {
+    const context = useContext(TechStoreCompareContext);
+    if (!context) throw new Error('useTechStoreCompare must be used within a TechStoreCompareProvider');
+    return context;
+};

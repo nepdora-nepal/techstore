@@ -1,57 +1,55 @@
-import type { Metadata } from 'next';
+"use client";
 
-export const metadata: Metadata = {
-    title: 'Privacy Policy | SastoBazaar',
-    description: 'Privacy Policy for SastoBazaar',
-};
+import React from 'react';
 
-export default function PrivacyPolicyPage() {
+const PrivacyPage: React.FC = () => {
     return (
-        <div className="container mx-auto px-4 py-12 max-w-4xl">
-            <h1 className="text-4xl font-bold mb-8">Privacy Policy</h1>
+        <div className="bg-white min-h-screen py-16">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h1 className="text-4xl font-bold text-navy-900 mb-8">Privacy Policy</h1>
+                <p className="text-gray-500 mb-12">Last Updated: March 15, 2024</p>
 
-            <div className="prose prose-gray dark:prose-invert max-w-none space-y-8">
-                <section>
-                    <h2 className="text-2xl font-semibold mb-4">1. Information We Collect</h2>
-                    <p className="text-muted-foreground leading-relaxed">
-                        We collect information you provide directly to us, such as when you create an account, make a purchase, attempt to contact us, or otherwise communicate with us. This information may include your name, email address, phone number, shipping address, and payment information.
-                    </p>
-                </section>
+                <div className="prose prose-slate max-w-none">
+                    <section className="mb-8">
+                        <h2 className="text-2xl font-bold text-navy-900 mb-4">1. Information We Collect</h2>
+                        <p className="text-gray-600 leading-relaxed mb-4">
+                            We collect information that you provide directly to us. For example, we collect information when you create an account, subscribe to our newsletter, participate in any interactive features of our services, fill out a form, request customer support or otherwise communicate with us. The types of information we may collect include your name, email address, postal address, credit card information and other contact or identifying information you choose to provide.
+                        </p>
+                    </section>
 
-                <section>
-                    <h2 className="text-2xl font-semibold mb-4">2. How We Use Your Information</h2>
-                    <p className="text-muted-foreground leading-relaxed">
-                        We use the information we collect to provide, maintain, and improve our services, such as to process transactions, send you related information, including confirmations and invoices, and provide customer support.
-                    </p>
-                </section>
+                    <section className="mb-8">
+                        <h2 className="text-2xl font-bold text-navy-900 mb-4">2. How We Use Your Information</h2>
+                        <p className="text-gray-600 leading-relaxed mb-4">
+                            We use the information we collect to provide, maintain, and improve our services, such as to administer your account, process your orders, and provide you with customer service. We may also use the information we collect to:
+                        </p>
+                        <ul className="list-disc pl-6 text-gray-600 space-y-2">
+                            <li>Send you technical notices, updates, security alerts and support and administrative messages.</li>
+                            <li>Respond to your comments, questions and requests.</li>
+                            <li>Communicate with you about products, services, offers, promotions, and events.</li>
+                        </ul>
+                    </section>
 
-                <section>
-                    <h2 className="text-2xl font-semibold mb-4">3. Sharing of Information</h2>
-                    <p className="text-muted-foreground leading-relaxed">
-                        We do not share your personal information with third parties except as described in this policy. We may share your information with third-party service providers who need access to such information to perform work on our behalf.
-                    </p>
-                </section>
+                    <section className="mb-8">
+                        <h2 className="text-2xl font-bold text-navy-900 mb-4">3. Sharing of Information</h2>
+                        <p className="text-gray-600 leading-relaxed mb-4">
+                            We do not share your personal information with third parties without your consent, except in the following circumstances:
+                        </p>
+                        <ul className="list-disc pl-6 text-gray-600 space-y-2">
+                            <li>With vendors, consultants and other service providers who need access to such information to carry out work on our behalf.</li>
+                            <li>In response to a request for information if we believe disclosure is in accordance with any applicable law, regulation or legal process.</li>
+                        </ul>
+                    </section>
 
-                <section>
-                    <h2 className="text-2xl font-semibold mb-4">4. Security</h2>
-                    <p className="text-muted-foreground leading-relaxed">
-                        We take reasonable measures to help protect information about you from loss, theft, misuse and unauthorized access, disclosure, alteration and destruction.
-                    </p>
-                </section>
-
-                <section>
-                    <h2 className="text-2xl font-semibold mb-4">5. Changes to this Policy</h2>
-                    <p className="text-muted-foreground leading-relaxed">
-                        We may change this Privacy Policy from time to time. If we make changes, we will notify you by revising the date at the top of the policy and, in some cases, we may provide you with additional notice.
-                    </p>
-                </section>
-
-                <div className="pt-8 border-t">
-                    <p className="text-sm text-muted-foreground">
-                        Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-                    </p>
+                    <section className="mb-8">
+                        <h2 className="text-2xl font-bold text-navy-900 mb-4">4. Security</h2>
+                        <p className="text-gray-600 leading-relaxed mb-4">
+                            We take reasonable measures to help protect information about you from loss, theft, misuse and unauthorized access, disclosure, alteration and destruction.
+                        </p>
+                    </section>
                 </div>
             </div>
         </div>
     );
-}
+};
+
+export default PrivacyPage;
