@@ -20,7 +20,7 @@ const ComparePage: React.FC = () => {
                 <p className="text-gray-500 mb-8 max-w-md text-center">
                     Browse products and click the compare icon <ArrowRightLeft className="inline w-3 h-3" /> to add them to this list. You can compare up to 4 items.
                 </p>
-                <Link href="/" className="px-8 py-3 bg-brand-600 text-white rounded-full font-semibold hover:bg-brand-700 transition-colors">
+                <Link href="/collections" className="px-8 py-3 bg-brand-600 text-white rounded-full font-semibold hover:bg-brand-700 transition-colors">
                     Browse Products
                 </Link>
             </div>
