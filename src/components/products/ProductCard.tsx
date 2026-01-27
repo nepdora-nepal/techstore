@@ -150,9 +150,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
                 <div className="mt-auto flex items-center justify-between gap-2">
                     <div>
-                        <div className="text-lg font-bold text-gray-900">${price.toFixed(2)}</div>
+                        <div className="text-lg font-bold text-gray-900">Rs.{price.toFixed(2)}</div>
                         {originalPrice && originalPrice > price && (
-                            <div className="text-xs text-gray-400 line-through decoration-gray-300">${originalPrice.toFixed(2)}</div>
+                            <div className="text-xs text-gray-400 line-through decoration-gray-300">Rs.{originalPrice.toFixed(2)}</div>
                         )}
                     </div>
 
