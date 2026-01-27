@@ -89,10 +89,7 @@ export default function ProductListingContent() {
                             </Button>
                         </div>
 
-                        <div className="hidden lg:block mb-12">
 
-                            <h1 className="text-5xl font-black text-foreground tracking-tighter uppercase">The Collections</h1>
-                        </div>
 
                         <ProductsList
                             products={products}
@@ -134,10 +131,7 @@ export default function ProductListingContent() {
                 isFiltering={isFiltering}
             />
 
-            <CategoryDescription
-                selectedCategory={selectedCategory}
-                categories={categories}
-            />
+
         </div>
     );
 }

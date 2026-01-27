@@ -10,14 +10,14 @@ import { useAuth } from '@/hooks/use-auth';
 import { useProfile } from '@/hooks/use-profile';
 import { useCategories } from '@/hooks/use-category';
 import { SearchBar } from '@/components/layout/SearchBar';
-
+import {Category} from '@/types/product';
 const Header: React.FC = () => {
     const { itemCount, setIsCartOpen, totalPrice } = useCart();
     const { compareItems } = useTechStoreCompare();
     const { user, logout, isAuthenticated } = useAuth();
     const { data: profile } = useProfile();
     const { data: categoriesData } = useCategories();
-    const categories = categoriesData?.results.map(c => c.name) || [];
+    const categories: Category[] = categoriesData?.results || [];
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isAccountOpen, setIsAccountOpen] = useState(false);
@@ -178,14 +178,14 @@ const Header: React.FC = () => {
                                 {/* Dropdown Menu */}
                                 <div className="absolute top-full left-0 w-64 bg-white border border-gray-100 shadow-xl rounded-b-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-40 transform translate-y-2 group-hover:translate-y-0">
                                     <div className="py-2 px-5">
-                                        {categories.map(cat => (
+                                        {categories.map(category => (
                                             <Link
-                                                key={cat}
-                                                href={`collections?category=${cat}`}
+                                                key={category.id}
+                                                href={`collections?category=${category.slug}`}
                                                 className="block py-2 text-sm font-medium text-gray-900 border-b border-gray-50 "
                                                 onClick={() => setIsMenuOpen(false)}
                                             >
-                                                {cat}
+                                                {category.name}
                                             </Link>
                                         ))}
                                     </div>
@@ -194,20 +194,20 @@ const Header: React.FC = () => {
 
                             {/* Horizontal Categories */}
                             <nav className="flex items-center gap-6 overflow-x-auto no-scrollbar">
-                                {categories.slice(0, 6).map(cat => {
-                                    const categoryUrl = formatCategoryUrl(cat);
+                                {categories.slice(0, 6).map(category => {
+                                    const categoryUrl = formatCategoryUrl(category.slug);
                                     const isActive = pathname.includes(categoryUrl);
 
                                     return (
                                         <Link
-                                            key={cat}
-                                            href={`collections?category=${cat}`}
+                                            key={category.id}
+                                            href={`collections?category=${category.slug}`}
                                             className={`text-sm font-medium whitespace-nowrap transition-colors ${isActive
                                                 ? 'text-brand-600 font-semibold'
                                                 : 'text-gray-600 hover:text-brand-600'
                                                 }`}
                                         >
-                                            {cat}
+                                            {category.name}
                                         </Link>
                                     );
                                 })}
@@ -232,14 +232,14 @@ const Header: React.FC = () => {
                         </div>
                         <div className="p-4 space-y-4">
                             <div className="font-bold text-gray-400 text-xs uppercase tracking-wider mb-2">Categories</div>
-                            {categories.map(cat => (
+                            {categories.map(category => (
                                 <Link
-                                    key={cat}
-                                    href={`/category/${formatCategoryUrl(cat)}`}
+                                    key={category.id}
+                                    href={`/category/${formatCategoryUrl(category.slug)}`}
                                     className="block py-2 text-sm font-medium text-gray-900 border-b border-gray-50"
                                     onClick={() => setIsMenuOpen(false)}
                                 >
-                                    {cat}
+                                    {category.name}
                                 </Link>
                             ))}
                             <div className="pt-4 space-y-3">

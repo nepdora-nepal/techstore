@@ -9,7 +9,7 @@ import CategoryGrid from './CategoryGrid';
 import CategoryBanner from './CategoryBanner';
 import HorizontalProductList from './HorizontalProductList';
 import Brands from './Brands';
-import Newsletter from './Newsletter';
+import Newsletter from '../newsletter/Newsletter';
 import MultiCategoryTabs from './MultiCategoryTabs';
 import BlogListingContent from '../blogs/BlogListingContent';
 

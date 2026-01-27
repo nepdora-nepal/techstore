@@ -360,18 +360,11 @@ const CheckoutContent = () => {
     }
 
     return (
-        <div className="mx-auto max-w-7xl px-4 py-12 md:py-20">
-            <Button
-                variant="ghost"
-                onClick={() => router.back()}
-                className="mb-8 flex items-center gap-2 text-muted-foreground hover:text-foreground font-medium transition-colors p-0 h-auto hover:bg-transparent"
-            >
-                <ChevronLeft size={18} /> Back
-            </Button>
+        <div className="mx-auto max-w-7xl px-4 py-12 md:py-16">
+
 
             <div className="mb-12">
                 <h1 className="text-4xl font-black text-foreground">Checkout</h1>
-                <p className="text-muted-foreground font-medium">Complete your premium order</p>
             </div>
 
             <div className="flex flex-col gap-12 lg:grid lg:grid-cols-3">
@@ -380,9 +373,6 @@ const CheckoutContent = () => {
                     <Card className="border-none shadow-none bg-transparent">
                         <CardHeader className="px-0 pt-0">
                             <CardTitle className="text-2xl font-bold">Shipping Information</CardTitle>
-                            <CardDescription className="text-base font-medium">
-                                Please fill in your details to complete your order
-                            </CardDescription>
                         </CardHeader>
                         <CardContent className="px-0">
                             <form id="checkout-form" onSubmit={handleSubmit(onSubmit)} className="space-y-8">

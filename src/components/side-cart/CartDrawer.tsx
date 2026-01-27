@@ -81,6 +81,7 @@ const CartDrawer: React.FC = () => {
                                                 <X size={14} />
                                             </button>
                                         </div>
+                                        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                                         <p className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-3">{(item.product.category as any)?.name || item.product.category || 'Electronics'}</p>
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center bg-gray-50 rounded-lg p-1 border border-gray-100">

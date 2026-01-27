@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCategories } from '@/hooks/use-category';
+
 const Hero: React.FC = () => {
     const [heroIndex, setHeroIndex] = useState(0);
     const { data: categoriesData } = useCategories();

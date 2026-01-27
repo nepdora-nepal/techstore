@@ -1,8 +1,8 @@
 "use client";
 import React from 'react';
-import Header from '../home/Header';
-import Footer from '../home/Footer';
-import CartDrawer from '../home/CartDrawer';
+import Header from './Header';
+import Footer from './Footer';
+import CartDrawer from '../side-cart/CartDrawer';
 import CompareFloatingBar from '../home/CompareFloatingBar';
 import { AuthProvider } from '@/contexts/AuthContext';
 
