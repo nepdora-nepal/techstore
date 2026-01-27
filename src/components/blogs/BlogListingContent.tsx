@@ -32,7 +32,7 @@ const BlogListingContent = () => {
     const totalPages = Math.ceil(totalBlogs / 12);
 
     return (
-        <div className="bg-white min-h-screen">
+        <div className="bg-white ">
             <section className="py-20">
                 <div className="max-w-7xl mx-auto px-4">
                     <div className="mb-10 flex flex-col gap-1">

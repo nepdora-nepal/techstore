@@ -5,7 +5,7 @@ import { useProduct, useProducts } from '@/hooks/use-product';
 import { useCart } from '@/hooks/use-cart';
 import { Star, Truck, Shield, RefreshCw, Minus, Plus, ShoppingCart, Check } from 'lucide-react';
 import Link from 'next/link';
-import HorizontalProductList from '@/components/techstore/HorizontalProductList';
+import HorizontalProductList from '@/components/home/HorizontalProductList';
 
 interface ProductPageProps {
     params: { slug: string };

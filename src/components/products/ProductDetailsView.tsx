@@ -7,7 +7,7 @@ import { useProduct, useProducts } from '@/hooks/use-product';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import ProductDetails from '@/components/products/ProductDetails';
-import HorizontalProductList from '@/components/techstore/HorizontalProductList';
+import HorizontalProductList from '@/components/home/HorizontalProductList';
 
 const ProductDetailsView = () => {
     const { slug } = useParams();

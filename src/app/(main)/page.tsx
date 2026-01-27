@@ -1,4 +1,4 @@
-import TechStoreHome from "@/components/techstore/TechStoreHome";
+import TechStoreHome from "@/components/home/TechStoreHome";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

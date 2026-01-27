@@ -109,10 +109,10 @@ const Footer: React.FC = () => {
                     <div>
                         <h4 className="font-bold text-lg mb-6 flex items-center gap-2">Support <div className="w-1.5 h-1.5 bg-brand-500 rounded-full" /></h4>
                         <ul className="space-y-4 text-slate-400 text-sm font-medium">
-                            <li><Link href="/faq" className="hover:text-brand-400 transition-colors">Help Center</Link></li>
+                            <li><Link href="/faq" className="hover:text-brand-400 transition-colors">FAQs</Link></li>
                             <li><Link href="/warranty" className="hover:text-brand-400 transition-colors">Warranty & Tech Support</Link></li>
                             <li><Link href="/shipping" className="hover:text-brand-400 transition-colors">Global Delivery</Link></li>
-                            <li><Link href="/contact" className="hover:text-brand-400 transition-colors">Contact Expert</Link></li>
+                            <li><Link href="/contact" className="hover:text-brand-400 transition-colors">Contact Us</Link></li>
                         </ul>
                     </div>
 

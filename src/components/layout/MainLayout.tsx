@@ -1,9 +1,9 @@
 "use client";
 import React from 'react';
-import Header from '../techstore/Header';
-import Footer from '../techstore/Footer';
-import CartDrawer from '../techstore/CartDrawer';
-import CompareFloatingBar from '../techstore/CompareFloatingBar';
+import Header from '../home/Header';
+import Footer from '../home/Footer';
+import CartDrawer from '../home/CartDrawer';
+import CompareFloatingBar from '../home/CompareFloatingBar';
 import { AuthProvider } from '@/contexts/AuthContext';
 
 export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
