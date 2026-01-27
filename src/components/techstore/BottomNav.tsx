@@ -4,16 +4,16 @@ import React from 'react';
 import { Home, Search, ShoppingBag, Heart, User } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useTechStoreCart } from '@/contexts/TechStoreCartContext';
+import { useCart } from '@/hooks/use-cart';
 
 const BottomNav: React.FC = () => {
     const pathname = usePathname();
-    const { totalItems } = useTechStoreCart();
+    const { itemCount } = useCart();
 
     const tabs = [
         { name: 'Home', icon: Home, href: '/' },
         { name: 'Shop', icon: Search, href: '/category/electronics' },
-        { name: 'Cart', icon: ShoppingBag, href: '/cart', count: totalItems },
+        { name: 'Cart', icon: ShoppingBag, href: '/cart', count: itemCount },
         { name: 'Wishlist', icon: Heart, href: '/wishlist' },
         { name: 'Profile', icon: User, href: '/profile' },
     ];

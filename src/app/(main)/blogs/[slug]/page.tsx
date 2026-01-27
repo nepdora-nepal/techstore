@@ -1,9 +1,9 @@
-import BlogDetailsContent from "@/components/news/BlogDetailsContent";
+import BlogDetailsContent from "@/components/blogs/BlogDetailsContent";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "News Details - SastoBazaar",
-    description: "Read the full story at SastoBazaar.",
+    title: "News Details - TechStore",
+    description: "Read the full story at TechStore.",
 };
 
 export default function BlogDetailPage() {

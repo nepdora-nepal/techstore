@@ -75,7 +75,7 @@ const ContactContent = () => {
                             {[
                                 {
                                     title: "Emails Us",
-                                    value: siteConfig?.email || "concierge@SastoBazaar.com",
+                                    value: siteConfig?.email || "concierge@TechStore.com",
                                     sub: "Response within 24 hours"
                                 },
                                 {

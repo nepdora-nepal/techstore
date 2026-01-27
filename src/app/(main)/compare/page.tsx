@@ -2,13 +2,13 @@
 
 import React from 'react';
 import { useTechStoreCompare } from '@/contexts/TechStoreCompareContext';
-import { useTechStoreCart } from '@/contexts/TechStoreCartContext';
+import { useCart } from '@/hooks/use-cart';
 import Link from 'next/link';
 import { Star, X, ShoppingCart, Check, ArrowRightLeft } from 'lucide-react';
 
 const ComparePage: React.FC = () => {
     const { compareItems, removeFromCompare, clearCompare } = useTechStoreCompare();
-    const { addToCart } = useTechStoreCart();
+    const { addToCart } = useCart();
 
     if (compareItems.length === 0) {
         return (
@@ -57,12 +57,12 @@ const ComparePage: React.FC = () => {
                                             <X size={14} />
                                         </button>
                                         <div className="h-40 flex items-center justify-center p-4 mb-4 bg-gray-50 rounded-xl">
-                                            <img src={product.image} alt={product.title} className="max-w-full max-h-full object-contain mix-blend-multiply" />
+                                            <img src={product.thumbnail_image || '/images/placeholder.svg'} alt={product.name} className="max-w-full max-h-full object-contain mix-blend-multiply" />
                                         </div>
-                                        <Link href={`/product/${product.id}`} className="font-bold text-gray-900 hover:text-brand-600 line-clamp-2 mb-2">
-                                            {product.title}
+                                        <Link href={`/product/${product.slug}`} className="font-bold text-gray-900 hover:text-brand-600 line-clamp-2 mb-2">
+                                            {product.name}
                                         </Link>
-                                        <div className="text-lg font-bold text-brand-600">${product.price.toFixed(2)}</div>
+                                        <div className="text-lg font-bold text-brand-600">${parseFloat(product.price).toFixed(2)}</div>
                                     </th>
                                 ))}
                                 {/* Fill empty columns if less than 4 */}
@@ -83,13 +83,13 @@ const ComparePage: React.FC = () => {
                                 {compareItems.map(product => (
                                     <td key={product.id} className="p-4">
                                         <div className="flex items-center gap-1">
-                                            <span className="font-bold text-gray-900">{product.rating.rate}</span>
+                                            <span className="font-bold text-gray-900">{product.average_rating || 0}</span>
                                             <div className="flex text-yellow-400">
                                                 {[...Array(5)].map((_, i) => (
-                                                    <Star key={i} size={14} className={i < Math.round(product.rating.rate) ? "fill-current" : "text-gray-200"} />
+                                                    <Star key={i} size={14} className={i < Math.round(product.average_rating || 0) ? "fill-current" : "text-gray-200"} />
                                                 ))}
                                             </div>
-                                            <span className="text-xs text-gray-400">({product.rating.count})</span>
+                                            <span className="text-xs text-gray-400">({product.reviews_count || 0})</span>
                                         </div>
                                     </td>
                                 ))}
@@ -102,7 +102,7 @@ const ComparePage: React.FC = () => {
                                 {compareItems.map(product => (
                                     <td key={product.id} className="p-4">
                                         <span className="px-2 py-1 bg-gray-100 rounded text-xs font-medium text-gray-600 capitalize">
-                                            {product.category}
+                                            {(product.category as any)?.name || product.category || 'Tech'}
                                         </span>
                                     </td>
                                 ))}
@@ -141,7 +141,7 @@ const ComparePage: React.FC = () => {
                                 {compareItems.map(product => (
                                     <td key={product.id} className="p-4 border-t border-gray-100">
                                         <button
-                                            onClick={() => addToCart(product)}
+                                            onClick={() => addToCart(product, 1)}
                                             className="w-full py-2.5 bg-brand-600 text-white rounded-lg font-bold hover:bg-brand-700 transition-colors shadow-sm flex items-center justify-center gap-2 text-sm"
                                         >
                                             <ShoppingCart size={16} /> Add to Cart

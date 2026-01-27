@@ -2,8 +2,8 @@ import { ProfileForm } from "@/components/profile/ProfileForm";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "My Profile - SastoBazaar",
-    description: "Manage your SastoBazaar profile and preferences.",
+    title: "My Profile - TechStore",
+    description: "Manage your TechStore profile and preferences.",
 };
 
 export default function ProfilePage() {

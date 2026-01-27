@@ -6,7 +6,6 @@ import { CartProvider } from "@/contexts/CartContext";
 
 import { Toaster } from "sonner";
 import NextTopLoader from 'nextjs-toploader';
-import { TechStoreCartProvider } from "@/contexts/TechStoreCartContext";
 import { TechStoreCompareProvider } from "@/contexts/TechStoreCompareContext";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -17,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const config = await siteConfigAPI.getSiteConfig();
 
   return {
-    title: config?.business_name || "SastoBazaar - Premium Shopping Experience",
+    title: config?.business_name || "TechStore - Premium Shopping Experience",
     description: config?.business_description || "Your ultimate solution for managing sales and customer relationships with cutting-edge technology.",
     icons: {
       icon: config?.favicon || "",
@@ -36,18 +35,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <TechStoreCartProvider>
-          <TechStoreCompareProvider>
-            <QueryProvider>
-              <CartProvider>
-                <NextTopLoader color="#6f57cf" />
-                {children}
-              </CartProvider>
-              <WhatsApp />
-              <Popup />
-            </QueryProvider>
-          </TechStoreCompareProvider>
-        </TechStoreCartProvider>
+        <TechStoreCompareProvider>
+          <QueryProvider>
+            <CartProvider>
+              <NextTopLoader color="#6f57cf" />
+              {children}
+            </CartProvider>
+            <WhatsApp />
+            <Popup />
+          </QueryProvider>
+        </TechStoreCompareProvider>
         <Toaster position="bottom-right" richColors />
       </body>
     </html>

@@ -1,12 +1,13 @@
 "use client";
 
 import React from 'react';
-import { useTechStoreCart } from '@/contexts/TechStoreCartContext';
+import { useCart } from '@/hooks/use-cart';
 import { X, Plus, Minus, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const CartDrawer: React.FC = () => {
-    const { items, updateQuantity, removeFromCart, cartTotal, isCartOpen, setIsCartOpen } = useTechStoreCart();
+    const { cartItems, updateQuantity, removeFromCart, totalPrice, isCartOpen, setIsCartOpen } = useCart();
 
     if (!isCartOpen) return null;
 
@@ -29,7 +30,7 @@ const CartDrawer: React.FC = () => {
                             </div>
                             <div>
                                 <h2 className="text-xl font-black text-navy-950">Shopping Bag</h2>
-                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">{items.length} premium items</p>
+                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">{cartItems.length} premium items</p>
                             </div>
                         </div>
                         <button onClick={() => setIsCartOpen(false)} className="p-2 hover:bg-gray-100 rounded-xl transition-colors">
@@ -39,7 +40,7 @@ const CartDrawer: React.FC = () => {
 
                     {/* Items List */}
                     <div className="flex-grow overflow-y-auto p-6 space-y-6 scrollbar-thin">
-                        {items.length === 0 ? (
+                        {cartItems.length === 0 ? (
                             <div className="h-full flex flex-col items-center justify-center text-center py-20 grayscale opacity-60">
                                 <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
                                     <ShoppingBag size={40} className="text-gray-400" />
@@ -56,28 +57,40 @@ const CartDrawer: React.FC = () => {
                                 </button>
                             </div>
                         ) : (
-                            items.map(item => (
-                                <div key={item.id} className="flex gap-4 group">
+                            cartItems.map(item => (
+                                <div key={item.selectedVariant?.id || item.product.id} className="flex gap-4 group">
                                     <div className="w-24 h-24 bg-gray-50 rounded-2xl flex-shrink-0 p-2 border border-gray-100 group-hover:border-brand-200 transition-colors">
-                                        <img src={item.image || '/images/placeholder.svg'} alt={item.title || item.name} className="w-full h-full object-contain mix-blend-multiply" />
+                                        <Image src={item.product.thumbnail_image || '/images/placeholder.svg'}
+                                            alt={item.product.name}
+                                            className="w-full h-full object-contain mix-blend-multiply"
+                                            width={100}
+                                            height={100}
+                                        />
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <div className="flex justify-between items-start mb-1">
-                                            <Link href={`/product/${item.slug}`} className="text-sm font-bold text-navy-900 line-clamp-1 hover:text-brand-600 transition-colors">
-                                                {item.title || item.name}
+                                            <Link href={`/product/${item.product.slug}`} className="text-sm font-bold text-navy-900 line-clamp-1 hover:text-brand-600 transition-colors">
+                                                {item.product.name}
+                                                {item.selectedVariant && (
+                                                    <span className="text-xs text-gray-500 block">
+                                                        ({Object.values(item.selectedVariant.option_values).join(', ')})
+                                                    </span>
+                                                )}
                                             </Link>
-                                            <button onClick={() => removeFromCart(item.id)} className="text-gray-400 hover:text-red-500 p-1">
+                                            <button onClick={() => removeFromCart(item.product.id, item.selectedVariant?.id)} className="text-gray-400 hover:text-red-500 p-1">
                                                 <X size={14} />
                                             </button>
                                         </div>
-                                        <p className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-3">{(item.category as any)?.name || item.category}</p>
+                                        <p className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-3">{(item.product.category as any)?.name || item.product.category || 'Electronics'}</p>
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center bg-gray-50 rounded-lg p-1 border border-gray-100">
-                                                <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="p-1 hover:bg-white hover:shadow-sm rounded transition-all text-gray-600"><Minus size={12} /></button>
+                                                <button onClick={() => updateQuantity(item.product.id, item.quantity - 1, item.selectedVariant?.id)} className="p-1 hover:bg-white hover:shadow-sm rounded transition-all text-gray-600"><Minus size={12} /></button>
                                                 <span className="w-8 text-center text-xs font-bold">{item.quantity}</span>
-                                                <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="p-1 hover:bg-white hover:shadow-sm rounded transition-all text-gray-600"><Plus size={12} /></button>
+                                                <button onClick={() => updateQuantity(item.product.id, item.quantity + 1, item.selectedVariant?.id)} className="p-1 hover:bg-white hover:shadow-sm rounded transition-all text-gray-600"><Plus size={12} /></button>
                                             </div>
-                                            <span className="font-black text-brand-600">${(item.price * item.quantity).toFixed(2)}</span>
+                                            <span className="font-black text-brand-600">
+                                                ${((item.selectedVariant ? parseFloat(item.selectedVariant.price) : parseFloat(item.product.price)) * item.quantity).toFixed(2)}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -86,12 +99,12 @@ const CartDrawer: React.FC = () => {
                     </div>
 
                     {/* Footer */}
-                    {items.length > 0 && (
+                    {cartItems.length > 0 && (
                         <div className="p-6 bg-gray-50 border-t border-gray-200 space-y-4">
                             <div className="space-y-2">
                                 <div className="flex justify-between text-sm text-gray-500">
                                     <span className="font-medium">Subtotal</span>
-                                    <span className="font-bold text-navy-950">${cartTotal.toFixed(2)}</span>
+                                    <span className="font-bold text-navy-950">${totalPrice.toFixed(2)}</span>
                                 </div>
                                 <div className="flex justify-between text-sm text-gray-500">
                                     <span className="font-medium">Shipping</span>
@@ -100,7 +113,7 @@ const CartDrawer: React.FC = () => {
                             </div>
                             <div className="flex justify-between items-center py-4 border-t border-gray-200/50">
                                 <span className="text-lg font-black text-navy-950 tracking-tight">Total Amount</span>
-                                <span className="text-2xl font-black text-brand-600">${cartTotal.toFixed(2)}</span>
+                                <span className="text-2xl font-black text-brand-600">${totalPrice.toFixed(2)}</span>
                             </div>
                             <button
                                 onClick={() => { setIsCartOpen(false); /* Navigate to checkout */ }}

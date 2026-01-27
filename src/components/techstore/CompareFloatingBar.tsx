@@ -2,13 +2,13 @@
 
 import React from 'react';
 import { useTechStoreCompare } from '@/contexts/TechStoreCompareContext';
-import { useTechStoreCart } from '@/contexts/TechStoreCartContext';
+import { useCart } from '@/hooks/use-cart';
 import { X, ArrowRightLeft, ShoppingCart, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 
 const CompareFloatingBar: React.FC = () => {
     const { compareItems, removeFromCompare, clearCompare } = useTechStoreCompare();
-    const { addToCart } = useTechStoreCart();
+    const { setIsCartOpen } = useCart();
 
     if (compareItems.length === 0) return null;
 

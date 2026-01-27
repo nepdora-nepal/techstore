@@ -3,8 +3,8 @@ import BlogListingContent from "@/components/news/BlogListingContent";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "News - SastoBazaar",
-    description: "Read the latest news and stories from SastoBazaar.",
+    title: "News - TechStore",
+    description: "Read the latest news and stories from TechStore.",
 };
 
 export default function BlogListingPage() {

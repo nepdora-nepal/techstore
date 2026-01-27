@@ -13,7 +13,7 @@ const AboutContent = () => {
                 </span>
                 <h1 className="text-4xl md:text-6xl font-black text-foreground mt-6 mb-8">Redefining Modern <span className="text-primary">Shopping</span></h1>
                 <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                    SastoBazaar was born out of a desire for quality. We curate items that aren&apos;t just beautiful, but built to last and designed to inspire.
+                    TechStore was born out of a desire for quality. We curate items that aren&apos;t just beautiful, but built to last and designed to inspire.
                 </p>
             </section>
 
@@ -36,7 +36,7 @@ const AboutContent = () => {
                         </div>
                     </div>
                     <div className="space-y-8">
-                        <h2 className="text-3xl font-bold text-foreground">Why SastoBazaar Exists</h2>
+                        <h2 className="text-3xl font-bold text-foreground">Why TechStore Exists</h2>
                         <p className="text-muted-foreground leading-relaxed">
                             In a world of fast consumption, we chose the slow path. We believe that every object in your home should tell a story of craftsmanship and intentionality. That&apos;s why we spend months vetting every single supplier and product on our platform.
                         </p>

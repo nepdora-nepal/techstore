@@ -53,7 +53,7 @@ export const SignupForm = () => {
                         Create Account
                     </h2>
                     <p className="mt-2 text-sm text-muted-foreground">
-                        Join SastoBazaar and start your premium shopping journey
+                        Join TechStore and start your premium shopping journey
                     </p>
                 </div>
 

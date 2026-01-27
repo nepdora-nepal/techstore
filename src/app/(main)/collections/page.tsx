@@ -3,8 +3,8 @@ import { Metadata } from "next";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
-    title: "Collections - SastoBazaar",
-    description: "Browse our latest collections of premium products at SastoBazaar.",
+    title: "Collections - TechStore",
+    description: "Browse our latest collections of premium products at TechStore.",
 };
 
 export default function ProductListingPage() {

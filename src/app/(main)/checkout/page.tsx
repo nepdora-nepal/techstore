@@ -1,21 +1,21 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useTechStoreCart } from '@/contexts/TechStoreCartContext';
+import { useCart } from '@/hooks/use-cart';
 import { useRouter } from 'next/navigation';
 import { ShieldCheck, Lock, CreditCard, Truck, ArrowLeft, CheckCircle } from 'lucide-react';
 import { DISCOUNT_CODE_VALUE, TAX_RATE, SHIPPING_COST } from '@/constants/techstore';
 import Link from 'next/link';
 
 const CheckoutPage: React.FC = () => {
-    const { items, cartTotal, totalItems, clearCart } = useTechStoreCart();
+    const { cartItems, totalPrice, itemCount, clearCart } = useCart();
     const router = useRouter();
     const [loading, setLoading] = useState(false);
 
     // Calculations
-    const tax = cartTotal * TAX_RATE;
-    const discount = totalItems > 0 ? (cartTotal * DISCOUNT_CODE_VALUE) : 0;
-    const finalTotal = cartTotal + tax + SHIPPING_COST - discount;
+    const tax = totalPrice * TAX_RATE;
+    const discount = itemCount > 0 ? (totalPrice * DISCOUNT_CODE_VALUE) : 0;
+    const finalTotal = totalPrice + tax + SHIPPING_COST - discount;
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -27,7 +27,7 @@ const CheckoutPage: React.FC = () => {
         }, 2000);
     };
 
-    if (items.length === 0) {
+    if (cartItems.length === 0) {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
                 <h2 className="text-2xl font-bold mb-4">Your cart is empty</h2>
@@ -132,18 +132,20 @@ const CheckoutPage: React.FC = () => {
                             <h2 className="text-xl font-black mb-8 border-b border-white/10 pb-4">Order Summary</h2>
 
                             <div className="space-y-4 mb-8">
-                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Review Items ({totalItems})</p>
+                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Review Items ({itemCount})</p>
                                 <div className="space-y-4 max-h-60 overflow-y-auto pr-2 scrollbar-thin">
-                                    {items.map(item => (
-                                        <div key={item.id} className="flex gap-4 items-center">
+                                    {cartItems.map(item => (
+                                        <div key={item.selectedVariant?.id || item.product.id} className="flex gap-4 items-center">
                                             <div className="w-12 h-12 bg-white rounded-lg p-1 flex-shrink-0">
-                                                <img src={item.image || '/images/placeholder.svg'} alt={item.title || item.name} className="w-full h-full object-contain mix-blend-multiply" />
+                                                <img src={item.product.thumbnail_image || '/images/placeholder.svg'} alt={item.product.name} className="w-full h-full object-contain mix-blend-multiply" />
                                             </div>
                                             <div className="flex-1 min-w-0">
-                                                <p className="text-xs font-bold truncate">{item.title || item.name}</p>
+                                                <p className="text-xs font-bold truncate">{item.product.name}</p>
                                                 <p className="text-[10px] text-gray-400">Qty: {item.quantity}</p>
                                             </div>
-                                            <span className="text-xs font-black">${(item.price * item.quantity).toFixed(2)}</span>
+                                            <span className="text-xs font-black">
+                                                ${((item.selectedVariant ? parseFloat(item.selectedVariant.price) : parseFloat(item.product.price)) * item.quantity).toFixed(2)}
+                                            </span>
                                         </div>
                                     ))}
                                 </div>
@@ -152,7 +154,7 @@ const CheckoutPage: React.FC = () => {
                             <div className="space-y-3 py-6 border-t border-white/10 text-sm">
                                 <div className="flex justify-between font-medium opacity-60">
                                     <span>Subtotal</span>
-                                    <span>${cartTotal.toFixed(2)}</span>
+                                    <span>${totalPrice.toFixed(2)}</span>
                                 </div>
                                 <div className="flex justify-between font-medium text-brand-400">
                                     <span>Discount (Elite)</span>

@@ -1,22 +1,22 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useTechStoreCart } from '@/contexts/TechStoreCartContext';
+import { useCart } from '@/hooks/use-cart';
 import Link from 'next/link';
 import { Trash2, Plus, Minus, ArrowRight, ShieldCheck, Truck, Store } from 'lucide-react';
 import { DISCOUNT_CODE_VALUE, TAX_RATE, SHIPPING_COST } from '@/constants/techstore';
 
 const CartPage: React.FC = () => {
-    const { items, updateQuantity, removeFromCart, cartTotal, totalItems } = useTechStoreCart();
+    const { cartItems, updateQuantity, removeFromCart, totalPrice, itemCount } = useCart();
     const [deliveryMethod, setDeliveryMethod] = useState<'delivery' | 'pickup'>('delivery');
 
     // Calculations
     const shipping = deliveryMethod === 'delivery' ? SHIPPING_COST : 0;
-    const tax = cartTotal * TAX_RATE;
-    const discount = totalItems > 0 ? (cartTotal * DISCOUNT_CODE_VALUE) : 0;
-    const finalTotal = cartTotal + tax + shipping - discount;
+    const tax = totalPrice * TAX_RATE;
+    const discount = itemCount > 0 ? (totalPrice * DISCOUNT_CODE_VALUE) : 0;
+    const finalTotal = totalPrice + tax + shipping - discount;
 
-    if (items.length === 0) {
+    if (cartItems.length === 0) {
         return (
             <div className="min-h-[70vh] flex flex-col items-center justify-center bg-gray-50 px-4">
                 <img
@@ -36,7 +36,7 @@ const CartPage: React.FC = () => {
     return (
         <div className="min-h-screen bg-gray-50 py-10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h1 className="text-3xl font-bold text-gray-900 mb-8">Shopping Cart ({totalItems})</h1>
+                <h1 className="text-3xl font-bold text-gray-900 mb-8">Shopping Cart ({itemCount})</h1>
 
                 <div className="flex flex-col lg:flex-row gap-8">
 
@@ -51,23 +51,23 @@ const CartPage: React.FC = () => {
                             </div>
 
                             <div className="divide-y divide-gray-100">
-                                {items.map(item => (
-                                    <div key={item.id} className="p-4 sm:p-6 flex flex-col sm:flex-row gap-4 items-center sm:items-start">
+                                {cartItems.map(item => (
+                                    <div key={item.selectedVariant?.id || item.product.id} className="p-4 sm:p-6 flex flex-col sm:flex-row gap-4 items-center sm:items-start">
                                         <div className="w-full sm:w-auto flex items-center sm:items-start gap-4 flex-1">
                                             <div className="w-20 h-20 bg-gray-50 rounded-lg p-2 flex-shrink-0 border border-gray-100">
-                                                <img src={item.image} alt={item.title} className="w-full h-full object-contain mix-blend-multiply" />
+                                                <img src={item.product.thumbnail_image || '/images/placeholder.svg'} alt={item.product.name} className="w-full h-full object-contain mix-blend-multiply" />
                                             </div>
                                             <div className="flex-1">
-                                                <p className="text-xs text-gray-400 uppercase font-medium mb-1">{item.category}</p>
-                                                <Link href={`/product/${item.id}`} className="font-semibold text-gray-900 hover:text-brand-600 line-clamp-2 mb-1">{item.title}</Link>
-                                                <div className="text-sm text-gray-500">Unit Price: ${item.price.toFixed(2)}</div>
+                                                <p className="text-xs text-gray-400 uppercase font-medium mb-1">{(item.product.category as any)?.name || item.product.category || 'Electronics'}</p>
+                                                <Link href={`/product/${item.product.slug}`} className="font-semibold text-gray-900 hover:text-brand-600 line-clamp-2 mb-1">{item.product.name}</Link>
+                                                <div className="text-sm text-gray-500">Unit Price: ${item.selectedVariant ? parseFloat(item.selectedVariant.price).toFixed(2) : parseFloat(item.product.price).toFixed(2)}</div>
                                             </div>
                                         </div>
 
                                         <div className="w-full sm:w-auto flex justify-between sm:block items-center">
                                             <div className="flex items-center border border-gray-200 rounded-lg bg-white shadow-sm">
                                                 <button
-                                                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                                    onClick={() => updateQuantity(item.product.id, item.quantity - 1, item.selectedVariant?.id)}
                                                     className="p-2 hover:bg-gray-50 text-gray-600 disabled:opacity-50"
                                                     disabled={item.quantity <= 1}
                                                 >
@@ -75,7 +75,7 @@ const CartPage: React.FC = () => {
                                                 </button>
                                                 <span className="w-10 text-center text-sm font-semibold">{item.quantity}</span>
                                                 <button
-                                                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                                    onClick={() => updateQuantity(item.product.id, item.quantity + 1, item.selectedVariant?.id)}
                                                     className="p-2 hover:bg-gray-50 text-gray-600"
                                                 >
                                                     <Plus size={14} />
@@ -85,12 +85,14 @@ const CartPage: React.FC = () => {
 
                                         <div className="w-full sm:w-24 flex justify-between sm:block text-right">
                                             <span className="sm:hidden font-medium text-gray-500">Total:</span>
-                                            <span className="font-bold text-lg text-gray-900">${(item.price * item.quantity).toFixed(2)}</span>
+                                            <span className="font-bold text-lg text-gray-900">
+                                                ${((item.selectedVariant ? parseFloat(item.selectedVariant.price) : parseFloat(item.product.price)) * item.quantity).toFixed(2)}
+                                            </span>
                                         </div>
 
                                         <div className="w-full sm:w-auto flex justify-end">
                                             <button
-                                                onClick={() => removeFromCart(item.id)}
+                                                onClick={() => removeFromCart(item.product.id, item.selectedVariant?.id)}
                                                 className="p-2 text-gray-400 hover:text-red-500 transition-colors"
                                                 title="Remove Item"
                                             >
@@ -127,7 +129,7 @@ const CartPage: React.FC = () => {
                             <div className="space-y-3 text-sm text-gray-600 mb-6 border-b border-gray-100 pb-6">
                                 <div className="flex justify-between">
                                     <span>Subtotal</span>
-                                    <span className="font-medium text-gray-900">${cartTotal.toFixed(2)}</span>
+                                    <span className="font-medium text-gray-900">${totalPrice.toFixed(2)}</span>
                                 </div>
                                 <div className="flex justify-between text-green-600">
                                     <span>Discount (Spring Sale)</span>

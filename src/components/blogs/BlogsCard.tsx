@@ -18,7 +18,7 @@ const NewsCard: React.FC<NewsCardProps> = ({ post, className = "" }) => {
     const authorName =
         post.author?.first_name && post.author?.last_name
             ? `${post.author.first_name} ${post.author.last_name}`
-            : post.author?.username || "Team SastoBazaar";
+            : post.author?.username || "Team TechStore";
     const authorAvatar = "https://avatars.githubusercontent.com/u/133554786?v=4";
 
 

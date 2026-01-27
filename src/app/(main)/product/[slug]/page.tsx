@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useProduct, useProducts } from '@/hooks/use-product';
-import { useTechStoreCart } from '@/contexts/TechStoreCartContext';
+import { useCart } from '@/hooks/use-cart';
 import { Star, Truck, Shield, RefreshCw, Minus, Plus, ShoppingCart, Check } from 'lucide-react';
 import Link from 'next/link';
 import HorizontalProductList from '@/components/techstore/HorizontalProductList';
@@ -14,7 +14,7 @@ interface ProductPageProps {
 const ProductDetailPage: React.FC<ProductPageProps> = ({ params }) => {
     const { data: product, isLoading: productLoading } = useProduct(params.slug);
     const { data: recData, isLoading: recLoading } = useProducts({ page_size: 8 });
-    const { addToCart } = useTechStoreCart();
+    const { addToCart } = useCart();
 
     const [quantity, setQuantity] = useState(1);
     const [adding, setAdding] = useState(false);
@@ -34,19 +34,8 @@ const ProductDetailPage: React.FC<ProductPageProps> = ({ params }) => {
         if (!product) return;
         setAdding(true);
 
-        // Re-pack for cart context which might expect legacy shape for now
-        const legacyProduct = {
-            ...product,
-            title: product.name,
-            image: product.thumbnail_image,
-            price: typeof product.price === 'string' ? parseFloat(product.price) : product.price,
-            rating: { rate: product.average_rating || 0, count: product.reviews_count || 0 }
-        } as any;
-
         setTimeout(() => {
-            for (let i = 0; i < quantity; i++) {
-                addToCart(legacyProduct);
-            }
+            addToCart(product, quantity);
             setAdding(false);
         }, 300);
     };

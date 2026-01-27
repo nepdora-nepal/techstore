@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { ShoppingCart, Search, Menu, X, ChevronDown, MapPin, HelpCircle, Phone, ArrowRightLeft, User, LogOut, Package, Heart } from 'lucide-react';
-import { useTechStoreCart } from '@/contexts/TechStoreCartContext';
+import { useCart } from '@/hooks/use-cart';
 import { useTechStoreCompare } from '@/contexts/TechStoreCompareContext';
 import { STATIC_CATEGORIES } from '@/constants/techstore';
 import { useAuth } from '@/hooks/use-auth';
@@ -12,7 +12,7 @@ import { useProfile } from '@/hooks/use-profile';
 import { useCategories } from '@/hooks/use-category';
 
 const Header: React.FC = () => {
-    const { totalItems, setIsCartOpen } = useTechStoreCart();
+    const { itemCount, setIsCartOpen, totalPrice } = useCart();
     const { compareItems } = useTechStoreCompare();
     const { user, logout, isAuthenticated } = useAuth();
     const { data: profile } = useProfile();
@@ -165,19 +165,19 @@ const Header: React.FC = () => {
                                 <button
                                     onClick={() => setIsCartOpen(true)}
                                     className="relative p-2 hover:bg-gray-50 rounded-full transition-colors group flex items-center gap-2"
-                                    aria-label={`Shopping cart with ${totalItems} items`}
+                                    aria-label={`Shopping cart with ${itemCount} items`}
                                 >
                                     <div className="relative">
                                         <ShoppingCart className="w-6 h-6 text-gray-700 group-hover:text-brand-600 transition-colors" />
-                                        {totalItems > 0 && (
+                                        {itemCount > 0 && (
                                             <span className="absolute -top-1.5 -right-1.5 inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold leading-none text-white bg-red-600 rounded-full ring-2 ring-white">
-                                                {totalItems}
+                                                {itemCount}
                                             </span>
                                         )}
                                     </div>
                                     <div className="hidden lg:flex flex-col items-start leading-none">
                                         <span className="text-[10px] text-gray-500 font-medium">My Cart</span>
-                                        <span className="text-xs font-bold text-navy-900">$0.00</span>
+                                        <span className="text-xs font-bold text-navy-900">${totalPrice.toFixed(2)}</span>
                                     </div>
                                 </button>
                             </div>

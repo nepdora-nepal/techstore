@@ -14,17 +14,18 @@ import HorizontalProductList from './HorizontalProductList';
 import Brands from './Brands';
 import Newsletter from './Newsletter';
 import MultiCategoryTabs from './MultiCategoryTabs';
-import { useRecentBlogs } from '@/hooks/use-blogs';
+import { useBlogs } from '@/hooks/use-blogs';
 import { format } from 'date-fns';
+import BlogListingContent from '../blogs/BlogListingContent';
 
 
 const TechStoreHome: React.FC = () => {
     const { data: productsData, isLoading: productsLoading } = useProducts({ page_size: 20 });
     const { isLoading: categoriesLoading } = useCategories();
-    const { data: recentBlogs, isLoading: blogsLoading } = useRecentBlogs();
+    const { data: blogsData, isLoading: blogsLoading } = useBlogs();
 
     const products = productsData?.results || [];
-    const blogs = recentBlogs || [];
+    const blogs = blogsData?.results || [];
     const loading = productsLoading || categoriesLoading || blogsLoading;
 
     if (loading) {
@@ -123,47 +124,7 @@ const TechStoreHome: React.FC = () => {
                 <MultiCategoryTabs products={products} />
 
                 {/* Blog Section */}
-                <section className="py-20">
-                    <div className="flex justify-between items-end mb-12">
-                        <div>
-                            <span className="text-brand-600 text-xs font-black uppercase tracking-widest mb-2 block">Our Journal</span>
-                            <h2 className="text-3xl md:text-4xl font-black text-navy-900">Latest from TechStore</h2>
-                        </div>
-                        <Link href="/blog" className="text-brand-600 font-bold hover:underline flex items-center gap-2 text-sm uppercase tracking-widest">
-                            View All Posts <ArrowRight size={16} />
-                        </Link>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {blogs.slice(0, 3).map(post => {
-                            const excerpt = post.content
-                                ? post.content.replace(/<[^>]*>/g, '').slice(0, 150) + '...'
-                                : 'Read our latest insights...';
-
-                            return (
-                                <Link href={`/blog/${post.slug}`} key={post.id} className="group cursor-pointer block">
-                                    <div className="rounded-2xl overflow-hidden h-64 mb-6 relative">
-                                        <img src={post.thumbnail_image || "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80"} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                                        {post.tags && post.tags.length > 0 && (
-                                            <div className="absolute top-4 left-4 bg-white/90 backdrop-blur text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest text-navy-950 shadow-lg">
-                                                {post.tags[0].name}
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div className="flex items-center gap-2 text-[10px] font-bold text-gray-400 mb-3 uppercase tracking-widest">
-                                        <Calendar size={14} className="text-brand-600" /> {post.created_at ? format(new Date(post.created_at), 'MMM dd, yyyy') : 'Recently'}
-                                    </div>
-                                    <h3 className="font-black text-xl text-navy-950 mb-3 leading-tight group-hover:text-brand-600 transition-colors">
-                                        {post.title}
-                                    </h3>
-                                    <p className="text-sm text-gray-500 font-medium line-clamp-2 leading-relaxed">
-                                        {excerpt}
-                                    </p>
-                                </Link>
-                            );
-                        })}
-                    </div>
-                </section>
+              <BlogListingContent />
 
                 <div className="mt-12 border-t border-gray-100 pt-24">
                     <Newsletter />

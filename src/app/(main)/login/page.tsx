@@ -2,8 +2,8 @@ import { LoginForm } from '@/components/auth/LoginForm';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: "Login - SastoBazaar",
-    description: "Login to your SastoBazaar account.",
+    title: "Login - TechStore",
+    description: "Login to your TechStore account.",
 };
 
 export default function LoginPage() {

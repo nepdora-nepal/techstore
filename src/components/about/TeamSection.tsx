@@ -39,7 +39,7 @@ const TeamSection = () => {
                     Meet the <span className="text-primary">Team</span>
                 </h2>
                 <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
-                    The passionate individuals behind SastoBazaar working to bring you the best experience.
+                    The passionate individuals behind TechStore working to bring you the best experience.
                 </p>
             </div>
 

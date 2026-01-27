@@ -37,7 +37,7 @@ const BlogListingContent = () => {
                 <div className="max-w-7xl mx-auto px-4">
                     <div className="mb-10 flex flex-col gap-1">
                         <h1 className="text-4xl font-bold text-gray-900">
-                            Read Latest Blogs from SastoBazaar
+                            Read Latest Blogs from TechStore
                         </h1>
                         <p className="text-gray-600">
                             Stay updated with the latest news, tips, and insights from our team.
