@@ -2,8 +2,9 @@
 
 import React, { useState, useMemo } from 'react';
 import { useProducts, useUpdateFilters, useProductFilters } from '@/hooks/use-product';
+import { useCategories, useCategory } from '@/hooks/use-category';
 import ProductCard from '@/components/techstore/ProductCard';
-import { STATIC_CATEGORIES, SORT_OPTIONS } from '@/constants/techstore';
+import { SORT_OPTIONS } from '@/constants/techstore';
 import { SlidersHorizontal, ChevronDown, Star } from 'lucide-react';
 import Link from 'next/link';
 
@@ -23,9 +24,13 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
     }), [urlFilters, category]);
 
     const { data: productsData, isLoading: loading } = useProducts(productsParams);
+    const { data: categoriesData } = useCategories();
+    const { data: currentCategoryData } = useCategory(category);
     const [showFilters, setShowFilters] = useState(false);
 
     const products = productsData?.results || [];
+    const categories = categoriesData?.results || [];
+    const currentCategory = currentCategoryData;
     const filteredAndSortedProducts = products;
 
     // UI values for sliders/inputs from URL params with defaults
@@ -49,10 +54,10 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
                                 <span className="text-white">Collections</span>
                             </nav>
                             <h1 className="text-5xl md:text-7xl font-black text-white capitalize tracking-tighter leading-none mb-4">
-                                {category || 'All Products'}
+                                {currentCategory?.name || category || 'All Products'}
                             </h1>
                             <p className="text-slate-400 font-medium text-lg max-w-xl">
-                                Discover our curated selection of high-performance {category === 'electronics' ? 'gadgets and premium tech gear' : 'lifestyle essentials'}.
+                                {currentCategory?.description || `Discover our curated selection of high-performance ${category === 'electronics' ? 'gadgets and premium tech gear' : 'lifestyle essentials'}.`}
                             </p>
                         </div>
                         <div className="flex flex-col items-end">
@@ -134,13 +139,13 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
                             <div>
                                 <h3 className="text-xs font-black text-navy-950 uppercase tracking-[0.2em] mb-6">Explore Collections</h3>
                                 <div className="flex flex-wrap gap-2">
-                                    {STATIC_CATEGORIES.map(cat => (
+                                    {categories.map(cat => (
                                         <Link
-                                            key={cat}
-                                            href={`/category/${encodeURIComponent(cat)}`}
-                                            className={`px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest border transition-all duration-300 ${category === cat ? 'bg-brand-600 text-white border-brand-600 shadow-lg shadow-brand-100' : 'bg-white text-gray-500 border-gray-100 hover:border-brand-500 hover:text-brand-600'}`}
+                                            key={cat.id}
+                                            href={`/category/${cat.slug}`}
+                                            className={`px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest border transition-all duration-300 ${category === cat.slug ? 'bg-brand-600 text-white border-brand-600 shadow-lg shadow-brand-100' : 'bg-white text-gray-500 border-gray-100 hover:border-brand-500 hover:text-brand-600'}`}
                                         >
-                                            {cat}
+                                            {cat.name}
                                         </Link>
                                     ))}
                                 </div>

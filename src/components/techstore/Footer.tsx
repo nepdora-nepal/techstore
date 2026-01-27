@@ -2,9 +2,13 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin, ArrowRight } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from 'lucide-react';
+import { useCategories } from '@/hooks/use-category';
 
 const Footer: React.FC = () => {
+    const { data: categoriesData } = useCategories();
+    const categories = categoriesData?.results || [];
+
     return (
         <footer className="bg-navy-950 text-white pt-20 pb-10 overflow-hidden relative">
             <div className="max-w-7xl mx-auto px-4">
@@ -53,7 +57,17 @@ const Footer: React.FC = () => {
                         <h4 className="font-bold text-lg mb-6 flex items-center gap-2">Explore <div className="w-1.5 h-1.5 bg-brand-500 rounded-full" /></h4>
                         <ul className="space-y-4 text-slate-400 text-sm font-medium">
                             <li><Link href="/" className="hover:text-brand-400 transition-colors">Latest Drops</Link></li>
-                            <li><Link href="/category/electronics" className="hover:text-brand-400 transition-colors">Smart Devices</Link></li>
+                            {categories.length > 0 ? (
+                                categories.slice(0, 3).map(cat => (
+                                    <li key={cat.id}>
+                                        <Link href={`/category/${cat.slug}`} className="hover:text-brand-400 transition-colors">
+                                            {cat.name}
+                                        </Link>
+                                    </li>
+                                ))
+                            ) : (
+                                <li><Link href="/category/electronics" className="hover:text-brand-400 transition-colors">Smart Devices</Link></li>
+                            )}
                             <li><Link href="/collections" className="hover:text-brand-400 transition-colors">Exclusive Bundles</Link></li>
                             <li><Link href="/compare" className="hover:text-brand-400 transition-colors">Compare Tool</Link></li>
                         </ul>

@@ -6,6 +6,7 @@ import { useTechStoreCompare } from '@/contexts/TechStoreCompareContext';
 import { Star, ShoppingCart, ArrowRightLeft, Heart, Eye } from 'lucide-react';
 import Link from 'next/link';
 import { useAddToWishlist, useWishlist } from '@/hooks/use-wishlist';
+import Image from 'next/image';
 
 interface ProductCardProps {
     product: Product;
@@ -27,7 +28,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     const rating = product.average_rating || 0;
     const ratingCount = product.reviews_count || 0;
     const categoryName = product.category?.name || "Tech";
-    const slug = product.slug || product.id?.toString();
+const slug = product.slug || product.id?.toString();
 
     // Re-pack for cart/compare contexts which might expect legacy shape for now
     // This allows gradual migration of the entire system
@@ -56,7 +57,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             )}
 
             {/* Icons Overlay */}
-            <div className="absolute top-6 right-6 z-30 flex flex-col gap-3 translate-x-16 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 ease-out">
+            <div className="absolute top-6 right-6 z-30 flex flex-col gap-3 translate-x-16 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 hover:z-40 transition-all duration-500 ease-out">
                 <button
                     onClick={() => addToWishlist(product.id)}
                     className={`w-12 h-12 rounded-2xl shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 ${isInWishlist ? 'bg-red-500 text-white shadow-red-200/50' : 'bg-white text-navy-900 border border-gray-50 hover:text-red-500'}`}
@@ -77,9 +78,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
             {/* Product Image */}
             <Link href={`/product/${slug}`} className="relative aspect-square mb-8 rounded-3xl overflow-hidden bg-white group-hover:bg-gray-50 transition-colors duration-700 flex items-center justify-center p-8">
-                <img
+                <Image
                     src={image}
                     alt={title}
+                    width={500}
+                    height={500}
                     className="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-1000 ease-in-out"
                 />
             </Link>

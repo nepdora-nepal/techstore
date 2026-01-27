@@ -9,12 +9,16 @@ import { useTechStoreCompare } from '@/contexts/TechStoreCompareContext';
 import { STATIC_CATEGORIES } from '@/constants/techstore';
 import { useAuth } from '@/hooks/use-auth';
 import { useProfile } from '@/hooks/use-profile';
+import { useCategories } from '@/hooks/use-category';
 
 const Header: React.FC = () => {
     const { totalItems, setIsCartOpen } = useTechStoreCart();
     const { compareItems } = useTechStoreCompare();
     const { user, logout, isAuthenticated } = useAuth();
     const { data: profile } = useProfile();
+    const { data: categoriesData } = useCategories();
+    const categories = categoriesData?.results.map(c => c.name) || STATIC_CATEGORIES;
+
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isAccountOpen, setIsAccountOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
@@ -208,12 +212,13 @@ const Header: React.FC = () => {
                                 </div>
                                 {/* Dropdown Menu */}
                                 <div className="absolute top-full left-0 w-64 bg-white border border-gray-100 shadow-xl rounded-b-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-40 transform translate-y-2 group-hover:translate-y-0">
-                                    <div className="py-2">
-                                        {STATIC_CATEGORIES.map(cat => (
+                                    <div className="py-2 px-5">
+                                        {categories.map(cat => (
                                             <Link
                                                 key={cat}
                                                 href={`/category/${formatCategoryUrl(cat)}`}
-                                                className="block px-6 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-brand-600 transition-colors"
+                                                className="block py-2 text-sm font-medium text-gray-900 border-b border-gray-50"
+                                                onClick={() => setIsMenuOpen(false)}
                                             >
                                                 {cat}
                                             </Link>
@@ -224,7 +229,7 @@ const Header: React.FC = () => {
 
                             {/* Horizontal Categories */}
                             <nav className="flex items-center gap-6 overflow-x-auto no-scrollbar">
-                                {STATIC_CATEGORIES.slice(0, 6).map(cat => {
+                                {categories.slice(0, 6).map(cat => {
                                     const categoryUrl = formatCategoryUrl(cat);
                                     const isActive = pathname.includes(categoryUrl);
 
@@ -265,7 +270,7 @@ const Header: React.FC = () => {
                         </div>
                         <div className="p-4 space-y-4">
                             <div className="font-bold text-gray-400 text-xs uppercase tracking-wider mb-2">Categories</div>
-                            {STATIC_CATEGORIES.map(cat => (
+                            {categories.map(cat => (
                                 <Link
                                     key={cat}
                                     href={`/category/${formatCategoryUrl(cat)}`}

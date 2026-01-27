@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import {
-    ArrowRight, Gamepad, Calendar
+    ArrowRight, Calendar
 } from 'lucide-react';
 import { useProducts } from '@/hooks/use-product';
 import { useCategories } from '@/hooks/use-category';
@@ -14,40 +14,18 @@ import HorizontalProductList from './HorizontalProductList';
 import Brands from './Brands';
 import Newsletter from './Newsletter';
 import MultiCategoryTabs from './MultiCategoryTabs';
+import { useRecentBlogs } from '@/hooks/use-blogs';
+import { format } from 'date-fns';
 
-const BLOG_POSTS = [
-    {
-        id: 1,
-        title: "The Future of Smart Home Integration",
-        excerpt: "Discover how AI is revolutionizing the way we interact with our living spaces...",
-        category: "Smart Home",
-        date: "Jan 24, 2026",
-        image: "https://images.unsplash.com/photo-1558002038-1055907df827?w=800&q=80"
-    },
-    {
-        id: 2,
-        title: "Choosing the Perfect Mechanical Keyboard",
-        excerpt: "A comprehensive guide to switches, keycaps, and layouts for the ultimate typing experience.",
-        category: "PC Setup",
-        date: "Jan 20, 2026",
-        image: "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=800&q=80"
-    },
-    {
-        id: 3,
-        title: "Sustainability in Tech: 2026 Trends",
-        excerpt: "How leading tech companies are reaching carbon neutrality through circular design.",
-        category: "Industry",
-        date: "Jan 15, 2026",
-        image: "https://images.unsplash.com/photo-1473341304170-13f56358204e?w=800&q=80"
-    }
-];
 
 const TechStoreHome: React.FC = () => {
     const { data: productsData, isLoading: productsLoading } = useProducts({ page_size: 20 });
-    const { data: categoriesData, isLoading: categoriesLoading } = useCategories();
+    const { isLoading: categoriesLoading } = useCategories();
+    const { data: recentBlogs, isLoading: blogsLoading } = useRecentBlogs();
 
     const products = productsData?.results || [];
-    const loading = productsLoading || categoriesLoading;
+    const blogs = recentBlogs || [];
+    const loading = productsLoading || categoriesLoading || blogsLoading;
 
     if (loading) {
         return (
@@ -112,9 +90,9 @@ const TechStoreHome: React.FC = () => {
                 </div>
 
                 <HorizontalProductList
-                    title="Top Smartphones"
+                    title="Top Products"
                     subtitle="Performance Meets Elegance"
-                    products={products.slice(12, 18)}
+                    products={products.filter(p => p.is_popular).slice(0, 6)}
                 />
 
                 <div className="py-12">
@@ -130,9 +108,9 @@ const TechStoreHome: React.FC = () => {
                 </div>
 
                 <HorizontalProductList
-                    title="Best Selling Laptops"
+                    title="Best Selling Products"
                     subtitle="Unbeatable Performance"
-                    products={products.slice(6, 12)}
+                    products={products.filter(p => p.is_featured).slice(0, 6)}
                 />
 
                 {/* Brands Strip */}
@@ -141,52 +119,6 @@ const TechStoreHome: React.FC = () => {
                 </div>
 
                 {/* VR Section */}
-                <section className="py-20">
-                    <div className="relative rounded-3xl overflow-hidden bg-black group h-[400px] md:h-[600px]">
-                        <img
-                            src="https://images.unsplash.com/photo-1622979135225-d2ba269fb1bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
-                            className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
-                            alt="VR Headset"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
-                        <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16 flex flex-col md:flex-row items-end justify-between gap-6">
-                            <div className="max-w-xl text-left">
-                                <span className="inline-block px-3 py-1 bg-brand-600 text-white rounded text-xs font-bold uppercase tracking-wider mb-4">
-                                    Immersive Tech
-                                </span>
-                                <h2 className="text-4xl md:text-6xl font-black text-white mb-6">Dive Into <br /> New Realities</h2>
-                                <p className="text-lg text-gray-300 mb-8 font-medium">
-                                    Discover the latest in Virtual Reality. From high-fidelity gaming to immersive workspaces, experience the future today.
-                                </p>
-                                <div className="flex gap-4">
-                                    <button className="bg-white text-black px-8 py-4 rounded-xl font-bold hover:bg-brand-600 hover:text-white transition-all">
-                                        Shop VR Headsets
-                                    </button>
-                                    <button className="backdrop-blur-md bg-white/10 text-white border border-white/20 px-8 py-4 rounded-xl font-bold hover:bg-white/20 transition-all">
-                                        Learn More
-                                    </button>
-                                </div>
-                            </div>
-
-                            {/* Floating Product Preview within Banner */}
-                            <div className="hidden md:block bg-white/10 backdrop-blur-xl p-6 rounded-2xl border border-white/20 w-72">
-                                <div className="flex items-center gap-4 mb-4">
-                                    <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center">
-                                        <Gamepad className="text-white" size={24} />
-                                    </div>
-                                    <div className="text-left">
-                                        <p className="text-white font-bold text-sm">Meta Quest 3</p>
-                                        <p className="text-white/60 text-[10px] font-bold uppercase tracking-widest">128GB • Mixed Reality</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center justify-between">
-                                    <span className="text-brand-400 font-black text-lg">$499.00</span>
-                                    <button className="p-2 bg-white rounded-full text-navy-950 hover:scale-110 transition-transform"><ArrowRight size={18} /></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
 
                 <MultiCategoryTabs products={products} />
 
@@ -203,25 +135,33 @@ const TechStoreHome: React.FC = () => {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {BLOG_POSTS.map(post => (
-                            <div key={post.id} className="group cursor-pointer">
-                                <div className="rounded-2xl overflow-hidden h-64 mb-6 relative">
-                                    <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest text-navy-950 shadow-lg">
-                                        {post.category}
+                        {blogs.slice(0, 3).map(post => {
+                            const excerpt = post.content
+                                ? post.content.replace(/<[^>]*>/g, '').slice(0, 150) + '...'
+                                : 'Read our latest insights...';
+
+                            return (
+                                <Link href={`/blog/${post.slug}`} key={post.id} className="group cursor-pointer block">
+                                    <div className="rounded-2xl overflow-hidden h-64 mb-6 relative">
+                                        <img src={post.thumbnail_image || "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80"} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                                        {post.tags && post.tags.length > 0 && (
+                                            <div className="absolute top-4 left-4 bg-white/90 backdrop-blur text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest text-navy-950 shadow-lg">
+                                                {post.tags[0].name}
+                                            </div>
+                                        )}
                                     </div>
-                                </div>
-                                <div className="flex items-center gap-2 text-[10px] font-bold text-gray-400 mb-3 uppercase tracking-widest">
-                                    <Calendar size={14} className="text-brand-600" /> {post.date}
-                                </div>
-                                <h3 className="font-black text-xl text-navy-950 mb-3 leading-tight group-hover:text-brand-600 transition-colors">
-                                    {post.title}
-                                </h3>
-                                <p className="text-sm text-gray-500 font-medium line-clamp-2 leading-relaxed">
-                                    {post.excerpt}
-                                </p>
-                            </div>
-                        ))}
+                                    <div className="flex items-center gap-2 text-[10px] font-bold text-gray-400 mb-3 uppercase tracking-widest">
+                                        <Calendar size={14} className="text-brand-600" /> {post.created_at ? format(new Date(post.created_at), 'MMM dd, yyyy') : 'Recently'}
+                                    </div>
+                                    <h3 className="font-black text-xl text-navy-950 mb-3 leading-tight group-hover:text-brand-600 transition-colors">
+                                        {post.title}
+                                    </h3>
+                                    <p className="text-sm text-gray-500 font-medium line-clamp-2 leading-relaxed">
+                                        {excerpt}
+                                    </p>
+                                </Link>
+                            );
+                        })}
                     </div>
                 </section>
 
