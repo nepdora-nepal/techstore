@@ -139,10 +139,10 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
                         </div>
 
                         <div className="flex items-baseline gap-4 mb-8">
-                            <span className="text-4xl font-bold text-slate-900">${price.toFixed(2)}</span>
+                            <span className="text-4xl font-bold text-slate-900">RS.{price.toLocaleString("en-IN")}</span>
                             {marketPrice > price && (
                                 <>
-                                    <span className="text-xl text-gray-400 line-through">${marketPrice.toFixed(2)}</span>
+                                    <span className="text-xl text-gray-400 line-through">RS.{marketPrice.toLocaleString("en-IN")}</span>
                                     <span className="text-red-600 font-bold bg-red-50 px-2 py-1 rounded-md text-sm">
                                         Save {discountPercentage}%
                                     </span>

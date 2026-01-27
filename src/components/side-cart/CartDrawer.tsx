@@ -90,7 +90,7 @@ const CartDrawer: React.FC = () => {
                                                 <button onClick={() => updateQuantity(item.product.id, item.quantity + 1, item.selectedVariant?.id)} className="p-1 hover:bg-white hover:shadow-sm rounded transition-all text-gray-600"><Plus size={12} /></button>
                                             </div>
                                             <span className="font-black text-brand-600">
-                                                ${((item.selectedVariant ? parseFloat(item.selectedVariant.price) : parseFloat(item.product.price)) * item.quantity).toFixed(2)}
+                                                RS.{((item.selectedVariant ? parseFloat(item.selectedVariant.price) : parseFloat(item.product.price)) * item.quantity).toLocaleString("en-IN")}
                                             </span>
                                         </div>
                                     </div>
@@ -105,7 +105,7 @@ const CartDrawer: React.FC = () => {
                             <div className="space-y-2">
                                 <div className="flex justify-between text-sm text-gray-500">
                                     <span className="font-medium">Subtotal</span>
-                                    <span className="font-bold text-navy-950">${totalPrice.toFixed(2)}</span>
+                                    <span className="font-bold text-navy-950">RS.{totalPrice.toLocaleString("en-IN")}</span>
                                 </div>
                                 <div className="flex justify-between text-sm text-gray-500">
                                     <span className="font-medium">Shipping</span>
@@ -114,7 +114,7 @@ const CartDrawer: React.FC = () => {
                             </div>
                             <div className="flex justify-between items-center py-4 border-t border-gray-200/50">
                                 <span className="text-lg font-black text-navy-950 tracking-tight">Total Amount</span>
-                                <span className="text-2xl font-black text-brand-600">${totalPrice.toFixed(2)}</span>
+                                <span className="text-2xl font-black text-brand-600">RS.{totalPrice.toLocaleString("en-IN")}</span>
                             </div>
                             <button
                                 onClick={() => { setIsCartOpen(false); /* Navigate to checkout */ }}

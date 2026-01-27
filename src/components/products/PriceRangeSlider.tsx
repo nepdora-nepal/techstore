@@ -81,8 +81,8 @@ export default function PriceRangeSlider({
                 />
 
                 <div className="flex justify-between mt-2 text-xs text-muted-foreground font-bold">
-                    <span>RS.{value.min.toLocaleString()}</span>
-                    <span>RS.{value.max.toLocaleString()}</span>
+                    <span>RS.{value.min.toLocaleString("en-IN")}</span>
+                    <span>RS.{value.max.toLocaleString("en-IN")}</span>
                 </div>
             </div>
 
@@ -97,7 +97,7 @@ export default function PriceRangeSlider({
                         >
                             {generateOptions(type === 'min').map(step => (
                                 <option key={`${type}-${step}`} value={step}>
-                                    RS.{step.toLocaleString()}{step === max ? '+' : ''}
+                                    RS.{step.toLocaleString("en-IN")}{step === max ? '+' : ''}
                                 </option>
                             ))}
                         </select>

@@ -82,7 +82,7 @@ const AppliedFilters: React.FC<AppliedFiltersProps> = ({
         !isPriceDefault && {
             key: "price",
             label: "Price",
-            value: `RS.${priceRange.min.toLocaleString()} - RS.${priceRange.max.toLocaleString()}`,
+            value: `RS.${priceRange.min.toLocaleString("en-IN")} - RS.${priceRange.max.toLocaleString("en-IN")}`,
             onClear: () => setPriceRange({ min: minPrice, max: maxPrice }),
         },
     ].filter((f): f is AppliedFilter => !!f);
