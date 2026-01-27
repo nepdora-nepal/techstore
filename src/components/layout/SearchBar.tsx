@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
@@ -200,38 +198,38 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
     return (
         <div ref={searchRef} className={cn("relative w-full max-w-md", className)}>
-            <form onSubmit={handleSearchSubmit} className="relative">
-                <div className="relative rounded-xl p-[1px] bg-gradient-to-r from-primary to-primary/10">
-                    <div className="relative rounded-xl bg-background">
-                        <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                        <Input
-                            ref={inputRef}
-                            type="text"
-                            placeholder="Search products..."
-                            value={searchQuery}
-                            onChange={handleSearchInputChange}
-                            onKeyDown={handleSearchKeyPress}
-                            onFocus={handleSearchFocus}
-                            className="h-11 w-full rounded-xl border-0 bg-transparent pr-10 pl-10 text-sm placeholder:text-muted-foreground focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
-                        />
-                        {searchQuery && (
-                            <Button
-                                type="button"
-                                onClick={handleClearSearch}
-                                variant="ghost"
-                                size="sm"
-                                className="absolute top-1/2 right-2 h-6 w-6 -translate-y-1/2 p-0 text-muted-foreground hover:text-foreground"
-                                aria-label="Clear search"
-                            >
-                                <X className="h-4 w-4" />
-                            </Button>
-                        )}
-                    </div>
-                </div>
+            <form onSubmit={handleSearchSubmit} className="relative w-full flex">
+                <input
+                    ref={inputRef}
+                    type="text"
+                    placeholder="Search for products, brands and more..."
+                    value={searchQuery}
+                    onChange={handleSearchInputChange}
+                    onKeyDown={handleSearchKeyPress}
+                    onFocus={handleSearchFocus}
+                    className="w-full pl-5 pr-12 py-3 bg-gray-50 border border-gray-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:bg-white focus:border-brand-500 transition-all shadow-sm"
+                />
+                <button
+                    type="submit"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-brand-600 text-white rounded-full hover:bg-brand-700 transition-colors shadow-md"
+                    aria-label="Search"
+                >
+                    <Search size={18} />
+                </button>
+                {searchQuery && (
+                    <button
+                        type="button"
+                        onClick={handleClearSearch}
+                        className="absolute right-12 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-gray-600"
+                        aria-label="Clear search"
+                    >
+                        <X size={16} />
+                    </button>
+                )}
             </form>
 
             {showDropdown && (
-                <Card className="absolute right-0 left-0 z-[99] mt-2 min-w-[320px] border-2 shadow-xl">
+                <Card className="absolute top-10 right-0 left-0 z-[99] mt-2 min-w-[320px] border-2 shadow-xl">
                     <CardContent className="p-0">
                         <ScrollArea className="max-h-[500px]">
                             <div className="p-4">

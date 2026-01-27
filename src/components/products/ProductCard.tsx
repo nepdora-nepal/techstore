@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Product } from '@/types/product';
 import { useCart } from '@/hooks/use-cart';
 import { useCompare } from '@/hooks/use-compare';
-import { useAddToWishlist, useWishlist } from '@/hooks/use-wishlist';
+import { useAddToWishlist, useWishlist, useRemoveFromWishlist } from '@/hooks/use-wishlist';
 import { Star, Plus, Check, ArrowRightLeft, Heart } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -19,6 +19,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     const { addToCompare, isInCompare, removeFromCompare } = useCompare();
     const { data: wishlist } = useWishlist();
     const { mutate: addToWishlist } = useAddToWishlist();
+    const { mutate: removeFromWishlist } = useRemoveFromWishlist();
 
     // Normalize fields
     const id = product.id;
@@ -34,7 +35,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
     const [isAdded, setIsAdded] = useState(false);
     const isComparing = isInCompare(id);
-    const isInWishlist = wishlist?.some(item => item.product.id === id);
+
+    // Find if item is in wishlist and get its ID
+    const wishlistItem = wishlist?.find(item => item.product.id === id);
+    const isInWishlist = !!wishlistItem;
 
     const handleAddToCart = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -62,7 +66,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     const handleWishlist = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        addToWishlist(product.id);
+
+        if (isInWishlist) {
+            if (wishlistItem) {
+                removeFromWishlist(wishlistItem.id);
+            }
+        } else {
+            addToWishlist(product.id);
+        }
     };
 
     return (

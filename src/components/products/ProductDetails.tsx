@@ -124,7 +124,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
 
                     {/* Details Section */}
                     <div>
-                        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight mb-4">{product.name}</h1>
+                        <h1 className="text-xl md:text-3xl  text-gray-900 leading-tight mb-4">{product.name}</h1>
 
                         <div className="flex items-center gap-4 mb-6">
                             <div className="flex items-center gap-1 bg-yellow-50 px-2 py-1 rounded text-yellow-700 font-bold text-sm border border-yellow-100">

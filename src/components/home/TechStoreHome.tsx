@@ -1,9 +1,7 @@
 "use client";
 
 import React from 'react';
-import {
-    ArrowRight,
-} from 'lucide-react';
+
 import { useProducts } from '@/hooks/use-product';
 import { useCategories } from '@/hooks/use-category';
 import Hero from './Hero';
@@ -70,7 +68,7 @@ const TechStoreHome: React.FC = () => {
                         title="Power for Professionals"
                         subtitle="Workstations & Laptops"
                         description="Engineered for performance. Built for creators. Discover the ultimate portable powerhouses."
-                        image="https://images.unsplash.com/photo-1598327106026-d9521da673d1?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        image="https://images.unsplash.com/photo-1542393545-10f5cde2c810?q=80&w=765&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                         link="/category/laptops"
                         bgClass="bg-gradient-to-br from-slate-900 to-gray-800"
                         variant="left"

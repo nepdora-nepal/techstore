@@ -10,6 +10,7 @@ import { STATIC_CATEGORIES } from '@/constants/techstore';
 import { useAuth } from '@/hooks/use-auth';
 import { useProfile } from '@/hooks/use-profile';
 import { useCategories } from '@/hooks/use-category';
+import { SearchBar } from '@/components/layout/SearchBar';
 
 const Header: React.FC = () => {
     const { itemCount, setIsCartOpen, totalPrice } = useCart();
@@ -21,17 +22,8 @@ const Header: React.FC = () => {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isAccountOpen, setIsAccountOpen] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
     const router = useRouter();
     const pathname = usePathname();
-
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (searchTerm.trim()) {
-            console.log("Searching for:", searchTerm);
-            router.push(`/category/electronics?search=${encodeURIComponent(searchTerm)}`);
-        }
-    };
 
     const formatCategoryUrl = (category: string) => {
         return category.toLowerCase().replace(/\s+/g, '-');
@@ -87,24 +79,7 @@ const Header: React.FC = () => {
                             </Link>
 
                             {/* Search Bar */}
-                            <div className="hidden md:flex flex-1 max-w-2xl">
-                                <form onSubmit={handleSearch} className="w-full relative flex">
-                                    <input
-                                        type="text"
-                                        placeholder="Search for products, brands and more..."
-                                        className="w-full pl-5 pr-12 py-3 bg-gray-50 border border-gray-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:bg-white focus:border-brand-500 transition-all shadow-sm"
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                    />
-                                    <button
-                                        type="submit"
-                                        className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-brand-600 text-white rounded-full hover:bg-brand-700 transition-colors shadow-md"
-                                        aria-label="Search"
-                                    >
-                                        <Search size={18} />
-                                    </button>
-                                </form>
-                            </div>
+                            <SearchBar className="hidden md:flex flex-1 max-w-2xl" />
 
                             {/* Actions */}
                             <div className="flex items-center gap-2 sm:gap-6">
@@ -185,16 +160,7 @@ const Header: React.FC = () => {
 
                         {/* Mobile Search */}
                         <div className="mt-4 md:hidden">
-                            <form onSubmit={handleSearch} className="w-full relative">
-                                <input
-                                    type="text"
-                                    placeholder="Search..."
-                                    className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-full text-sm focus:ring-1 focus:ring-brand-500"
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                />
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
-                            </form>
+                            <SearchBar className="w-full" />
                         </div>
                     </div>
                 </div>
