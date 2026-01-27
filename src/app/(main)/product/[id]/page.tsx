@@ -9,7 +9,7 @@ import Link from 'next/link';
 import HorizontalProductList from '@/components/techstore/HorizontalProductList';
 
 interface ProductPageProps {
-    params: Promise<{ id: string }>;
+    params: { id: string };
 }
 
 const ProductDetailPage: React.FC<ProductPageProps> = ({ params }) => {
@@ -21,8 +21,8 @@ const ProductDetailPage: React.FC<ProductPageProps> = ({ params }) => {
     const [adding, setAdding] = useState(false);
 
     useEffect(() => {
-        params.then(p => setId(parseInt(p.id)));
-    }, [params]);
+        setId(parseInt(params.id));
+    }, [params.id]);
 
     useEffect(() => {
         if (id !== null) {

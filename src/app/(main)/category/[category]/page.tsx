@@ -9,7 +9,7 @@ import { SlidersHorizontal, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 
 interface CategoryPageProps {
-    params: Promise<{ category: string }>;
+    params: { category: string };
 }
 
 const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
@@ -22,10 +22,8 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
     const [showFilters, setShowFilters] = useState(false);
 
     useEffect(() => {
-        params.then(p => {
-            setCategory(decodeURIComponent(p.category));
-        });
-    }, [params]);
+        setCategory(decodeURIComponent(params.category));
+    }, [params.category]);
 
     useEffect(() => {
         if (category) {
