@@ -30,7 +30,7 @@ const CartDrawer: React.FC = () => {
                             </div>
                             <div>
                                 <h2 className="text-xl font-black text-navy-950">Shopping Bag</h2>
-                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">{cartItems.length} premium items</p>
+                                <p className="text-xs font-bold text-gray-400  tracking-widest">{cartItems.length} premium items</p>
                             </div>
                         </div>
                         <button onClick={() => setIsCartOpen(false)} className="p-2 hover:bg-gray-100 rounded-xl transition-colors">
@@ -82,7 +82,7 @@ const CartDrawer: React.FC = () => {
                                             </button>
                                         </div>
                                         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                                        <p className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-3">{(item.product.category as any)?.name || item.product.category || 'Electronics'}</p>
+                                        <p className="text-xs text-gray-400 font-bold  tracking-wider mb-3">{(item.product.category as any)?.name || item.product.category || 'Electronics'}</p>
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center bg-gray-50 rounded-lg p-1 border border-gray-100">
                                                 <button onClick={() => updateQuantity(item.product.id, item.quantity - 1, item.selectedVariant?.id)} className="p-1 hover:bg-white hover:shadow-sm rounded transition-all text-gray-600"><Minus size={12} /></button>
@@ -109,25 +109,29 @@ const CartDrawer: React.FC = () => {
                                 </div>
                                 <div className="flex justify-between text-sm text-gray-500">
                                     <span className="font-medium">Shipping</span>
-                                    <span className="text-green-600 font-bold uppercase tracking-wider">Calculated at next step</span>
+                                    <span className="text-green-600 font-bold  tracking-wider">Calculated at next step</span>
                                 </div>
                             </div>
                             <div className="flex justify-between items-center py-4 border-t border-gray-200/50">
                                 <span className="text-lg font-black text-navy-950 tracking-tight">Total Amount</span>
                                 <span className="text-2xl font-black text-brand-600">RS.{totalPrice.toLocaleString("en-IN")}</span>
                             </div>
-                            <button
-                                onClick={() => { setIsCartOpen(false); /* Navigate to checkout */ }}
-                                className="w-full bg-slate-900 text-white py-4 rounded-2xl font-black text-sm tracking-wider uppercase hover:bg-slate-800 transition-all shadow-xl shadow-slate-200 active:scale-[0.98]"
-                            >
-                                <Link href="/checkout" className="block w-full">Proceed to Checkout</Link>
-                            </button>
-                            <button
+                            <Link
+                                href="/checkout"
                                 onClick={() => setIsCartOpen(false)}
-                                className="w-full text-xs font-bold text-gray-400 uppercase tracking-widest hover:text-navy-950 transition-colors py-2"
+                                className="block w-full bg-slate-900 text-white py-4 rounded-2xl font-black text-sm tracking-wider hover:bg-slate-800 transition-all shadow-xl shadow-slate-200 active:scale-[0.98] text-center"
+                            >
+                                Proceed to Checkout
+                            </Link>
+
+                            <Link
+                                href="/collections"
+                                onClick={() => setIsCartOpen(false)}
+                                className="block w-full text-xs font-bold text-gray-400 tracking-widest hover:text-navy-950 transition-colors py-2 text-center"
                             >
                                 Continue Shopping
-                            </button>
+                            </Link>
+
                         </div>
                     )}
                 </div>

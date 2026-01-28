@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { ShoppingCart, Menu, X, ChevronDown, MapPin, HelpCircle, Phone, ArrowRightLeft, User, LogOut, Package, Heart } from 'lucide-react';
+import { ShoppingCart, Menu, X, ChevronDown, HelpCircle, Phone, ArrowRightLeft, User, LogOut, Package, Heart } from 'lucide-react';
 import { useCart } from '@/hooks/use-cart';
 import { useTechStoreCompare } from '@/contexts/TechStoreCompareContext';
 import { useAuth } from '@/hooks/use-auth';
@@ -39,9 +39,7 @@ const Header: React.FC = () => {
                             <span className="text-slate-700">|</span>
                             <Link href="/warranty" className="hover:text-white transition-colors">Warranty Policy</Link>
                             <span className="text-slate-700">|</span>
-                            <Link href="#" className="flex items-center gap-1 hover:text-white transition-colors">
-                                <MapPin size={12} /> Pickup Location
-                            </Link>
+
                         </div>
                         <div className="flex items-center gap-4">
                             <Link href="/faq" className="flex items-center gap-1 hover:text-white transition-colors">
