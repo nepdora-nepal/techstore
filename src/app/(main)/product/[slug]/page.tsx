@@ -6,6 +6,7 @@ import { useCart } from '@/hooks/use-cart';
 import { Star, Truck, Shield, RefreshCw, Minus, Plus, ShoppingCart, Check } from 'lucide-react';
 import Link from 'next/link';
 import HorizontalProductList from '@/components/home/HorizontalProductList';
+import Image from 'next/image';
 
 interface ProductPageProps {
     params: { slug: string };
@@ -57,7 +58,7 @@ const ProductDetailPage: React.FC<ProductPageProps> = ({ params }) => {
                     {/* Image Gallery */}
                     <div className="lg:w-1/2">
                         <div className="bg-gray-50 rounded-[2.5rem] p-12 border border-gray-100 flex items-center justify-center">
-                            <img
+                            <Image
                                 src={product.thumbnail_image || '/images/placeholder.svg'}
                                 className="max-h-[500px] w-auto object-contain mix-blend-multiply drop-shadow-2xl"
                                 alt={product.name}

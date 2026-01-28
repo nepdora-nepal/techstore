@@ -3,6 +3,7 @@
 import React from 'react';
 import { Users, Award, Globe, TrendingUp } from 'lucide-react';
 import { useTeamMembers } from '@/hooks/use-team-member';
+import Image from 'next/image';
 
 const AboutPage: React.FC = () => {
     const { data: teamMembers } = useTeamMembers();
@@ -63,10 +64,12 @@ const AboutPage: React.FC = () => {
                     </div>
                     <div className="relative">
                         <div className="bg-brand-100 rounded-[3rem] p-12 overflow-hidden">
-                            <img
+                            <Image
                                 src={"https://plus.unsplash.com/premium_photo-1661963794740-40335baba754?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
                                 className="w-full h-full object-contain filter drop-shadow-2xl hover:scale-105 transition-transform duration-700"
                                 alt="Innovation"
+                                height={500}
+                                width={500}
                             />
                         </div>
                         <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white p-6 rounded-[2rem] shadow-2xl border border-gray-100 flex flex-col items-center justify-center text-center">
@@ -89,10 +92,12 @@ const AboutPage: React.FC = () => {
                             {teamMembers.map((member) => (
                                 <div key={member.id} className="group">
                                     <div className="relative aspect-square rounded-[2rem] overflow-hidden mb-6">
-                                        <img
+                                        <Image
                                             src={member.photo}
                                             alt={member.name}
                                             className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
+                                            height={500}
+                                            width={500}
                                         />
                                         <div className="absolute inset-0 bg-brand-600/0 group-hover:bg-brand-600/20 transition-all duration-700" />
                                     </div>

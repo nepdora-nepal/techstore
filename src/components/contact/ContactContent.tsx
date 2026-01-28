@@ -62,7 +62,7 @@ const Contact: React.FC = () => {
                     <h1 className="text-4xl md:text-5xl font-bold mb-6">Get in Touch</h1>
                     <p className="text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
                         Have a question about your order, a product, or just want to say hello?
-                        We'd love to hear from you.
+                        We&apos;d love to hear from you.
                     </p>
                 </div>
             </div>

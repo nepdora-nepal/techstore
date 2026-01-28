@@ -5,7 +5,7 @@ import { useCart } from '@/hooks/use-cart';
 import Link from 'next/link';
 import { Trash2, Plus, Minus, ArrowRight, ShieldCheck, Truck, Store } from 'lucide-react';
 import { DISCOUNT_CODE_VALUE, TAX_RATE, SHIPPING_COST } from '@/constants/techstore';
-
+import Image from 'next/image';
 const CartPage: React.FC = () => {
     const { cartItems, updateQuantity, removeFromCart, totalPrice, itemCount } = useCart();
     const [deliveryMethod, setDeliveryMethod] = useState<'delivery' | 'pickup'>('delivery');
@@ -19,9 +19,11 @@ const CartPage: React.FC = () => {
     if (cartItems.length === 0) {
         return (
             <div className="min-h-[70vh] flex flex-col items-center justify-center bg-gray-50 px-4">
-                <img
+                <Image
                     src="https://cdn-icons-png.flaticon.com/512/11329/11329060.png"
                     alt="Empty Cart"
+                    width={192}
+                    height={192}
                     className="w-48 h-48 opacity-50 mb-6 mix-blend-multiply"
                 />
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">Your Cart is Empty</h2>
@@ -55,9 +57,10 @@ const CartPage: React.FC = () => {
                                     <div key={item.selectedVariant?.id || item.product.id} className="p-4 sm:p-6 flex flex-col sm:flex-row gap-4 items-center sm:items-start">
                                         <div className="w-full sm:w-auto flex items-center sm:items-start gap-4 flex-1">
                                             <div className="w-20 h-20 bg-gray-50 rounded-lg p-2 flex-shrink-0 border border-gray-100">
-                                                <img src={item.product.thumbnail_image || '/images/placeholder.svg'} alt={item.product.name} className="w-full h-full object-contain mix-blend-multiply" />
+                                                <Image src={item.product.thumbnail_image || '/images/placeholder.svg'} alt={item.product.name} width={80} height={80} className="w-full h-full object-contain mix-blend-multiply" />
                                             </div>
                                             <div className="flex-1">
+                                                {/* eslint-disable-next-line */}
                                                 <p className="text-xs text-gray-400 uppercase font-medium mb-1">{(item.product.category as any)?.name || item.product.category || 'Electronics'}</p>
                                                 <Link href={`/product/${item.product.slug}`} className="font-semibold text-gray-900 hover:text-brand-600 line-clamp-2 mb-1">{item.product.name}</Link>
                                                 <div className="text-sm text-gray-500">Unit Price: ${item.selectedVariant ? parseFloat(item.selectedVariant.price).toFixed(2) : parseFloat(item.product.price).toFixed(2)}</div>

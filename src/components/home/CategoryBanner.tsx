@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import Image from 'next/image';
 
 interface CategoryBannerProps {
     title: string;
@@ -54,9 +55,11 @@ const CategoryBanner: React.FC<CategoryBannerProps> = ({
 
                         {/* Product Image */}
                         <div className={`order-1 ${variant === 'right' ? 'md:order-2' : 'md:order-1'} flex justify-center`}>
-                            <img
+                            <Image
                                 src={image}
                                 alt={title}
+                                width={500}
+                                height={500}
                                 className={`
                   w-full max-w-sm md:max-w-md object-contain drop-shadow-2xl 
                   transition-transform duration-700 ease-out 

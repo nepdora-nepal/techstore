@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import BlogListingContent from "@/components/news/BlogListingContent";
+import BlogListingContent from "@/components/blogs/BlogListingContent";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
