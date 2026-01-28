@@ -6,7 +6,8 @@ import { useProducts } from "@/hooks/use-product";
 import { useCategories } from "@/hooks/use-category";
 import Hero from "./Hero";
 import CategoryGrid from "./CategoryGrid";
-import CategoryBanner from "./CategoryBanner";
+import CategoryBannerListLeft from "./CategoryBannerListLeft";
+import CategoryBannerListRight from "./CategoryBannerListRight";
 import HorizontalProductList from "./HorizontalProductList";
 import Brands from "./Brands";
 import Newsletter from "../newsletter/Newsletter";
@@ -45,33 +46,17 @@ const TechStoreHome: React.FC = () => {
           products={products.slice(0, 6)}
         />
 
-        <div className="py-12">
-          <CategoryBanner
-            title="The New Standard"
-            subtitle="Smartphone Deals"
-            description="Unlock the potential of mobile photography with our latest flagship collection."
-            image="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-            bgClass="bg-gradient-to-br from-indigo-950 to-navy-900"
-            variant="right"
-          />
-        </div>
-
         <HorizontalProductList
           title="Top Products"
           subtitle="Performance Meets Elegance"
           products={products.filter((p) => p.is_popular).slice(0, 6)}
         />
 
-        <div className="py-12">
-          <CategoryBanner
-            title="Power for Professionals"
-            subtitle="Workstations & Laptops"
-            description="Engineered for performance. Built for creators. Discover the ultimate portable powerhouses."
-            image="https://images.unsplash.com/photo-1542393545-10f5cde2c810?q=80&w=765&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            bgClass="bg-gradient-to-br from-slate-900 to-gray-800"
-            variant="left"
-          />
-        </div>
+        {/* Right-variant banners (place anywhere) */}
+        <CategoryBannerListRight />
+
+        {/* Left-variant banners (place anywhere) */}
+        <CategoryBannerListLeft />
 
         <HorizontalProductList
           title="Best Selling Products"

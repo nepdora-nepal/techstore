@@ -1,13 +1,14 @@
 import React from "react";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import Image from "next/image";
+import ImageWithFallback from "@/components/ui/ImageWithFallback";
 
 interface CategoryBannerProps {
   title: string;
   subtitle: string;
   description: string;
   image: string;
+  fallback?: string;
   variant?: "left" | "right";
   bgClass?: string;
 }
@@ -59,11 +60,12 @@ const CategoryBanner: React.FC<CategoryBannerProps> = ({
             <div
               className={`order-1 ${variant === "right" ? "md:order-2" : "md:order-1"} flex justify-center`}
             >
-              <Image
+              <ImageWithFallback
                 src={image}
                 alt={title}
                 width={500}
                 height={500}
+                fallbackSrc={"/fallback-product.svg"}
                 className={`
                   w-full max-w-sm md:max-w-md object-contain drop-shadow-2xl 
                   transition-transform duration-700 ease-out 
