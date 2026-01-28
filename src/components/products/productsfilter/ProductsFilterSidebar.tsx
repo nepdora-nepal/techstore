@@ -41,9 +41,10 @@ export default function ProductsFilterSidebar({
   const [hoveredCategory, setHoveredCategory] = useState<Category | null>(null);
   const leaveTimeout = useRef<NodeJS.Timeout | null>(null);
 
+  // Fetch subcategories for either the hovered category (for preview) or the currently selected category
+  const activeCategoryId = hoveredCategory?.id || categories.find(c => c.slug === selectedCategory)?.id;
   const { data: subcategoriesData, isLoading: isLoadingSubcategories } =
-    useSubCategories(
-      hoveredCategory?.id ? { category: hoveredCategory.id } : undefined,
+    useSubCategories(activeCategoryId ? { category: activeCategoryId } : undefined,
     );
 
   const handleMouseEnter = (category: Category) => {
@@ -60,6 +61,7 @@ export default function ProductsFilterSidebar({
   const handleSelectCategory = (categorySlug: string) => {
     setSelectedCategory(categorySlug);
     setSelectedSubcategory("all");
+    // keep hoveredCategory cleared so popup doesn't persist
     setHoveredCategory(null);
   };
 

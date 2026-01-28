@@ -19,12 +19,12 @@ interface SortOption {
   label: string;
 }
 
-const sortMapping: { [key: string]: string } = {
-  featured: "-is_featured",
-  "price-low": "price",
-  "price-high": "-price",
-  "name-asc": "name",
-  "name-desc": "-name",
+const sortMapping: { [key: string]: { sortBy: string; sortOrder: "asc" | "desc" } } = {
+  featured: { sortBy: "is_featured", sortOrder: "desc" },
+  "price-low": { sortBy: "price", sortOrder: "asc" },
+  "price-high": { sortBy: "price", sortOrder: "desc" },
+  "name-asc": { sortBy: "name", sortOrder: "asc" },
+  "name-desc": { sortBy: "name", sortOrder: "desc" },
 };
 
 export const useProductsFilter = () => {
@@ -61,13 +61,30 @@ export const useProductsFilter = () => {
     useSubCategories(categoryId ? { category: categoryId } : undefined);
   const subcategories: SubCategory[] = subcategoriesData?.results || [];
 
+  // Map URL params (snake_case) to internal state. We support the API's expected keys.
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
     const newSearchQuery = params.get("search") || "";
     setCurrentPage(Number(params.get("page")) || 1);
     setSelectedCategory(params.get("category") || "all");
-    setSelectedSubcategory(params.get("subcategory") || "all");
-    setSortBy(params.get("sort") || "featured");
+    // backend uses `sub_category` param
+    setSelectedSubcategory(params.get("sub_category") || "all");
+
+    // map sort_by + sort_order back to our internal sort key
+    const sort_by = params.get("sort_by");
+    const sort_order = (params.get("sort_order") || "").toLowerCase();
+
+    const findSortKey = () => {
+      if (!sort_by) return "featured";
+      for (const [key, val] of Object.entries(sortMapping)) {
+        if (val.sortBy === sort_by && val.sortOrder === (sort_order as "asc" | "desc")) {
+          return key;
+        }
+      }
+      return "featured";
+    };
+
+    setSortBy(findSortKey());
     setSearchQuery(newSearchQuery);
     setDebouncedSearchQuery(newSearchQuery);
     setPriceRange({
@@ -93,9 +110,17 @@ export const useProductsFilter = () => {
     const params = new URLSearchParams();
     if (selectedCategory !== "all") params.set("category", selectedCategory);
     if (selectedSubcategory !== "all")
-      params.set("subcategory", selectedSubcategory);
+      params.set("sub_category", selectedSubcategory);
     if (debouncedSearchQuery) params.set("search", debouncedSearchQuery);
-    if (sortBy !== "featured") params.set("sort", sortBy);
+
+    // Map internal sort key to API params
+    const mappedSort = sortMapping[sortBy] || sortMapping["featured"];
+    // Only set sort params if it's not the default featured ordering
+    if (sortBy && sortBy !== "featured") {
+      params.set("sort_by", mappedSort.sortBy);
+      params.set("sort_order", mappedSort.sortOrder);
+    }
+
     if (priceRange.min > 0) params.set("min_price", String(priceRange.min));
     if (priceRange.max < 300000)
       params.set("max_price", String(priceRange.max));

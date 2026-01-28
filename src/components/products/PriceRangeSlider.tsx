@@ -1,5 +1,5 @@
 "use client";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Range from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
@@ -28,24 +28,39 @@ export default function PriceRangeSlider({
     primaryColor = 'hsl(var(--primary))'
 }: PriceRangeSliderProps) {
 
+    // Local state to avoid calling onChange on every tiny slider movement.
+    const [localValues, setLocalValues] = useState<[number, number]>([
+        value.min,
+        value.max,
+    ]);
+
+    // Keep local values in sync when parent value changes (for clears, external updates)
+    useEffect(() => {
+        setLocalValues([value.min, value.max]);
+    }, [value.min, value.max]);
+
     const handleSliderChange = (newValues: number | number[]) => {
+        if (Array.isArray(newValues) && newValues.length === 2) {
+            // update local values during drag
+            setLocalValues([newValues[0], newValues[1]]);
+        }
+    };
+
+    // Only call the parent's onChange after the user finishes the drag/interaction
+    const handleSliderAfterChange = (newValues: number | number[]) => {
         if (Array.isArray(newValues) && newValues.length === 2) {
             onChange({ min: newValues[0], max: newValues[1] });
         }
     };
 
-    const handleInputChange = (type: 'min' | 'max') => (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const newValue = Number(e.target.value);
-        const isValid = type === 'min' ? newValue < value.max : newValue > value.min;
-        if (isValid) onChange({ ...value, [type]: newValue });
-    };
-
     const generateOptions = (isMin: boolean) => {
-        const options = priceSteps.filter(step => isMin ? step < value.max : step > value.min);
-        const currentValue = isMin ? value.min : value.max;
+        // Use localValues so the dropdown reflects temporary slider state while dragging
+        const [localMin, localMax] = localValues;
+        const options = priceSteps.filter(step => isMin ? step < localMax : step > localMin);
+        const currentValue = isMin ? localMin : localMax;
 
         if (!priceSteps.includes(currentValue)) options.push(currentValue);
-        if (!isMin && !priceSteps.includes(max) && max > value.min) options.push(max);
+        if (!isMin && !priceSteps.includes(max) && max > localMin) options.push(max);
 
         return options.sort((a, b) => a - b);
     };
@@ -69,8 +84,9 @@ export default function PriceRangeSlider({
                     min={min}
                     max={max}
                     step={step}
-                    value={[value.min, value.max]}
+                    value={localValues}
                     onChange={handleSliderChange}
+                    onAfterChange={handleSliderAfterChange}
                     allowCross={false}
                     range
                     className="custom-range-slider"
@@ -81,8 +97,8 @@ export default function PriceRangeSlider({
                 />
 
                 <div className="flex justify-between mt-2 text-xs text-muted-foreground font-bold">
-                    <span>RS.{value.min.toLocaleString("en-IN")}</span>
-                    <span>RS.{value.max.toLocaleString("en-IN")}</span>
+                    <span>RS.{localValues[0].toLocaleString("en-IN")}</span>
+                    <span>RS.{localValues[1].toLocaleString("en-IN")}</span>
                 </div>
             </div>
 
@@ -91,8 +107,18 @@ export default function PriceRangeSlider({
                     <React.Fragment key={type}>
                         {idx === 1 && <span className="text-muted-foreground text-sm whitespace-nowrap font-medium">to</span>}
                         <select
-                            value={type === 'min' ? value.min : value.max}
-                            onChange={handleInputChange(type as 'min' | 'max')}
+                            value={type === 'min' ? localValues[0] : localValues[1]}
+                            onChange={(e) => {
+                                const newValue = Number(e.target.value);
+                                // update local values immediately
+                                const next = type === 'min' ? [newValue, localValues[1]] : [localValues[0], newValue];
+                                // Ensure valid range
+                                if (next[0] < next[1]) {
+                                    setLocalValues([next[0], next[1]] as [number, number]);
+                                    // Propagate immediately for select changes
+                                    onChange({ min: next[0], max: next[1] });
+                                }
+                            }}
                             className="price-select w-full p-2.5 text-xs font-bold border border-border rounded-xl focus:ring-2 focus:ring-primary/20 bg-card text-foreground cursor-pointer outline-none transition-all"
                         >
                             {generateOptions(type === 'min').map(step => (
