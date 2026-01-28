@@ -56,7 +56,6 @@ const TechStoreHome: React.FC = () => {
         <CategoryBannerListRight />
 
         {/* Left-variant banners (place anywhere) */}
-        <CategoryBannerListLeft />
 
         <HorizontalProductList
           title="Best Selling Products"
@@ -64,6 +63,7 @@ const TechStoreHome: React.FC = () => {
           products={products.filter((p) => p.is_featured).slice(0, 6)}
         />
 
+        <CategoryBannerListLeft />
         {/* Brands Strip */}
         <div className="mt-12">
           <Brands />

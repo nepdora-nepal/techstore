@@ -36,6 +36,7 @@ export function WhatsAppButton({
     // Default WhatsApp icon using the provided image
     const defaultWhatsAppIcon = (
         <ImageWithFallback
+            id="whatsapp-icon"
             src="/whatsapp-icon.png"
             fallbackSrc="/whatsapp-icon.png" // Fallback to same for now or a generic one if available
             alt="WhatsApp"

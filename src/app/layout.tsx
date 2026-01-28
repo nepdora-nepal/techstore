@@ -1,28 +1,13 @@
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { CartProvider } from "@/contexts/CartContext";
 
 import { Toaster } from "sonner";
-import NextTopLoader from 'nextjs-toploader';
+import NextTopLoader from "nextjs-toploader";
 import { TechStoreCompareProvider } from "@/contexts/TechStoreCompareContext";
 
 const inter = Inter({ subsets: ["latin"] });
-
-import { siteConfigAPI } from "@/services/api/site-config";
-
-export async function generateMetadata(): Promise<Metadata> {
-  const config = await siteConfigAPI.getSiteConfig();
-
-  return {
-    title: config?.business_name || "TechStore - Premium Shopping Experience",
-    description: config?.business_description || "Your ultimate solution for managing sales and customer relationships with cutting-edge technology.",
-    icons: {
-      icon: config?.favicon || "",
-    },
-  };
-}
 
 import { WhatsApp } from "@/components/common/whatsapp/WhatsApp";
 import Popup from "@/components/common/popup/Popup";
@@ -38,7 +23,7 @@ export default function RootLayout({
         <TechStoreCompareProvider>
           <QueryProvider>
             <CartProvider>
-              <NextTopLoader color="#6f57cf" />
+              <NextTopLoader color="#2462eb" />
               {children}
             </CartProvider>
             <WhatsApp />
