@@ -1,4 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQuery,
+  useQueries,
+  useQueryClient,
+} from "@tanstack/react-query";
 import {
   productApi as useProductApi,
   ProductFilterParams,
@@ -99,6 +104,16 @@ export const useProduct = (slug: string) => {
     queryKey: ["product", slug],
     queryFn: () => useProductApi.getProduct(slug),
     enabled: !!slug,
+  });
+};
+
+export const useProductsBySlugs = (slugs: string[]) => {
+  return useQueries({
+    queries: slugs.map((slug) => ({
+      queryKey: ["product", slug],
+      queryFn: () => useProductApi.getProduct(slug),
+      enabled: !!slug,
+    })),
   });
 };
 

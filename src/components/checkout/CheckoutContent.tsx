@@ -293,7 +293,7 @@ const CheckoutContent = () => {
         <div className="flex items-center justify-between text-sm">
           <span className="text-muted-foreground font-medium">Subtotal</span>
           <span className="font-bold">
-            RS.{Number(subtotalAmount).toLocaleString("en-IN")}
+            Rs.{Number(subtotalAmount).toLocaleString("en-IN")}
           </span>
         </div>
 
@@ -303,7 +303,7 @@ const CheckoutContent = () => {
               Discount ({appliedPromoCode.discount_percentage}%)
             </span>
             <span className="font-bold text-green-600">
-              -RS.{Number(discountAmount).toLocaleString("en-IN")}
+              -Rs.{Number(discountAmount).toLocaleString("en-IN")}
             </span>
           </div>
         )}
@@ -311,7 +311,7 @@ const CheckoutContent = () => {
         <div className="flex items-center justify-between text-sm">
           <span className="text-muted-foreground font-medium">Delivery</span>
           <span className="font-bold">
-            RS.{Number(deliveryCharge).toLocaleString("en-IN")}
+            Rs.{Number(deliveryCharge).toLocaleString("en-IN")}
           </span>
         </div>
       </div>
@@ -319,10 +319,10 @@ const CheckoutContent = () => {
       <Separator />
 
       <div className="flex items-center justify-between">
-        <span className="text-lg font-black italic">TOTAL</span>
+        <span className="text-lg  font-bold">Total</span>
         <div className="text-right">
-          <span className="text-2xl font-black text-primary">
-            RS.{Number(totalAmount).toLocaleString("en-IN")}
+          <span className="text-lg  font-bold text-primary">
+            Rs.{Number(totalAmount).toLocaleString("en-IN")}
           </span>
         </div>
       </div>
@@ -333,7 +333,7 @@ const CheckoutContent = () => {
             <Check size={16} />
           </div>
           <div>
-            <p className="font-bold text-xs uppercase tracking-wider">
+            <p className="font-bold text-xs  tracking-wider">
               Cash on Delivery
             </p>
             <p className="text-[10px] text-muted-foreground font-medium">
@@ -345,7 +345,7 @@ const CheckoutContent = () => {
         <Button
           type="submit"
           form="checkout-form"
-          className="w-full h-14 rounded-xl text-lg font-black shadow-lg shadow-primary/10 transition-transform active:scale-[0.98]"
+          className="w-full h-14 rounded-xl text-lg  shadow-lg shadow-primary/10 transition-transform active:scale-[0.98]"
           disabled={isSubmitting || createOrderMutation.isPending}
         >
           {isSubmitting || createOrderMutation.isPending
@@ -377,7 +377,7 @@ const CheckoutContent = () => {
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 md:py-16">
       <div className="mb-12">
-        <h1 className="text-4xl font-black text-foreground">Checkout</h1>
+        <h1 className="text-4xl  text-foreground">Checkout</h1>
       </div>
 
       <div className="flex flex-col gap-12 lg:grid lg:grid-cols-3">
@@ -399,7 +399,7 @@ const CheckoutContent = () => {
                   <div className="space-y-2">
                     <Label
                       htmlFor="customer_name"
-                      className="text-xs font-black uppercase tracking-widest text-muted-foreground"
+                      className="text-xs   tracking-widest text-muted-foreground"
                     >
                       Full Name
                     </Label>
@@ -419,7 +419,7 @@ const CheckoutContent = () => {
                   <div className="space-y-2">
                     <Label
                       htmlFor="customer_email"
-                      className="text-xs font-black uppercase tracking-widest text-muted-foreground"
+                      className="text-xs   tracking-widest text-muted-foreground"
                     >
                       Email
                     </Label>
@@ -442,7 +442,7 @@ const CheckoutContent = () => {
                   <div className="space-y-2">
                     <Label
                       htmlFor="customer_phone"
-                      className="text-xs font-black uppercase tracking-widest text-muted-foreground"
+                      className="text-xs   tracking-widest text-muted-foreground"
                     >
                       Phone Number
                     </Label>
@@ -460,7 +460,7 @@ const CheckoutContent = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="text-xs font-black uppercase tracking-widest text-muted-foreground">
+                    <Label className="text-xs   tracking-widest text-muted-foreground">
                       City/District
                     </Label>
                     <Popover
@@ -532,7 +532,7 @@ const CheckoutContent = () => {
                 <div className="space-y-2">
                   <Label
                     htmlFor="customer_address"
-                    className="text-xs font-black uppercase tracking-widest text-muted-foreground"
+                    className="text-xs   tracking-widest text-muted-foreground"
                   >
                     Full Address
                   </Label>
@@ -568,7 +568,7 @@ const CheckoutContent = () => {
                 {!sameAsCustomerAddress && (
                   <div className="space-y-6 animate-in slide-in-from-top-2">
                     <div className="space-y-2">
-                      <Label className="text-xs font-black uppercase tracking-widest text-muted-foreground">
+                      <Label className="text-xs   tracking-widest text-muted-foreground">
                         Shipping City/District
                       </Label>
                       <Popover
@@ -629,7 +629,7 @@ const CheckoutContent = () => {
                     <div className="space-y-2">
                       <Label
                         htmlFor="shipping_address"
-                        className="text-xs font-black uppercase tracking-widest text-muted-foreground"
+                        className="text-xs   tracking-widest text-muted-foreground"
                       >
                         Shipping Address
                       </Label>
@@ -646,7 +646,7 @@ const CheckoutContent = () => {
                 <div className="space-y-2">
                   <Label
                     htmlFor="note"
-                    className="text-xs font-black uppercase tracking-widest text-muted-foreground"
+                    className="text-xs   tracking-widest text-muted-foreground"
                   >
                     Order Notes (Optional)
                   </Label>
@@ -656,7 +656,7 @@ const CheckoutContent = () => {
                     className="rounded-xl border-border bg-secondary/30 focus:bg-background transition-colors"
                     {...register("note")}
                   />
-                  <p className="text-[10px] text-right font-bold text-muted-foreground uppercase">
+                  <p className="text-[10px] text-right font-bold text-muted-foreground ">
                     {watch("note")?.length || 0} / 500
                   </p>
                 </div>

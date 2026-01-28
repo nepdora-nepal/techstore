@@ -67,7 +67,7 @@ const OrderSuccessContent = () => {
                 <div className="w-20 h-20 bg-destructive/10 text-destructive rounded-full flex items-center justify-center mx-auto">
                     <Package size={40} />
                 </div>
-                <h1 className="text-3xl font-black">Order Not Found</h1>
+                <h1 className="text-3xl ">Order Not Found</h1>
                 <p className="text-muted-foreground font-medium">We couldn&apos;t find the order you&apos;re looking for.</p>
                 <Button onClick={() => router.push("/")} size="lg" className="rounded-xl font-bold">
                     Go to Homepage
@@ -83,10 +83,10 @@ const OrderSuccessContent = () => {
                 <div className="w-20 h-20 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
                     <CheckCircle2 size={48} strokeWidth={2.5} />
                 </div>
-                <h1 className="text-4xl md:text-5xl font-black tracking-tight">Order Successful!</h1>
+                <h1 className="text-4xl md:text-5xl tracking-tight">Order Successful!</h1>
                 <p className="text-muted-foreground text-lg font-medium">
                     Thank you for your purchase, <span className="text-foreground font-bold">{order.customer_name}</span>.
-                    Your order <span className="text-primary font-black italic">#{order.order_number}</span> has been placed successfully.
+                    Your order <span className="text-primary  ">#{order.order_number}</span> has been placed successfully.
                 </p>
                 <div className="pt-4 flex flex-wrap justify-center gap-4">
                     <Button onClick={() => router.push("/")} variant="outline" className="rounded-xl font-bold h-12 px-8">
@@ -103,7 +103,7 @@ const OrderSuccessContent = () => {
                 <div className="md:col-span-2 space-y-8">
                     <Card className="border-border/50 shadow-xl shadow-secondary/20 rounded-3xl overflow-hidden">
                         <CardHeader className="bg-secondary/10 border-b border-border/50">
-                            <CardTitle className="flex items-center gap-2 text-xl font-bold">
+                            <CardTitle className="flex items-center gap-2 text-xl font-medium">
                                 <Package className="text-primary" size={20} /> Order Items
                             </CardTitle>
                         </CardHeader>
@@ -121,7 +121,7 @@ const OrderSuccessContent = () => {
                                         </div>
                                         <div className="flex-1 flex flex-col justify-between py-1">
                                             <div>
-                                                <h4 className="font-bold text-foreground line-clamp-1">
+                                                <h4 className="font-medium text-foreground ">
                                                     {item.product?.name || item.variant?.product?.name}
                                                 </h4>
                                                 {item.variant && (
@@ -133,13 +133,18 @@ const OrderSuccessContent = () => {
                                                         ))}
                                                     </div>
                                                 )}
-                                                <p className="text-xs text-muted-foreground font-bold mt-1 uppercase tracking-wider">
+
+                                            </div>
+                                            <div className="flex items-center justify-between w-full gap-2">
+                                                <p className="text-primary">
+                                                    RS.{parseFloat(item.price).toLocaleString("en-IN")}
+                                                </p>
+
+                                                <p className="text-xs text-muted-foreground font-bold tracking-wider">
                                                     QTY: {item.quantity}
                                                 </p>
                                             </div>
-                                            <p className="font-black text-primary">
-                                                RS.{parseFloat(item.price).toLocaleString("en-IN")}
-                                            </p>
+
                                         </div>
                                     </div>
                                 ))}
@@ -149,19 +154,19 @@ const OrderSuccessContent = () => {
 
                     <Card className="border-border/50 shadow-xl shadow-secondary/20 rounded-3xl overflow-hidden">
                         <CardHeader className="bg-secondary/10 border-b border-border/50">
-                            <CardTitle className="flex items-center gap-2 text-xl font-bold">
+                            <CardTitle className="flex items-center gap-2 text-xl font-medium">
                                 <Truck className="text-primary" size={20} /> Shipping & Delivery
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="p-6 space-y-4">
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div className="space-y-1">
-                                    <p className="text-xs font-black text-muted-foreground uppercase tracking-widest">Customer Phone</p>
-                                    <p className="font-bold">{order.customer_phone}</p>
+                                    <p className="text-xs  text-muted-foreground  ">Customer Phone</p>
+                                    <p className="font-medium">{order.customer_phone}</p>
                                 </div>
                                 <div className="space-y-1">
-                                    <p className="text-xs font-black text-muted-foreground uppercase tracking-widest">Order Date</p>
-                                    <p className="font-bold italic">
+                                    <p className="text-xs  text-muted-foreground ">Order Date</p>
+                                    <p className="font-medium">
                                         {new Date(order.created_at).toLocaleDateString("en-IN", {
                                             year: "numeric",
                                             month: "long",
@@ -170,15 +175,15 @@ const OrderSuccessContent = () => {
                                     </p>
                                 </div>
                                 <div className="sm:col-span-2 space-y-1">
-                                    <p className="text-xs font-black text-muted-foreground uppercase tracking-widest">Shipping Address</p>
-                                    <p className="font-bold">
+                                    <p className="text-xs  text-muted-foreground  ">Shipping Address</p>
+                                    <p className="font-medium capitalize">
                                         {order.shipping_address}, {order.city}
                                     </p>
                                 </div>
                                 {order.note && (
                                     <div className="sm:col-span-2 space-y-1 pt-2 border-t border-border/50">
-                                        <p className="text-xs font-black text-muted-foreground uppercase tracking-widest">Note</p>
-                                        <p className="text-sm font-medium italic text-muted-foreground">&quot;{order.note}&quot;</p>
+                                        <p className="text-xs  text-muted-foreground  t">Note</p>
+                                        <p className="text-sm font-medium  text-muted-foreground">&quot;{order.note}&quot;</p>
                                     </div>
                                 )}
                             </div>
@@ -190,7 +195,7 @@ const OrderSuccessContent = () => {
                 <div className="space-y-6">
                     <Card className="border-border/50 shadow-xl shadow-secondary/20 rounded-3xl overflow-hidden sticky top-8">
                         <CardHeader className="bg-primary text-primary-foreground">
-                            <CardTitle className="text-lg font-black italic">ORDER SUMMARY</CardTitle>
+                            <CardTitle className="text-lg  ">ORDER SUMMARY</CardTitle>
                         </CardHeader>
                         <CardContent className="p-6 space-y-4">
                             <div className="space-y-3">
@@ -205,8 +210,8 @@ const OrderSuccessContent = () => {
                                 <Separator className="my-2" />
                                 <div className="flex justify-between items-end">
                                     <div className="flex flex-col">
-                                        <span className="text-xs font-black italic text-muted-foreground uppercase">Total Amount</span>
-                                        <span className="text-2xl font-black text-primary">RS.{parseFloat(order.total_amount).toLocaleString("en-IN")}</span>
+                                        <span className="text-xs   text-muted-foreground ">Total Amount</span>
+                                        <span className="text-2xl  text-primary">RS.{parseFloat(order.total_amount).toLocaleString("en-IN")}</span>
                                     </div>
                                 </div>
                             </div>
@@ -217,8 +222,8 @@ const OrderSuccessContent = () => {
                                         <CreditCard size={16} />
                                     </div>
                                     <div className="flex flex-col">
-                                        <span className="text-[10px] font-black uppercase text-muted-foreground">Payment Method</span>
-                                        <span className="text-xs font-bold uppercase">{order.payment_type || "Cash on Delivery"}</span>
+                                        <span className="text-[10px]   text-muted-foreground">Payment Method</span>
+                                        <span className="text-xs font-bold ">{order.payment_type || "Cash on Delivery"}</span>
                                     </div>
                                 </div>
                                 <div className="p-3 bg-secondary/20 rounded-2xl flex items-center gap-3">
@@ -226,8 +231,8 @@ const OrderSuccessContent = () => {
                                         <CheckCircle2 size={16} />
                                     </div>
                                     <div className="flex flex-col">
-                                        <span className="text-[10px] font-black uppercase text-muted-foreground">Order Status</span>
-                                        <span className="text-xs font-bold uppercase text-green-600">{order.status}</span>
+                                        <span className="text-[10px]   text-muted-foreground">Order Status</span>
+                                        <span className="text-xs font-bold  text-green-600">{order.status}</span>
                                     </div>
                                 </div>
                             </div>

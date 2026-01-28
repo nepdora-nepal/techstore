@@ -5,9 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { X, Star, ShoppingCart, Check, Plus, Loader2 } from "lucide-react";
 import { Product, Category } from "@/types/product";
-import { useQueries } from "@tanstack/react-query";
-import { productApi } from "@/services/api/product";
-
+import { useProductsBySlugs } from "@/hooks/use-product";
+import { useTechStoreCompare } from "@/contexts/TechStoreCompareContext";
+import { sanitizeHtmlContent } from "@/utils/html-sanitizer";
 interface CompareTableProps {
     compareItems: Product[];
     removeFromCompare: (id: number) => void;
@@ -21,14 +21,23 @@ const CompareTable: React.FC<CompareTableProps> = ({
     addToCart,
     onAddClick,
 }) => {
+    const { updateProductInCompare } = useTechStoreCompare();
+
     // Fetch full product details for all items to get descriptions and other fields
-    const productQueries = useQueries({
-        queries: compareItems.map((item) => ({
-            queryKey: ["product", item.slug],
-            queryFn: () => productApi.getProduct(item.slug!),
-            enabled: !!item.slug,
-        })),
-    });
+    const productQueries = useProductsBySlugs(compareItems.map(item => item.slug!));
+
+    // Sync full details back to context so they are persisted in local storage
+    React.useEffect(() => {
+        productQueries.forEach((query) => {
+            if (query.data && query.isSuccess) {
+                const existing = compareItems.find(item => item.id === query.data.id);
+                // If the context item is missing the description but the query has it, update it
+                if (existing && !existing.description && query.data.description) {
+                    updateProductInCompare(query.data);
+                }
+            }
+        });
+    }, [productQueries, compareItems, updateProductInCompare]);
 
     const isLoadingDetails = productQueries.some((query) => query.isLoading);
 
@@ -179,9 +188,7 @@ const CompareTable: React.FC<CompareTableProps> = ({
                         </td>
                         {fullProducts.map((product) => (
                             <td key={product.id} className="p-4 align-top">
-                                <div className="text-sm text-gray-500 line-clamp-6 leading-relaxed">
-                                    {product.description || "No description available."}
-                                </div>
+                                <div className="text-sm text-gray-500  leading-relaxed" dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(product.description || "") || "No description available." }}></div>
                             </td>
                         ))}
                         {[...Array(Math.max(0, 4 - fullProducts.length))].map((_, i) => (
@@ -189,39 +196,7 @@ const CompareTable: React.FC<CompareTableProps> = ({
                         ))}
                     </tr>
 
-                    {/* Warranty Row */}
-                    <tr>
-                        <td className="p-4 font-semibold text-gray-700 bg-gray-50/50 sticky left-0">
-                            Warranty
-                        </td>
-                        {fullProducts.map((product) => (
-                            <td key={product.id} className="p-4">
-                                <div className="text-sm text-gray-600">
-                                    {product.warranty || "Standard Warranty"}
-                                </div>
-                            </td>
-                        ))}
-                        {[...Array(Math.max(0, 4 - fullProducts.length))].map((_, i) => (
-                            <td key={i}></td>
-                        ))}
-                    </tr>
 
-                    {/* Weight Row */}
-                    <tr>
-                        <td className="p-4 font-semibold text-gray-700 bg-gray-50/50 sticky left-0">
-                            Weight
-                        </td>
-                        {fullProducts.map((product) => (
-                            <td key={product.id} className="p-4">
-                                <div className="text-sm text-gray-600">
-                                    {product.weight || "N/A"}
-                                </div>
-                            </td>
-                        ))}
-                        {[...Array(Math.max(0, 4 - fullProducts.length))].map((_, i) => (
-                            <td key={i}></td>
-                        ))}
-                    </tr>
 
                     {/* Action Row */}
                     <tr>

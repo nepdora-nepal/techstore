@@ -108,7 +108,7 @@ const Header: React.FC = () => {
                                         <span className="text-[10px] text-gray-500 font-medium">
                                             {isAuthenticated ? `Hello, ${profile?.first_name || user?.first_name || 'User'}` : 'Hello, Sign In'}
                                         </span>
-                                        <span className="text-sm font-bold text-navy-900 flex items-center gap-1">
+                                        <span className="text-sm font-medium text-navy-900 flex items-center gap-1">
                                             My Account <ChevronDown size={12} className={`transition-transform duration-200 ${isAccountOpen ? 'rotate-180' : ''}`} />
                                         </span>
                                     </div>
@@ -186,7 +186,7 @@ const Header: React.FC = () => {
                         <div className="flex items-center gap-8">
                             {/* All Categories Dropdown Trigger */}
                             <div className="relative group py-3 cursor-pointer">
-                                <div className="flex items-center gap-2 text-sm font-bold text-navy-900">
+                                <div className="flex items-center gap-2 text-sm font-medium text-navy-900">
                                     <Menu size={18} />
                                     All Categories
                                     <ChevronDown size={14} className="text-gray-400 group-hover:rotate-180 transition-transform" />

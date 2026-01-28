@@ -64,6 +64,7 @@ export const PromoCodeInput: React.FC<PromoCodeInputProps> = ({
                         onClick={handleApplyPromoCode}
                         disabled={validatePromoCodeMutation.isPending}
                         variant="outline"
+                        className="mt-1 flex-none"
                     >
                         {validatePromoCodeMutation.isPending ? "Validating..." : "Apply"}
                     </Button>

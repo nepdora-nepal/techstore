@@ -12,6 +12,7 @@ interface TechStoreCompareContextType {
     isInCompare: (productId: number) => boolean;
     isCompareBarVisible: boolean;
     setIsCompareBarVisible: (visible: boolean) => void;
+    updateProductInCompare: (product: Product) => void;
 }
 
 const TechStoreCompareContext = createContext<TechStoreCompareContextType | undefined>(undefined);
@@ -19,6 +20,7 @@ const TechStoreCompareContext = createContext<TechStoreCompareContextType | unde
 export const TechStoreCompareProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [compareItems, setCompareItems] = useState<Product[]>([]);
     const [isCompareBarVisible, setIsCompareBarVisible] = useState(false);
+    const [isInitialized, setIsInitialized] = useState(false);
 
 
     useEffect(() => {
@@ -30,11 +32,14 @@ export const TechStoreCompareProvider: React.FC<{ children: React.ReactNode }> =
                 console.error("Failed to parse compare list", e);
             }
         }
+        setIsInitialized(true);
     }, []);
 
     useEffect(() => {
-        localStorage.setItem('techstore-compare', JSON.stringify(compareItems));
-    }, [compareItems]);
+        if (isInitialized) {
+            localStorage.setItem('techstore-compare', JSON.stringify(compareItems));
+        }
+    }, [compareItems, isInitialized]);
 
     const addToCompare = (product: Product) => {
         if (compareItems.length >= 4) {
@@ -56,10 +61,14 @@ export const TechStoreCompareProvider: React.FC<{ children: React.ReactNode }> =
 
     const isInCompare = (productId: number) => compareItems.some(item => item.id === productId);
 
+    const updateProductInCompare = (product: Product) => {
+        setCompareItems(prev => prev.map(item => item.id === product.id ? product : item));
+    };
+
     return (
         <TechStoreCompareContext.Provider value={{
             compareItems, addToCompare, removeFromCompare, clearCompare, isInCompare,
-            isCompareBarVisible, setIsCompareBarVisible
+            isCompareBarVisible, setIsCompareBarVisible, updateProductInCompare
         }}>
             {children}
         </TechStoreCompareContext.Provider>
