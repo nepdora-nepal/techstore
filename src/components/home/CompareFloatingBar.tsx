@@ -7,14 +7,22 @@ import Link from "next/link";
 import Image from "next/image";
 
 const CompareFloatingBar: React.FC = () => {
-  const { compareItems, removeFromCompare, clearCompare } =
+  const { compareItems, removeFromCompare, clearCompare, isCompareBarVisible, setIsCompareBarVisible } =
     useTechStoreCompare();
 
-  if (compareItems.length === 0) return null;
+  if (compareItems.length === 0 || !isCompareBarVisible) return null;
 
   return (
     <div className="fixed bottom-20 md:bottom-8 left-1/2 -translate-x-1/2 z-[100] w-full max-w-3xl px-4 animate-fade-in-up">
-      <div className="bg-navy-950 text-white rounded-3xl shadow-2xl p-4 flex items-center justify-between gap-6 border border-white/10 backdrop-blur-md">
+      <div className="bg-navy-950 text-white rounded-3xl shadow-2xl p-4 flex items-center justify-between gap-6 border border-white/10 backdrop-blur-md relative">
+        {/* Close Button */}
+        <button
+          onClick={() => setIsCompareBarVisible(false)}
+          className="absolute -top-3 -right-3 bg-navy-900 border border-white/20 text-white p-1.5 rounded-full hover:bg-red-500 transition-colors shadow-lg"
+        >
+          <X size={16} />
+        </button>
+
         <div className="flex items-center gap-4 flex-1">
           <div className="hidden md:flex flex-col">
             <span className="text-xs font-black uppercase tracking-widest text-brand-400">
@@ -28,7 +36,7 @@ const CompareFloatingBar: React.FC = () => {
           <div className="flex -space-x-3 overflow-hidden">
             {compareItems.map((item) => (
               <div key={item.id} className="relative group">
-                <div className="w-12 h-12 bg-white rounded-xl p-1.5 border-2 border-navy-950 shadow-lg cursor-pointer">
+                <div className="w-12 h-12 bg-white rounded-xl p-1.5 border-2 border-navy-950 shadow-lg cursor-pointer overflow-hidden">
                   <Image
                     height={48}
                     width={48}

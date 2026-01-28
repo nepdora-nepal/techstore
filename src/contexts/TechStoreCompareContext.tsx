@@ -9,12 +9,16 @@ interface TechStoreCompareContextType {
     removeFromCompare: (productId: number) => void;
     clearCompare: () => void;
     isInCompare: (productId: number) => boolean;
+    isCompareBarVisible: boolean;
+    setIsCompareBarVisible: (visible: boolean) => void;
 }
 
 const TechStoreCompareContext = createContext<TechStoreCompareContextType | undefined>(undefined);
 
 export const TechStoreCompareProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [compareItems, setCompareItems] = useState<Product[]>([]);
+    const [isCompareBarVisible, setIsCompareBarVisible] = useState(false);
+
 
     useEffect(() => {
         const saved = localStorage.getItem('techstore-compare');
@@ -38,6 +42,7 @@ export const TechStoreCompareProvider: React.FC<{ children: React.ReactNode }> =
         }
         if (compareItems.find(item => item.id === product.id)) return;
         setCompareItems(prev => [...prev, product]);
+        setIsCompareBarVisible(true);
     };
 
     const removeFromCompare = (productId: number) => {
@@ -50,7 +55,8 @@ export const TechStoreCompareProvider: React.FC<{ children: React.ReactNode }> =
 
     return (
         <TechStoreCompareContext.Provider value={{
-            compareItems, addToCompare, removeFromCompare, clearCompare, isInCompare
+            compareItems, addToCompare, removeFromCompare, clearCompare, isInCompare,
+            isCompareBarVisible, setIsCompareBarVisible
         }}>
             {children}
         </TechStoreCompareContext.Provider>
