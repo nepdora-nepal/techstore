@@ -88,7 +88,7 @@ const ComparePage: React.FC = () => {
                       {product.name}
                     </Link>
                     <div className="text-lg font-bold text-brand-600">
-                      ${parseFloat(product.price).toFixed(2)}
+                      Rs. {(Number(product.price)).toLocaleString("en-IN")}
                     </div>
                   </th>
                 ))}

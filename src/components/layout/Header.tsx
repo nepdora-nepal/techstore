@@ -10,7 +10,7 @@ import { useAuth } from '@/hooks/use-auth';
 import { useProfile } from '@/hooks/use-profile';
 import { useCategories } from '@/hooks/use-category';
 import { SearchBar } from '@/components/layout/SearchBar';
-import {Category} from '@/types/product';
+import { Category } from '@/types/product';
 const Header: React.FC = () => {
     const { itemCount, setIsCartOpen, totalPrice } = useCart();
     const { compareItems } = useTechStoreCompare();
@@ -151,7 +151,7 @@ const Header: React.FC = () => {
                                     </div>
                                     <div className="hidden lg:flex flex-col items-start leading-none">
                                         <span className="text-[10px] text-gray-500 font-medium">My Cart</span>
-                                        <span className="text-xs font-bold text-navy-900">${totalPrice.toFixed(2)}</span>
+                                        <span className="text-xs font-bold text-navy-900">Rs.{Number(totalPrice.toFixed(2)).toLocaleString("en-IN")} </span>
                                     </div>
                                 </button>
                             </div>
