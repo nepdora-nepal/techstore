@@ -75,6 +75,8 @@ const ComparePage: React.FC = () => {
                         src={
                           product.thumbnail_image || "/images/placeholder.svg"
                         }
+                        height={160}
+                        width={160}
                         alt={product.name}
                         className="max-w-full max-h-full object-contain mix-blend-multiply"
                       />
