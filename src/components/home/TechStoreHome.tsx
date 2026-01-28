@@ -14,6 +14,8 @@ import Newsletter from "../newsletter/Newsletter";
 import MultiCategoryTabs from "./MultiCategoryTabs";
 import BlogListingContent from "../blogs/BlogListingContent";
 import { Suspense } from "react";
+import { ContactForm } from "./ContactForm";
+import FAQ from "./Faq";
 
 const TechStoreHome: React.FC = () => {
   const { data: productsData, isLoading: productsLoading } = useProducts({
@@ -76,6 +78,8 @@ const TechStoreHome: React.FC = () => {
           {/* Blog Section */}
           <BlogListingContent />
         </Suspense>
+        <ContactForm />
+        <FAQ />
         <div className="mt-10 border-gray-100 pt-24">
           <Newsletter />
         </div>
