@@ -11,6 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 import { WhatsApp } from "@/components/common/whatsapp/WhatsApp";
 import Popup from "@/components/common/popup/Popup";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 export default function RootLayout({
   children,
@@ -20,16 +21,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <TechStoreCompareProvider>
-          <QueryProvider>
-            <CartProvider>
-              <NextTopLoader color="#2462eb" />
-              {children}
-            </CartProvider>
-            <WhatsApp />
-            <Popup />
-          </QueryProvider>
-        </TechStoreCompareProvider>
+        <AuthProvider>
+          <TechStoreCompareProvider>
+            <QueryProvider>
+              <CartProvider>
+                <NextTopLoader color="#2462eb" />
+                {children}
+              </CartProvider>
+              <WhatsApp />
+              <Popup />
+            </QueryProvider>
+          </TechStoreCompareProvider>
+        </AuthProvider>
         <Toaster position="bottom-right" richColors />
       </body>
     </html>
