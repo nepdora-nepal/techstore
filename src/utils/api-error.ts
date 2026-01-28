@@ -11,6 +11,7 @@ interface ApiErrorData {
       constraint_type?: string;
       constraint?: string;
       field_errors?: FieldErrors;
+      errors?: string[];
       [key: string]: unknown;
     };
   };
@@ -28,7 +29,10 @@ export const handleApiError = async (response: Response): Promise<Response> => {
     const errorData = (await response.json().catch(() => ({}))) as ApiErrorData;
 
     let errorMessage =
-      errorData.message || `HTTP ${response.status}: ${response.statusText}`;
+      errorData.message ||
+      (errorData.error?.params?.errors && errorData.error.params.errors[0]) ||
+      errorData.error?.message ||
+      `HTTP ${response.status}: ${response.statusText}`;
 
     // Handle validation errors (400)
     if (response.status === 400 && errorData.error?.params?.field_errors) {

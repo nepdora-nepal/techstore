@@ -20,6 +20,7 @@ const CategoryBannerListRight: React.FC = () => {
             image={b.image}
             bgClass={b.bgClass}
             variant={"right"}
+            link={b.link}
           />
         </div>
       ))}

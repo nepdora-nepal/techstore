@@ -22,6 +22,7 @@ const CategoryBannerListLeft: React.FC = () => {
             image={b.image}
             bgClass={b.bgClass}
             variant={"left"}
+            link={b.link}
           />
         </div>
       ))}

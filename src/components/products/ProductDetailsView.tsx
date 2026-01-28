@@ -52,7 +52,7 @@ const ProductDetailsView = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <ProductDetails product={product} />
 
-                <div className="border-t border-gray-100 mt-20">
+                <div className="border-t border-gray-100">
                     <HorizontalProductList
                         title="Recommended For You"
                         products={products.filter(p => p.id !== product.id).slice(0, 8)}

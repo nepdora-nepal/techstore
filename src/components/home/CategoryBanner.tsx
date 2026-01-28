@@ -11,6 +11,7 @@ interface CategoryBannerProps {
   fallback?: string;
   variant?: "left" | "right";
   bgClass?: string;
+  link: string;
 }
 
 const CategoryBanner: React.FC<CategoryBannerProps> = ({
@@ -20,6 +21,7 @@ const CategoryBanner: React.FC<CategoryBannerProps> = ({
   image,
   variant = "left",
   bgClass = "bg-gray-900",
+  link
 }) => {
   return (
     <section className="py-8">
@@ -49,7 +51,7 @@ const CategoryBanner: React.FC<CategoryBannerProps> = ({
                 {description}
               </p>
               <Link
-                href="/collections"
+                href={link}
                 className="inline-flex items-center px-8 py-3.5 bg-white text-gray-900 rounded-full font-bold hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg"
               >
                 Explore Collection <ChevronRight size={18} className="ml-2" />

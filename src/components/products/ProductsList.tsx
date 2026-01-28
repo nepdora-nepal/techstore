@@ -21,30 +21,11 @@ interface ProductsListProps {
 export default function ProductsList({
   products,
   loading,
-  sortBy,
-  setSortBy,
-  sortOptions,
+
 }: ProductsListProps) {
   return (
     <div className="flex-1">
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-8 pb-6 border-b border-border/50">
-        <div className="flex items-center gap-3 w-full sm:w-auto">
-          <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest hidden sm:block">
-            Sort By:
-          </span>
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="flex-1 sm:w-48 bg-secondary border-none rounded-xl px-4 py-2.5 text-xs font-bold text-foreground focus:ring-2 focus:ring-primary/5 transition-all outline-none cursor-pointer appearance-none"
-          >
-            {sortOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
+
 
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">

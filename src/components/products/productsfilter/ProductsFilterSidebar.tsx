@@ -89,6 +89,7 @@ export default function ProductsFilterSidebar({
       className="sticky p-6 bg-card rounded-3xl border border-border/50  top-24"
       onMouseLeave={handleMouseLeave}
     >
+
       <div className="mb-10">
         <h2 className="mb-6 text-sm font-bold text-foreground uppercase tracking-widest">
           Categories
@@ -97,11 +98,10 @@ export default function ProductsFilterSidebar({
           <Button
             variant="ghost"
             onClick={() => handleSelectCategory("all")}
-            className={`w-full justify-start px-4 py-2.5 rounded-xl text-xs font-bold transition-all h-auto ${
-              selectedCategory === "all"
+            className={`w-full justify-start px-4 py-2.5 rounded-xl text-xs font-bold transition-all h-auto ${selectedCategory === "all"
                 ? "bg-primary text-primary-foreground  hover:bg-primary/90 hover:text-primary-foreground"
                 : "text-muted-foreground hover:bg-secondary hover:text-muted-foreground"
-            }`}
+              }`}
           >
             All Categories
           </Button>
@@ -114,11 +114,10 @@ export default function ProductsFilterSidebar({
               <Button
                 variant="ghost"
                 onClick={() => handleSelectCategory(category.slug)}
-                className={`w-full justify-between px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center h-auto ${
-                  selectedCategory === category.slug
+                className={`w-full justify-between px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center h-auto ${selectedCategory === category.slug
                     ? "bg-primary text-primary-foreground  hover:bg-primary/90 hover:text-primary-foreground"
                     : "text-muted-foreground hover:bg-secondary hover:text-muted-foreground"
-                }`}
+                  }`}
               >
                 <span>{category.name}</span>
                 <ChevronRight
@@ -143,11 +142,10 @@ export default function ProductsFilterSidebar({
                             onClick={() =>
                               handleSelectSubcategory(subcategory.slug)
                             }
-                            className={`w-full justify-start px-4 py-2.5 rounded-xl text-xs font-semibold transition-all hover:bg-secondary h-auto ${
-                              selectedSubcategory === subcategory.slug
+                            className={`w-full justify-start px-4 py-2.5 rounded-xl text-xs font-semibold transition-all hover:bg-secondary h-auto ${selectedSubcategory === subcategory.slug
                                 ? "text-primary bg-primary/5 hover:bg-primary/10 hover:text-primary"
                                 : "text-muted-foreground hover:text-muted-foreground"
-                            }`}
+                              }`}
                           >
                             {subcategory.name}
                           </Button>
