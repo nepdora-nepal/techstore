@@ -19,7 +19,9 @@ interface SortOption {
   label: string;
 }
 
-const sortMapping: { [key: string]: { sortBy: string; sortOrder: "asc" | "desc" } } = {
+const sortMapping: {
+  [key: string]: { sortBy: string; sortOrder: "asc" | "desc" };
+} = {
   featured: { sortBy: "is_featured", sortOrder: "desc" },
   "price-low": { sortBy: "price", sortOrder: "asc" },
   "price-high": { sortBy: "price", sortOrder: "desc" },
@@ -77,7 +79,10 @@ export const useProductsFilter = () => {
     const findSortKey = () => {
       if (!sort_by) return "featured";
       for (const [key, val] of Object.entries(sortMapping)) {
-        if (val.sortBy === sort_by && val.sortOrder === (sort_order as "asc" | "desc")) {
+        if (
+          val.sortBy === sort_by &&
+          val.sortOrder === (sort_order as "asc" | "desc")
+        ) {
           return key;
         }
       }

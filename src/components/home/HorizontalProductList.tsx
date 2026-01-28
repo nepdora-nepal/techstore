@@ -58,7 +58,7 @@ const HorizontalProductList: React.FC<HorizontalProductListProps> = ({
 
       <div
         ref={scrollRef}
-        className="flex gap-6 overflow-x-auto  scrollbar-none snap-x snap-mandatory pb-10"
+        className="flex gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-10"
       >
         {products.map((product) => (
           <div key={product.id} className="w-[300px] flex-shrink-0 snap-start">

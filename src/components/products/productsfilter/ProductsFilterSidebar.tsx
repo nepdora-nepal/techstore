@@ -42,9 +42,12 @@ export default function ProductsFilterSidebar({
   const leaveTimeout = useRef<NodeJS.Timeout | null>(null);
 
   // Fetch subcategories for either the hovered category (for preview) or the currently selected category
-  const activeCategoryId = hoveredCategory?.id || categories.find(c => c.slug === selectedCategory)?.id;
+  const activeCategoryId =
+    hoveredCategory?.id ||
+    categories.find((c) => c.slug === selectedCategory)?.id;
   const { data: subcategoriesData, isLoading: isLoadingSubcategories } =
-    useSubCategories(activeCategoryId ? { category: activeCategoryId } : undefined,
+    useSubCategories(
+      activeCategoryId ? { category: activeCategoryId } : undefined,
     );
 
   const handleMouseEnter = (category: Category) => {
