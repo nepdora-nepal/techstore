@@ -124,7 +124,8 @@ const CompareTable: React.FC<CompareTableProps> = ({
                         {compareItems.map((product) => (
                             <td key={product.id} className="p-4">
                                 <span className="px-2 py-1 bg-gray-100 rounded text-xs font-medium text-gray-600 capitalize">
-                                    {/* //eslint-disable-next-line @typescript-eslint/no-explicit-any */}{((product.category as any)?.name ||
+                                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                                    {((product.category as any)?.name ||
                                         product.category ||
                                         "Tech") as string}
                                 </span>
