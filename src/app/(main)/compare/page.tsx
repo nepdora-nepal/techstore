@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { useTechStoreCompare } from "@/contexts/TechStoreCompareContext";
 import { useCart } from "@/hooks/use-cart";
 import { X } from "lucide-react";
@@ -9,7 +9,7 @@ import EmptyCompareState from "@/components/compare/EmptyCompareState";
 import CompareTable from "@/components/compare/CompareTable";
 import { Product } from "@/types/product";
 
-const ComparePage: React.FC = () => {
+const ComparePageContent: React.FC = () => {
   const { compareItems, addToCompare, removeFromCompare, clearCompare } =
     useTechStoreCompare();
   const { addToCart } = useCart();
@@ -65,6 +65,14 @@ const ComparePage: React.FC = () => {
         onAdd={handleAddProduct}
       />
     </div>
+  );
+};
+
+const ComparePage: React.FC = () => {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading comparison...</div>}>
+      <ComparePageContent />
+    </Suspense>
   );
 };
 
