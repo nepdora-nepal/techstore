@@ -3,10 +3,12 @@
 import React from "react";
 import { Users, Award, Globe, TrendingUp } from "lucide-react";
 import { useTeamMembers } from "@/hooks/use-team-member";
+import { useSiteConfig } from "@/hooks/use-site-config";
 import ImageWithFallback from "../common/ImageWithFallback";
 import Image from "next/image";
 const AboutPage: React.FC = () => {
   const { data: teamMembers } = useTeamMembers();
+  const { data: siteConfig } = useSiteConfig();
 
   return (
     <div className="bg-white min-h-screen">
@@ -20,14 +22,13 @@ const AboutPage: React.FC = () => {
             Since 2024
           </span>
           <h1 className="text-4xl md:text-6xl font-black text-white mb-8">
-            TechStore <br />
+            {siteConfig?.business_name || 'TechStore'} <br />
             <span className="text-brand-500">
               Redefining Tomorrow&apos;s Tech Lifestyle.
             </span>
           </h1>
           <p className="text-xl text-slate-400 max-w-2xl mx-auto font-medium">
-            TechStore is more than a marketplace. We are a curation of peak
-            engineering and visionary design.
+            {siteConfig?.business_details || `${siteConfig?.business_name || 'TechStore'} is more than a marketplace. We are a curation of peak engineering and visionary design.`}
           </p>
         </div>
       </div>

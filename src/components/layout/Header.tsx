@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import NextImage from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { ShoppingCart, Menu, X, ChevronDown, HelpCircle, Phone, ArrowRightLeft, User, LogOut, Package, Heart } from 'lucide-react';
 import { useCart } from '@/hooks/use-cart';
@@ -9,6 +10,7 @@ import { useTechStoreCompare } from '@/contexts/TechStoreCompareContext';
 import { useAuth } from '@/hooks/use-auth';
 import { useProfile } from '@/hooks/use-profile';
 import { useCategories } from '@/hooks/use-category';
+import { useSiteConfig } from '@/hooks/use-site-config';
 import { SearchBar } from '@/components/layout/SearchBar';
 import { Category } from '@/types/product';
 const Header: React.FC = () => {
@@ -17,6 +19,7 @@ const Header: React.FC = () => {
     const { user, logout, isAuthenticated } = useAuth();
     const { data: profile } = useProfile();
     const { data: categoriesData } = useCategories();
+    const { data: siteConfig } = useSiteConfig();
     const categories: Category[] = categoriesData?.results || [];
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -46,9 +49,11 @@ const Header: React.FC = () => {
                                 <HelpCircle size={12} /> Help Center
                             </Link>
                             <span className="text-slate-700">|</span>
-                            <a href="tel:+9779800000000" className="flex items-center gap-1 hover:text-white transition-colors font-medium">
-                                <Phone size={12} /> +977-9800000000
-                            </a>
+                            {siteConfig?.phone && (
+                                <a href={`tel:${siteConfig.phone}`} className="flex items-center gap-1 hover:text-white transition-colors font-medium">
+                                    <Phone size={12} /> {siteConfig.phone}
+                                </a>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -67,12 +72,25 @@ const Header: React.FC = () => {
                                 {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
                             </button>
 
-                            {/* Logo */}
                             <Link href="/" className="flex-shrink-0 flex items-center gap-2">
-                                <div className="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center text-white font-extrabold text-2xl tracking-tighter shadow-lg shadow-brand-500/30">
-                                    T
-                                </div>
-                                <span className="text-2xl font-bold tracking-tight text-navy-950 hidden sm:block">TechStore</span>
+                                {siteConfig?.logo ? (
+                                    <NextImage
+                                        src={siteConfig.logo}
+                                        alt={siteConfig.business_name || "TechStore"}
+                                        width={160}
+                                        height={48}
+                                        className="h-10 w-auto object-contain"
+                                    />
+                                ) : (
+                                    <>
+                                        <div className="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center text-white font-extrabold text-2xl tracking-tighter shadow-lg shadow-brand-500/30">
+                                            {siteConfig?.business_name ? siteConfig.business_name.charAt(0) : 'T'}
+                                        </div>
+                                        <span className="text-2xl font-bold tracking-tight text-navy-950 hidden sm:block">
+                                            {siteConfig?.business_name || 'TechStore'}
+                                        </span>
+                                    </>
+                                )}
                             </Link>
 
                             {/* Search Bar */}

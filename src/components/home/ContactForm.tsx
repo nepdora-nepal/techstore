@@ -7,6 +7,7 @@ import { ContactFormData } from "@/types/contact";
 import { motion, Variants } from "framer-motion";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
+import { useSiteConfig } from "@/hooks/use-site-config";
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -19,6 +20,7 @@ const fadeInUp: Variants = {
 
 export const ContactForm = () => {
   const { mutate: submitContact, isPending } = useSubmitContactForm();
+  const { data: siteConfig } = useSiteConfig();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -62,7 +64,7 @@ export const ContactForm = () => {
       {/* Gradients - hidden on mobile */}
       <div className="max-w-xl mx-auto text-center px-2 relative z-20">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-carent-dark">
-          Contact TechStore Today
+          Contact {siteConfig?.business_name || 'TechStore'} Today
         </h1>
       </div>
       <div className="max-w-lg mx-auto relative z-20">

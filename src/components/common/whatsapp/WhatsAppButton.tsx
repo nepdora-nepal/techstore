@@ -2,8 +2,7 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import ImageWithFallback from "@/components/common/ImageWithFallback";
-
+import Image from "next/image";
 interface WhatsAppButtonProps {
     phoneNumber: string;
     message?: string;
@@ -35,10 +34,9 @@ export function WhatsAppButton({
 
     // Default WhatsApp icon using the provided image
     const defaultWhatsAppIcon = (
-        <ImageWithFallback
+        <Image
             id="whatsapp-icon"
             src="/whatsapp-icon.png"
-            fallbackSrc="/whatsapp-icon.png" // Fallback to same for now or a generic one if available
             alt="WhatsApp"
             width={50}
             height={50}
