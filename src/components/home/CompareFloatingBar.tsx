@@ -5,6 +5,7 @@ import { useTechStoreCompare } from "@/contexts/TechStoreCompareContext";
 import { X, ArrowRightLeft, Trash2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { Product } from "@/types/product";
 
 const CompareFloatingBar: React.FC = () => {
   const { compareItems, removeFromCompare, clearCompare, isCompareBarVisible, setIsCompareBarVisible } =
@@ -34,7 +35,7 @@ const CompareFloatingBar: React.FC = () => {
           </div>
 
           <div className="flex -space-x-3 overflow-hidden">
-            {compareItems.map((item) => (
+            {compareItems.map((item: Product) => (
               <div key={item.id} className="relative group">
                 <div className="w-12 h-12 bg-white rounded-xl p-1.5 border-2 border-navy-950 shadow-lg cursor-pointer overflow-hidden">
                   <Image

@@ -34,7 +34,7 @@ const AddProductDialog: React.FC<AddProductDialogProps> = ({ isOpen, onClose, on
                     </button>
                 </div>
 
-                <div className="p-6 flex-1 overflow-y-auto">
+                <div className="p-6 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
                     <div className="relative mb-6">
                         <input
                             type="text"

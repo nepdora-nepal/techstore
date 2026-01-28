@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Product } from '@/types/product';
+import { toast } from 'sonner';
 
 interface TechStoreCompareContextType {
     compareItems: Product[];
@@ -37,7 +38,7 @@ export const TechStoreCompareProvider: React.FC<{ children: React.ReactNode }> =
 
     const addToCompare = (product: Product) => {
         if (compareItems.length >= 4) {
-            alert("You can only compare up to 4 products at a time.");
+            toast.error("You can only compare up to 4 products at a time.");
             return;
         }
         if (compareItems.find(item => item.id === product.id)) return;
