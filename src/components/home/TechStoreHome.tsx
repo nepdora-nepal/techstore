@@ -43,7 +43,7 @@ const TechStoreHome: React.FC = () => {
         <CategoryGrid />
 
         <HorizontalProductList
-          title="Hukut Hot Deals"
+          title="TechStore Hot Deals"
           subtitle="Don't Miss Out"
           products={products.slice(0, 6)}
         />
