@@ -12,9 +12,6 @@ import {
   MapPin,
 } from "lucide-react";
 import { useCategories } from "@/hooks/use-category";
-import { toast } from "sonner";
-import { useState } from "react";
-import { ApiError } from "@/utils/api-error";
 const Footer: React.FC = () => {
   const { data: categoriesData } = useCategories();
   const categories = categoriesData?.results || [];

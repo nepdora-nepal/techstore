@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { useActivePopup } from "@/hooks/use-popup";
 import PopupForm from "./PopupForm";
-import ImageWithFallback from "@/components/common/ImageWithFallback";
+import Image from "next/image";
 
 const POPUP_LAST_SHOWN_KEY = "popup_last_shown_date";
 
@@ -44,9 +44,8 @@ const Popup: React.FC = () => {
             <DialogContent className="max-w-[calc(100vw-2rem)] sm:max-w-[800px] p-0 overflow-hidden border-none bg-background">
                 <div className="flex flex-col md:flex-row min-h-[400px]">
                     <div className="relative w-full md:w-1/2 h-64 md:h-auto min-h-[300px]">
-                        <ImageWithFallback
+                        <Image
                             src={imageUrl}
-                            fallbackSrc="/images/placeholder.png"
                             alt={activePopup.title}
                             fill
                             className="object-cover"
