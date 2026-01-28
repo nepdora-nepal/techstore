@@ -3,8 +3,10 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { X, Star, ShoppingCart, Check, Plus } from "lucide-react";
-import { Product } from "@/types/product";
+import { X, Star, ShoppingCart, Check, Plus, Loader2 } from "lucide-react";
+import { Product, Category } from "@/types/product";
+import { useQueries } from "@tanstack/react-query";
+import { productApi } from "@/services/api/product";
 
 interface CompareTableProps {
     compareItems: Product[];
@@ -19,6 +21,23 @@ const CompareTable: React.FC<CompareTableProps> = ({
     addToCart,
     onAddClick,
 }) => {
+    // Fetch full product details for all items to get descriptions and other fields
+    const productQueries = useQueries({
+        queries: compareItems.map((item) => ({
+            queryKey: ["product", item.slug],
+            queryFn: () => productApi.getProduct(item.slug!),
+            enabled: !!item.slug,
+        })),
+    });
+
+    const isLoadingDetails = productQueries.some((query) => query.isLoading);
+
+    // Merge the full data with the existing items
+    const fullProducts = compareItems.map((item, index) => {
+        const query = productQueries[index];
+        return query?.data || item;
+    });
+
     return (
         <div className="overflow-x-auto pb-8 -mx-4 px-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
             <table className="w-full min-w-[800px] border-collapse text-left">
@@ -29,7 +48,7 @@ const CompareTable: React.FC<CompareTableProps> = ({
                                 Product Details
                             </span>
                         </th>
-                        {compareItems.map((product) => (
+                        {fullProducts.map((product) => (
                             <th
                                 key={product.id}
                                 className="p-4 w-64 border-b border-gray-100 align-top relative"
@@ -60,7 +79,7 @@ const CompareTable: React.FC<CompareTableProps> = ({
                                 </div>
                             </th>
                         ))}
-                        {[...Array(4 - compareItems.length)].map((_, i) => (
+                        {[...Array(Math.max(0, 4 - fullProducts.length))].map((_, i) => (
                             <th
                                 key={i}
                                 className="p-4 w-64 border-b border-gray-100 bg-gray-50/10"
@@ -83,10 +102,11 @@ const CompareTable: React.FC<CompareTableProps> = ({
                 <tbody className="divide-y divide-gray-100">
                     {/* Rating Row */}
                     <tr>
-                        <td className="p-4 font-semibold text-gray-700 bg-gray-50/50 sticky left-0">
+                        <td className="p-4 font-semibold text-gray-700 bg-gray-50/50 sticky left-0 group">
                             Rating
+                            {isLoadingDetails && <Loader2 className="inline ml-2 animate-spin text-brand-500" size={14} />}
                         </td>
-                        {compareItems.map((product) => (
+                        {fullProducts.map((product) => (
                             <td key={product.id} className="p-4">
                                 <div className="flex items-center gap-1">
                                     <span className="font-bold text-gray-900">
@@ -111,7 +131,7 @@ const CompareTable: React.FC<CompareTableProps> = ({
                                 </div>
                             </td>
                         ))}
-                        {[...Array(4 - compareItems.length)].map((_, i) => (
+                        {[...Array(Math.max(0, 4 - fullProducts.length))].map((_, i) => (
                             <td key={i}></td>
                         ))}
                     </tr>
@@ -121,17 +141,16 @@ const CompareTable: React.FC<CompareTableProps> = ({
                         <td className="p-4 font-semibold text-gray-700 bg-gray-50/50 sticky left-0">
                             Category
                         </td>
-                        {compareItems.map((product) => (
+                        {fullProducts.map((product) => (
                             <td key={product.id} className="p-4">
                                 <span className="px-2 py-1 bg-gray-100 rounded text-xs font-medium text-gray-600 capitalize">
-                                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                                    {((product.category as any)?.name ||
-                                        product.category ||
-                                        "Tech") as string}
+                                    {typeof product.category === 'object' && product.category !== null
+                                        ? (product.category as Category).name
+                                        : product.category || "Tech"}
                                 </span>
                             </td>
                         ))}
-                        {[...Array(4 - compareItems.length)].map((_, i) => (
+                        {[...Array(Math.max(0, 4 - fullProducts.length))].map((_, i) => (
                             <td key={i}></td>
                         ))}
                     </tr>
@@ -141,24 +160,73 @@ const CompareTable: React.FC<CompareTableProps> = ({
                         <td className="p-4 font-semibold text-gray-700 bg-gray-50/50 sticky left-0">
                             Availability
                         </td>
-                        {compareItems.map((product) => (
+                        {fullProducts.map((product) => (
                             <td key={product.id} className="p-4">
                                 <div className="flex items-center gap-2 text-sm text-green-600 font-medium">
                                     <Check size={16} /> In Stock
                                 </div>
                             </td>
                         ))}
-                        {[...Array(4 - compareItems.length)].map((_, i) => (
+                        {[...Array(Math.max(0, 4 - fullProducts.length))].map((_, i) => (
                             <td key={i}></td>
                         ))}
                     </tr>
 
+                    {/* Description Row */}
+                    <tr>
+                        <td className="p-4 font-semibold text-gray-700 bg-gray-50/50 sticky left-0 align-top">
+                            Description
+                        </td>
+                        {fullProducts.map((product) => (
+                            <td key={product.id} className="p-4 align-top">
+                                <div className="text-sm text-gray-500 line-clamp-6 leading-relaxed">
+                                    {product.description || "No description available."}
+                                </div>
+                            </td>
+                        ))}
+                        {[...Array(Math.max(0, 4 - fullProducts.length))].map((_, i) => (
+                            <td key={i}></td>
+                        ))}
+                    </tr>
 
+                    {/* Warranty Row */}
+                    <tr>
+                        <td className="p-4 font-semibold text-gray-700 bg-gray-50/50 sticky left-0">
+                            Warranty
+                        </td>
+                        {fullProducts.map((product) => (
+                            <td key={product.id} className="p-4">
+                                <div className="text-sm text-gray-600">
+                                    {product.warranty || "Standard Warranty"}
+                                </div>
+                            </td>
+                        ))}
+                        {[...Array(Math.max(0, 4 - fullProducts.length))].map((_, i) => (
+                            <td key={i}></td>
+                        ))}
+                    </tr>
+
+                    {/* Weight Row */}
+                    <tr>
+                        <td className="p-4 font-semibold text-gray-700 bg-gray-50/50 sticky left-0">
+                            Weight
+                        </td>
+                        {fullProducts.map((product) => (
+                            <td key={product.id} className="p-4">
+                                <div className="text-sm text-gray-600">
+                                    {product.weight || "N/A"}
+                                </div>
+                            </td>
+                        ))}
+                        {[...Array(Math.max(0, 4 - fullProducts.length))].map((_, i) => (
+                            <td key={i}></td>
+                        ))}
+                    </tr>
 
                     {/* Action Row */}
                     <tr>
                         <td className="p-4 bg-gray-50/50 sticky left-0 border-t border-gray-100"></td>
-                        {compareItems.map((product) => (
+                        {fullProducts.map((product) => (
                             <td key={product.id} className="p-4 border-t border-gray-100">
                                 <button
                                     onClick={() => addToCart(product, 1)}
@@ -168,7 +236,7 @@ const CompareTable: React.FC<CompareTableProps> = ({
                                 </button>
                             </td>
                         ))}
-                        {[...Array(4 - compareItems.length)].map((_, i) => (
+                        {[...Array(Math.max(0, 4 - fullProducts.length))].map((_, i) => (
                             <td key={i} className="border-t border-gray-100"></td>
                         ))}
                     </tr>
