@@ -12,7 +12,7 @@ import Brands from './Brands';
 import Newsletter from '../newsletter/Newsletter';
 import MultiCategoryTabs from './MultiCategoryTabs';
 import BlogListingContent from '../blogs/BlogListingContent';
-
+import { Suspense } from 'react';
 
 const TechStoreHome: React.FC = () => {
     const { data: productsData, isLoading: productsLoading } = useProducts({ page_size: 20 });
@@ -89,10 +89,11 @@ const TechStoreHome: React.FC = () => {
                 {/* VR Section */}
 
                 <MultiCategoryTabs products={products} />
+        <Suspense fallback={<div>Loading...</div>}>
 
                 {/* Blog Section */}
                 <BlogListingContent />
-
+</Suspense>
                 <div className="mt-10 border-gray-100 pt-24">
                     <Newsletter />
                 </div>
