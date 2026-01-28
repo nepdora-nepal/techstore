@@ -82,7 +82,7 @@ const ComparePage: React.FC = () => {
                       />
                     </div>
                     <Link
-                      href={`/product/${product.slug}`}
+                      href={`/collections/${product.slug}`}
                       className="font-bold text-gray-900 hover:text-brand-600 line-clamp-2 mb-2"
                     >
                       {product.name}
