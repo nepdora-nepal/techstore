@@ -56,10 +56,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         e.stopPropagation();
         if (isComparing) {
             removeFromCompare(id);
-            toast.info("Removed from compare");
         } else {
             addToCompare(product);
-            toast.success("Added to compare");
         }
     };
 

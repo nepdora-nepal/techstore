@@ -43,11 +43,13 @@ export const TechStoreCompareProvider: React.FC<{ children: React.ReactNode }> =
         }
         if (compareItems.find(item => item.id === product.id)) return;
         setCompareItems(prev => [...prev, product]);
+        toast.success("Added to compare");
         setIsCompareBarVisible(true);
     };
 
     const removeFromCompare = (productId: number) => {
         setCompareItems(prev => prev.filter(item => item.id !== productId));
+        toast.info("Removed from compare");
     };
 
     const clearCompare = () => setCompareItems([]);

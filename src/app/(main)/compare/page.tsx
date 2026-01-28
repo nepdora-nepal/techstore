@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useTechStoreCompare } from "@/contexts/TechStoreCompareContext";
 import { useCart } from "@/hooks/use-cart";
-import { X, Plus } from "lucide-react";
+import { X } from "lucide-react";
 import AddProductDialog from "@/components/compare/AddProductDialog";
 import EmptyCompareState from "@/components/compare/EmptyCompareState";
 import CompareTable from "@/components/compare/CompareTable";
@@ -41,13 +41,7 @@ const ComparePage: React.FC = () => {
             Product Comparison
           </h1>
           <div className="flex items-center gap-4">
-            <button
-              onClick={() => setIsDialogOpen(true)}
-              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-bold transition-colors flex items-center gap-2 text-sm"
-              disabled={compareItems.length >= 4}
-            >
-              <Plus size={16} /> Add Product
-            </button>
+
             <button
               onClick={clearCompare}
               className="text-sm font-medium text-red-500 hover:text-red-700 flex items-center gap-1"
